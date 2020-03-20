@@ -6,6 +6,9 @@
 #include <QPushButton>
 
 
+#include "ui/Window.hpp"
+
+
 int main(int argc, char*argv[]) {
 
     // const std::string file_name = "E:\\ORBOX\\video_testing\\hdr\\Sony_Swordsmith_HDR_UHD_4K_Demo.mp4";
@@ -17,9 +20,8 @@ int main(int argc, char*argv[]) {
 
     QApplication app (argc, argv);
 
-    QPushButton button ("Hello world !");
-    button.show();
+    md_ui::Window window {};
+    window.show();
 
     return app.exec();
-
 }

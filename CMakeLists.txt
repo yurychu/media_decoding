@@ -22,12 +22,22 @@ set(CMAKE_AUTORCC ON)
 
 add_executable(
         media_decoding
+        WIN32
         main.cpp
 
         media_explore/MediaExplorer.hpp
         media_explore/MediaExplorer.cpp
 
+        ui/Window.hpp
+        ui/Window.cpp
+
 )
+
+
+#if(CMAKE_BUILD_TYPE STREQUAL "Release")
+#    set_property(TARGET main PROPERTY WIN32_EXECUTABLE true)
+#endif()
+
 
 target_link_libraries(
         media_decoding

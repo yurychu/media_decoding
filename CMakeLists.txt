@@ -22,7 +22,7 @@ set(CMAKE_AUTORCC ON)
 
 add_executable(
         media_decoding
-        WIN32
+#        WIN32
         main.cpp
 
         media_explore/MediaExplorer.hpp

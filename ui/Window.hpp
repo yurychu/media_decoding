@@ -11,12 +11,16 @@ namespace md_ui
     Q_OBJECT
     private:
         QPushButton * m_button;
+        int m_counter;
 
     public:
         explicit Window(QWidget *parent = nullptr);
 
     signals:
-    public slots:
+        void counterReached();
+
+    private slots:
+        void slotButtonCliked(bool checked);
 
 
     };

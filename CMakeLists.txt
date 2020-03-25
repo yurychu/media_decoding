@@ -35,6 +35,24 @@ add_executable(
         transcode_audio/src/OpenInputFile.cpp
         transcode_audio/include/transcode_audio/OpenOutputFile.hpp
         transcode_audio/src/OpenOutputFile.cpp
+        transcode_audio/include/transcode_audio/InitPacket.hpp
+        transcode_audio/src/InitPacket.cpp
+        transcode_audio/include/transcode_audio/InitInputFrame.hpp
+        transcode_audio/src/InitInputFrame.cpp
+        transcode_audio/include/transcode_audio/InitResampler.hpp
+        transcode_audio/src/InitResampler.cpp
+        transcode_audio/include/transcode_audio/InitFifo.hpp
+        transcode_audio/src/InitFifo.cpp
+        transcode_audio/include/transcode_audio/WriteOutputFileHeader.hpp
+        transcode_audio/src/WriteOutputFileHeader.cpp
+        transcode_audio/include/transcode_audio/DecodeAudioFrame.hpp
+        transcode_audio/src/DecodeAudioFrame.cpp
+        transcode_audio/include/transcode_audio/InitConvertedSamples.hpp
+        transcode_audio/src/InitConvertedSamples.cpp
+        transcode_audio/include/transcode_audio/ConvertSamples.hpp
+        transcode_audio/src/ConvertSamples.cpp
+        transcode_audio/include/transcode_audio/AddSamplesToFifo.hpp
+        transcode_audio/src/AddSamplesToFifo.cpp
 
         ui/Window.hpp
         ui/Window.cpp

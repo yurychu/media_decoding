@@ -3,8 +3,8 @@
 #include <common/macro_c_extern.hpp>
 
 EXTERN_C_BEGIN
-#include "libavformat/avformat.h"
-#include "libavcodec/avcodec.h"
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
 EXTERN_C_END
 
 

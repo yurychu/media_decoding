@@ -1,4 +1,4 @@
-#include "OpenInputFile.hpp"
+#include <transcode_audio/OpenInputFile.hpp>
 
 
 int tr_au::open_input_file(const char *filename,

@@ -53,6 +53,14 @@ add_executable(
         transcode_audio/src/ConvertSamples.cpp
         transcode_audio/include/transcode_audio/AddSamplesToFifo.hpp
         transcode_audio/src/AddSamplesToFifo.cpp
+        transcode_audio/include/transcode_audio/ReadDecodeConvertAndStore.hpp
+        transcode_audio/src/ReadDecodeConvertAndStore.cpp
+        transcode_audio/include/transcode_audio/AudioFrameEncoder.hpp
+        transcode_audio/src/AudioFrameEncoder.cpp
+        transcode_audio/include/transcode_audio/InitOutputFrame.hpp
+        transcode_audio/src/InitOutputFrame.cpp
+        transcode_audio/include/transcode_audio/LoadEncodeAndWrite.hpp
+        transcode_audio/src/LoadEncodeAndWrite.cpp
 
         ui/Window.hpp
         ui/Window.cpp

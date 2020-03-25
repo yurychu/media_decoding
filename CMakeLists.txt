@@ -28,6 +28,8 @@ add_executable(
         media_explore/MediaExplorer.hpp
         media_explore/MediaExplorer.cpp
 
+        transcode_audio/full_code.hpp
+
         ui/Window.hpp
         ui/Window.cpp
 

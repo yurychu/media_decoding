@@ -22,13 +22,19 @@ set(CMAKE_AUTORCC ON)
 
 add_executable(
         media_decoding
-#        WIN32
+#        WIN32  # to hide console appear
         main.cpp
+
+        common/include/common/macro_c_extern.hpp
 
         media_explore/MediaExplorer.hpp
         media_explore/MediaExplorer.cpp
 
         transcode_audio/full_code.hpp
+        transcode_audio/include/transcode_audio/OpenInputFile.hpp
+        transcode_audio/src/OpenInputFile.cpp
+        transcode_audio/include/transcode_audio/OpenOutputFile.hpp
+        transcode_audio/src/OpenOutputFile.cpp
 
         ui/Window.hpp
         ui/Window.cpp
@@ -40,6 +46,12 @@ add_executable(
 #    set_property(TARGET main PROPERTY WIN32_EXECUTABLE true)
 #endif()
 
+target_include_directories(
+        media_decoding
+        PUBLIC
+        common/include
+        transcode_audio/include
+)
 
 target_link_libraries(
         media_decoding

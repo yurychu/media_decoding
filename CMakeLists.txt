@@ -15,6 +15,7 @@ find_package(FFmpeg REQUIRED)
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
+find_package(Qt5MultimediaWidgets REQUIRED)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
@@ -26,6 +27,8 @@ add_executable(
         main.cpp
 
         common/include/common/macro_c_extern.hpp
+        common/include/common/Exceptionator.hpp
+        common/src/Exceptionator.cpp
 
         media_explore/MediaExplorer.hpp
         media_explore/MediaExplorer.cpp
@@ -61,6 +64,10 @@ add_executable(
         transcode_audio/src/InitOutputFrame.cpp
         transcode_audio/include/transcode_audio/LoadEncodeAndWrite.hpp
         transcode_audio/src/LoadEncodeAndWrite.cpp
+        transcode_audio/include/transcode_audio/WriteOutputFileTrailer.hpp
+        transcode_audio/src/WriteOutputFileTrailer.cpp
+        transcode_audio/include/transcode_audio/run_example.hpp
+        transcode_audio/src/run_example.cpp
 
         ui/Window.hpp
         ui/Window.cpp
@@ -92,5 +99,6 @@ target_link_libraries(
 
         Qt5::Widgets
         Qt5::Multimedia
+        Qt5::MultimediaWidgets
 
 )

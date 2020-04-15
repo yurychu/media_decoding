@@ -1,5 +1,7 @@
 #include <transcode_audio/InitOutputFrame.hpp>
 
+#include <transcode_audio/PatchAvErr2Str.hpp>
+
 
 int tr_au::init_output_frame(AVFrame **frame,
                              AVCodecContext *output_codec_context,

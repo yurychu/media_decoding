@@ -2,6 +2,8 @@
 #include <transcode_audio/WriteOutputFileTrailer.hpp>
 
 
+#include <transcode_audio/PatchAvErr2Str.hpp>
+
 int tr_au::write_output_file_trailer(AVFormatContext *output_format_context)
 {
     int error;

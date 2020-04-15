@@ -1,7 +1,7 @@
 
 #include <transcode_audio/WriteOutputFileHeader.hpp>
 
-
+#include <transcode_audio/PatchAvErr2Str.hpp>
 
 
 int tr_au::write_output_file_header(AVFormatContext *output_format_context)

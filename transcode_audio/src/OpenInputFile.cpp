@@ -1,5 +1,9 @@
 #include <transcode_audio/OpenInputFile.hpp>
 
+#include <iostream>
+
+#include <transcode_audio/PatchAvErr2Str.hpp>
+
 
 int tr_au::open_input_file(const char *filename,
                            AVFormatContext **input_format_context,
@@ -10,18 +14,16 @@ int tr_au::open_input_file(const char *filename,
     int error;
 
     /* Open the input file to read from it. */
-    if ((error = avformat_open_input(input_format_context, filename, NULL,
-                                     NULL)) < 0) {
-        fprintf(stderr, "Could not open input file '%s' (error '%s')\n",
-                filename, av_err2str(error));
+    if ((error = avformat_open_input(input_format_context, filename, NULL, NULL)) < 0) {
+        auto error_str = av_err2str(error);
+        std::cerr << "Could not open input file: " << filename << ", error: " << error_str << std::endl;
         *input_format_context = NULL;
         return error;
     }
 
     /* Get information on the input file (number of streams etc.). */
     if ((error = avformat_find_stream_info(*input_format_context, NULL)) < 0) {
-        fprintf(stderr, "Could not open find stream info (error '%s')\n",
-                av_err2str(error));
+        std::cerr << "Could not open find stream info (error): " << av_err2str(error) << std::endl;
         avformat_close_input(input_format_context);
         return error;
     }
@@ -59,8 +61,7 @@ int tr_au::open_input_file(const char *filename,
 
     /* Open the decoder for the audio stream to use it later. */
     if ((error = avcodec_open2(avctx, input_codec, NULL)) < 0) {
-        fprintf(stderr, "Could not open input codec (error '%s')\n",
-                av_err2str(error));
+        std::cerr << "Could not open input codec (error): " << av_err2str(error) << std::endl;
         avcodec_free_context(&avctx);
         avformat_close_input(input_format_context);
         return error;

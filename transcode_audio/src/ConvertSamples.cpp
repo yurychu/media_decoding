@@ -1,6 +1,8 @@
 
 #include <transcode_audio/ConvertSamples.hpp>
 
+#include <transcode_audio/PatchAvErr2Str.hpp>
+
 
 int tr_au::convert_samples(const uint8_t **input_data,
                            uint8_t **converted_data, const int frame_size,

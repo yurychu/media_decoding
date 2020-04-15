@@ -15,8 +15,8 @@ namespace common
         ~Exceptionator() = default;
 
         Exceptionator& operator<<(const std::string& word);
-        Exceptionator& operator<<(int value;
-        Exceptionator& operator<<(double value;
+        Exceptionator& operator<<(int value);
+        Exceptionator& operator<<(double value);
 
         void make_runtime_err();
 

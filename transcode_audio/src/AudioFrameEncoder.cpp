@@ -2,6 +2,8 @@
 
 #include <transcode_audio/InitPacket.hpp>
 
+#include <transcode_audio/PatchAvErr2Str.hpp>
+
 
 tr_au::AudioFrameEncoder::AudioFrameEncoder()
         : m_pts{0}

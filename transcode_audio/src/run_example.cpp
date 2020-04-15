@@ -22,7 +22,7 @@ EXTERN_C_END
 #include <transcode_audio/ReadDecodeConvertAndStore.hpp>
 #include <transcode_audio/LoadEncodeAndWrite.hpp>
 #include <transcode_audio/AudioFrameEncoder.hpp>
-
+#include <transcode_audio/WriteOutputFileTrailer.hpp>
 
 
 void tr_au_ex::run_example()
@@ -36,6 +36,8 @@ void tr_au_ex::run_example()
     SwrContext *resample_context = nullptr;
 
     AVAudioFifo *fifo = nullptr;
+
+    tr_au::AudioFrameEncoder audio_encoder {};
 
     int ret = 0;
 
@@ -99,7 +101,6 @@ void tr_au_ex::run_example()
 
         /* Loop as long as we have input samples to read or output samples
          * to write; abort as soon as we have neither. */
-        tr_au::AudioFrameEncoder audio_frame_encoder{};
         bool run = true;
         while (run) {
             /* Use the encoder's desired frame size for processing. */
@@ -144,7 +145,7 @@ void tr_au_ex::run_example()
                 /* Take one frame worth of audio samples from the FIFO buffer,
                  * encode it and write it to the output file. */
                 ret = tr_au::load_encode_and_write(
-                        audio_frame_encoder,
+                        audio_encoder,
                         fifo,
                         output_format_context,
                         output_codec_context
@@ -163,19 +164,27 @@ void tr_au_ex::run_example()
                 /* Flush the encoder as it may have delayed frames. */
                 do {
                     data_written = 0;
-                    if (encode_audio_frame(NULL, output_format_context,
-                                           output_codec_context, &data_written))
-                        goto cleanup;
+                    ret = audio_encoder.encode_audio_frame(
+                            nullptr, output_format_context,
+                            output_codec_context, &data_written
+                    );
+                    if (ret != 0){
+                        common::Exceptionator ex {};
+                        ex << "Fail encode audio frame.";
+                        ex.make_runtime_err();
+                    }
                 } while (data_written);
                 break;
             }
         }
 
         /* Write the trailer of the output file container. */
-        if (write_output_file_trailer(output_format_context))
-            goto cleanup;
-        ret = 0;
-
+        ret = tr_au::write_output_file_trailer(output_format_context);
+        if (ret != 0){
+            common::Exceptionator ex {};
+            ex << "Fail write_output_file_trailer.";
+            ex.make_runtime_err();
+        }
     }
     catch (const std::runtime_error & err) {
         std::cerr << "Catch exception: " << err.what() << std::endl;

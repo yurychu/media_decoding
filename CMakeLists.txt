@@ -34,6 +34,7 @@ add_executable(
         media_explore/MediaExplorer.cpp
 
         transcode_audio/full_code.hpp
+        transcode_audio/include/transcode_audio/PatchAvErr2Str.hpp
         transcode_audio/include/transcode_audio/OpenInputFile.hpp
         transcode_audio/src/OpenInputFile.cpp
         transcode_audio/include/transcode_audio/OpenOutputFile.hpp
@@ -101,4 +102,12 @@ target_link_libraries(
         Qt5::Multimedia
         Qt5::MultimediaWidgets
 
+)
+
+
+# for compile ffmpeg lib
+set_target_properties(
+        media_decoding
+        PROPERTIES
+        COMPILE_FLAGS "-D__STDC_CONSTANT_MACROS"
 )

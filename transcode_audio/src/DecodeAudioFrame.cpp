@@ -3,6 +3,8 @@
 
 #include <transcode_audio/InitPacket.hpp>
 
+#include <transcode_audio/PatchAvErr2Str.hpp>
+
 
 int tr_au::decode_audio_frame(AVFrame *frame,
                               AVFormatContext *input_format_context,

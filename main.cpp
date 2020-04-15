@@ -10,7 +10,9 @@
 
 #include "ui/Window.hpp"
 
+#include <transcode_audio/run_example.hpp>
 
+#if 0
 int main(int argc, char*argv[]) {
 
 //    const std::string file_name = "I:\\Sounds\\waves\\out_ai_mori_au.m4a";
@@ -79,6 +81,16 @@ int main(int argc, char*argv[]) {
 //    return 0;
 }
 
+#elif 01
+
+int main()
+{
+    tr_au_ex::run_example();
+
+    return 0;
+}
+
+#endif
 
 /**
 set QT_DEBUG_PLUGINS=1  - print actions

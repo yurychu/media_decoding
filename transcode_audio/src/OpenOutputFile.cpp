@@ -1,6 +1,8 @@
 
 #include <transcode_audio/OpenOutputFile.hpp>
 
+#include <transcode_audio/PatchAvErr2Str.hpp>
+
 
 /* The output bit rate in bit/s */
 #define OUTPUT_BIT_RATE 96000

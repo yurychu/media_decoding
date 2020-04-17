@@ -29,6 +29,8 @@ add_executable(
         common/include/common/macro_c_extern.hpp
         common/include/common/Exceptionator.hpp
         common/src/Exceptionator.cpp
+        common/include/common/LocalFile.hpp
+        common/src/LocalFile.cpp
 
         media_explore/MediaExplorer.hpp
         media_explore/MediaExplorer.cpp

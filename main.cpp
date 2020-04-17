@@ -81,11 +81,28 @@ int main(int argc, char*argv[]) {
 //    return 0;
 }
 
-#elif 01
+#elif 0
 
 int main()
 {
     tr_au_ex::run_example();
+
+    return 0;
+}
+
+#elif 01
+
+#include <common/LocalFile.hpp>
+
+int main()
+{
+    try {
+        common::LocalFile local_file {"my some file"};
+        std::cout << local_file.name() << std::endl;
+    }
+    catch (const std::runtime_error & ex){
+        std::cout << "Exception msg: " << ex.what() << std::endl;
+    }
 
     return 0;
 }

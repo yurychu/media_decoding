@@ -52,11 +52,32 @@ common::LocalFile::LocalFile(std::string file_name, FileMode mode)
 
 common::LocalFile::~LocalFile()
 {
-
+    m_file.close();
 }
 
 
 const std::string &common::LocalFile::name() const
 {
     return m_file_name;
+}
+
+uint8_t common::LocalFile::get_byte()
+{
+    return 0;
+}
+
+size_t common::LocalFile::size()
+{
+    const auto saved_gpos = m_file.tellg();
+    auto begin_pos = saved_gpos;
+    if (begin_pos > 0){
+        m_file.seekg(0, std::ios_base::beg);
+        begin_pos = m_file.tellg();
+    }
+    m_file.seekg(0, std::ios_base::end);
+    const auto end_pos = m_file.tellg();
+
+    m_file.seekg(saved_gpos);
+
+    return end_pos - begin_pos;
 }

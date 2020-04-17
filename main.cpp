@@ -97,8 +97,9 @@ int main()
 int main()
 {
     try {
-        common::LocalFile local_file {"my some file"};
-        std::cout << local_file.name() << std::endl;
+        common::LocalFile local_file {"some_test_file.txt"};
+        std::cout << "Created handler for: " << local_file.name() << std::endl;
+        std::cout << "Size of file: " << local_file.size() << std::endl;
     }
     catch (const std::runtime_error & ex){
         std::cout << "Exception msg: " << ex.what() << std::endl;

@@ -26,6 +26,10 @@ namespace common
         ~LocalFile();
 
         const std::string& name() const;
+
+        uint8_t get_byte();
+
+        size_t size();
     };
 
 

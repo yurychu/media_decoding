@@ -3,6 +3,8 @@
 #include <string>
 #include <fstream>
 
+#include <common/ByteBuff.hpp>
+
 
 namespace common
 {
@@ -27,7 +29,7 @@ namespace common
 
         const std::string& name() const;
 
-        uint8_t get_byte();
+        void read_bytes(common::ByteBuff & buff);
 
         size_t size();
     };

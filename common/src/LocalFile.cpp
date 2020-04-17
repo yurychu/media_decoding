@@ -61,9 +61,10 @@ const std::string &common::LocalFile::name() const
     return m_file_name;
 }
 
-uint8_t common::LocalFile::get_byte()
+void common::LocalFile::read_bytes(common::ByteBuff & buff)
 {
-    return 0;
+    m_file.read(buff.begin(), buff.capacity());
+    buff.set_count(m_file.gcount());
 }
 
 size_t common::LocalFile::size()

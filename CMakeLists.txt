@@ -31,6 +31,8 @@ add_executable(
         common/src/Exceptionator.cpp
         common/include/common/LocalFile.hpp
         common/src/LocalFile.cpp
+        common/include/common/ByteBuff.hpp
+        common/src/ByteBuff.cpp
 
         media_explore/MediaExplorer.hpp
         media_explore/MediaExplorer.cpp

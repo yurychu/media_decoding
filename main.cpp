@@ -19,13 +19,7 @@ int main(int argc, char*argv[]) {
 
 //    const std::string file_name = "I:\\Sounds\\waves\\out_ai_mori_au.m4a";
 //    const std::string file_name = "I:\\Sounds\\waves\\ai_mori_check_out2.wav";
-//     const std::string file_name = "E:\\ORBOX\\video_testing\\hdr\\Sony_Swordsmith_HDR_UHD_4K_Demo.mp4";
-//    const std::string file_name = R"(E:\ORBOX\hd422\MPEG2-HD422-Lizhnik_.mxf)";
-//    const std::string file_name = R"(I:\TestVideoFiles\Tecom\NKSFIL000328.mp4)";
-//    const std::string file_name = R"(I:\TestVideoFiles\Tecom\7\ai_mori_check.mp4)";
 //    const std::string file_name = "I:\\Videos\\ObsStreams\\ts_stream_1\\2020-04-14_16-17-320.ts";
-//    const std::string file_name = "\\\\fs\\Change\\nikin.v\\2020-04-14_16-17-320.ts";
-//    const std::string file_name = "\\\\fs\\Change\\nikin.v\\Samsung Chasing The Light Demo.ts";
 
     const std::string file_name1 = "\\\\fs\\Change\\chugunov.y\\TS\\SamsungChasingTheLightDemo1.ts";
 //    const std::string file_name2 = "\\\\fs\\Change\\chugunov.y\\TS\\SamsungChasingTheLightDemo2.ts";

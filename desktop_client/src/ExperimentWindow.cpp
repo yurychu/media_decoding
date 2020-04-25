@@ -1,9 +1,9 @@
-#include "Window.hpp"
+#include <desktop_client/ExperimentWindow.hpp>
 
 #include <QApplication>
 
 
-md_ui::Window::Window(QWidget *parent)
+md_ui::ExperimentWindow::ExperimentWindow(QWidget *parent)
     : QWidget(parent),
     m_button{nullptr},
     m_counter{0}
@@ -28,7 +28,7 @@ md_ui::Window::Window(QWidget *parent)
 }
 
 
-void md_ui::Window::slotButtonCliked(bool checked)
+void md_ui::ExperimentWindow::slotButtonCliked(bool checked)
 {
     if (checked){
         m_button->setText("Checked!");

@@ -9,13 +9,21 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)  # Qt dependency
 
 message(STATUS "Bin dir: ${CMAKE_CURRENT_BINARY_DIR}")
-
+#set(CMAKE_LIBRARY_ARCHITECTURE ON)
+#message(STATUS "Lib arch enable?: ${CMAKE_LIBRARY_ARCHITECTURE}")
 
 find_package(FFmpeg REQUIRED)
 
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
-find_package(Qt5MultimediaWidgets REQUIRED)
+#find_package(Qt5Widgets REQUIRED)
+#find_package(Qt5Multimedia REQUIRED)
+#find_package(Qt5MultimediaWidgets REQUIRED)
+# or option too:
+find_package(Qt5
+        REQUIRED
+        COMPONENTS
+        Widgets Multimedia MultimediaWidgets
+)
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
@@ -23,9 +31,7 @@ set(CMAKE_AUTORCC ON)
 
 add_executable(
         media_decoding
-#        WIN32  # to hide console appear
         main.cpp
-
         common/include/common/macro_c_extern.hpp
         common/include/common/Exceptionator.hpp
         common/src/Exceptionator.cpp
@@ -74,8 +80,7 @@ add_executable(
         transcode_audio/include/transcode_audio/run_example.hpp
         transcode_audio/src/run_example.cpp
 
-        ui/Window.hpp
-        ui/Window.cpp
+
 
 )
 
@@ -102,10 +107,6 @@ target_link_libraries(
         FFmpeg::libswresample
         FFmpeg::libswscale
 
-        Qt5::Widgets
-        Qt5::Multimedia
-        Qt5::MultimediaWidgets
-
 )
 
 
@@ -114,4 +115,36 @@ set_target_properties(
         media_decoding
         PROPERTIES
         COMPILE_FLAGS "-D__STDC_CONSTANT_MACROS"
+)
+
+
+# desktop-client
+add_executable(
+        dsk_client
+#        WIN32  # to hide console appear
+        desktop_client/src/main.cpp
+
+        desktop_client/src/ClientInterface.ui
+
+        desktop_client/include/desktop_client/ExperimentWindow.hpp
+        desktop_client/src/ExperimentWindow.cpp
+
+        desktop_client/include/desktop_client/ClientWindow.hpp
+        desktop_client/src/ClientWindow.cpp
+
+)
+
+target_include_directories(
+        dsk_client
+        PRIVATE
+        desktop_client/include
+)
+
+target_link_libraries(
+        dsk_client
+        PUBLIC
+        Qt5::Widgets
+        Qt5::Multimedia
+        Qt5::MultimediaWidgets
+
 )

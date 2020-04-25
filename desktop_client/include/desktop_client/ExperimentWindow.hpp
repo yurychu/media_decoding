@@ -6,7 +6,7 @@
 
 namespace md_ui
 {
-    class Window : public QWidget
+    class ExperimentWindow : public QWidget
     {
     Q_OBJECT
     private:
@@ -14,7 +14,7 @@ namespace md_ui
         int m_counter;
 
     public:
-        explicit Window(QWidget *parent = nullptr);
+        explicit ExperimentWindow(QWidget *parent = nullptr);
 
     signals:
         void counterReached();

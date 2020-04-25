@@ -18,7 +18,7 @@ class StreamDecoder
 private:
     AVCodecContext* m_decoder_ctx;
 
-    std::vector<AVFrame*> m_temp_frames;
+    std::vector<int> m_temp_frames;
 
 public:
     static void print_frame_info(const AVFrame* a_v_frame);

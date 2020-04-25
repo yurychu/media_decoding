@@ -1,5 +1,7 @@
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
+#include <thread>
 
 #include "media_explore/MediaExplorer.hpp"
 #include <QApplication>
@@ -21,11 +23,99 @@ int main(int argc, char*argv[]) {
 //    const std::string file_name = R"(E:\ORBOX\hd422\MPEG2-HD422-Lizhnik_.mxf)";
 //    const std::string file_name = R"(I:\TestVideoFiles\Tecom\NKSFIL000328.mp4)";
 //    const std::string file_name = R"(I:\TestVideoFiles\Tecom\7\ai_mori_check.mp4)";
-    const std::string file_name = "I:\\Videos\\ObsStreams\\ts_stream_1\\2020-04-14_16-17-322.ts";
-    MediaObject media_object { file_name };
-    media_object.print_info();
+//    const std::string file_name = "I:\\Videos\\ObsStreams\\ts_stream_1\\2020-04-14_16-17-320.ts";
+//    const std::string file_name = "\\\\fs\\Change\\nikin.v\\2020-04-14_16-17-320.ts";
+//    const std::string file_name = "\\\\fs\\Change\\nikin.v\\Samsung Chasing The Light Demo.ts";
 
-    media_object.start_read_packets();
+    const std::string file_name1 = "\\\\fs\\Change\\chugunov.y\\TS\\SamsungChasingTheLightDemo1.ts";
+//    const std::string file_name2 = "\\\\fs\\Change\\chugunov.y\\TS\\SamsungChasingTheLightDemo2.ts";
+
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+
+//    std::thread decode_thr = std::thread (
+//            [file_name](){
+//                MediaObject media_object { file_name };
+//                media_object.print_info();
+//
+//                media_object.start_read_packets();
+//                std::cout << "End decode thread" << std::endl;
+//            }
+//    );
+
+    std::thread read_thr1 = std::thread (
+            [file_name1](){
+                std::cout << "Start thread 1" << std::endl;
+                std::vector<char> chars;
+                std::ifstream file_is { file_name1, std::ios_base::binary };
+//                std::ofstream file_os {
+//                    "I:\\TestVideoFiles\\TS\\load\\strm1.ts",
+//                    std::ios_base::trunc | std::ios_base::binary
+//                };
+                char * buff = new char [188];
+                while (file_is.read(buff, 188)){
+                    chars.emplace_back(*buff);
+//                    file_os.write(buff, 188);
+//                    std::cout << "Read: " << (int)(*buff) << ",";
+                }
+
+                std::cout << "End of read 1: eof?: " << file_is.eof() << std::endl;
+                std::cout << "Size of chars arr 1: " << chars.size() << std::endl;
+            }
+    );
+    read_thr1.join();
+
+    std::thread read_thr2 = std::thread (
+            [file_name1](){
+                std::cout << "Start thread 2" << std::endl;
+                std::vector<char> chars;
+                std::ifstream file_is { file_name1, std::ios_base::binary };
+//                std::ofstream file_os {
+//                        "I:\\TestVideoFiles\\TS\\load\\strm2.ts",
+//                        std::ios_base::trunc | std::ios_base::binary
+//                };
+                char * buff = new char [188];
+                while (file_is.read(buff, 188)){
+                    chars.emplace_back(*buff);
+//                    file_os.write(buff, 188);
+//                    std::cout << "Read: " << (int)(*buff) << ",";
+                }
+
+                std::cout << "End of read 2: eof?: " << file_is.eof() << std::endl;
+                std::cout << "Size of chars arr 2: " << chars.size() << std::endl;
+            }
+    );
+    read_thr2.join();
+
+    std::thread read_thr3 = std::thread (
+            [file_name1](){
+                std::cout << "Start thread 3" << std::endl;
+                std::vector<char> chars;
+                std::ifstream file_is { file_name1, std::ios_base::binary };
+//                std::ofstream file_os {
+//                        "I:\\TestVideoFiles\\TS\\load\\strm3.ts",
+//                        std::ios_base::trunc | std::ios_base::binary
+//                };
+                char * buff = new char [188];
+                while (file_is.read(buff, 188)){
+                    chars.emplace_back(*buff);
+//                    file_os.write(buff, 188);
+//                    std::cout << "Read: " << (int)(*buff) << ",";
+                }
+
+                std::cout << "End of read 3: eof?: " << file_is.eof() << std::endl;
+                std::cout << "Size of chars arr 3: " << chars.size() << std::endl;
+            }
+    );
+    read_thr3.join();
+
+
+//    decode_thr.join();
+
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " [ms]" << std::endl;
+
 //
 
 //    QApplication app (argc, argv);

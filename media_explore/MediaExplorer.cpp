@@ -13,21 +13,21 @@ static void print_av_err_str(int errnum)
 
 void StreamDecoder::print_frame_info(const AVFrame* a_v_frame)
 {
-    std::cout << "frame pts: " << a_v_frame->pts << std::endl;
+//    std::cout << "frame pts: " << a_v_frame->pts << ", ";
 
-    for (int i = 0; i < a_v_frame->nb_side_data; ++i) {
-        std::cout << "have side data: " << av_frame_side_data_name(a_v_frame->side_data[i]->type) << std::endl;
-        if (a_v_frame->side_data[i]->type == AV_FRAME_DATA_GOP_TIMECODE) {
-            std::cout << "gop_timecode size: " << a_v_frame->side_data[i]->size << std::endl;
-            std::cout << "gop_timecode data ptr: " << a_v_frame->side_data[i]->data << std::endl;
-            std::cout << "gop_timecode data value: " << *(int64_t*)a_v_frame->side_data[i]->data << std::endl;
-        }
-        //char* str_res = nullptr;
-        //av_dict_get_string(a_v_frame->side_data[i]->metadata, &str_res, '@', '!');
-        //if (str_res) {
-        //	std::cout << "metadata print: " << str_res << std::endl;
-        //}
-    }
+//    for (int i = 0; i < a_v_frame->nb_side_data; ++i) {
+//        std::cout << "have side data: " << av_frame_side_data_name(a_v_frame->side_data[i]->type) << std::endl;
+//        if (a_v_frame->side_data[i]->type == AV_FRAME_DATA_GOP_TIMECODE) {
+//            std::cout << "gop_timecode size: " << a_v_frame->side_data[i]->size << std::endl;
+//            std::cout << "gop_timecode data ptr: " << a_v_frame->side_data[i]->data << std::endl;
+//            std::cout << "gop_timecode data value: " << *(int64_t*)a_v_frame->side_data[i]->data << std::endl;
+//        }
+//        //char* str_res = nullptr;
+//        //av_dict_get_string(a_v_frame->side_data[i]->metadata, &str_res, '@', '!');
+//        //if (str_res) {
+//        //	std::cout << "metadata print: " << str_res << std::endl;
+//        //}
+//    }
 }
 
 StreamDecoder::StreamDecoder(const AVCodecParameters* codec_params)
@@ -62,9 +62,10 @@ StreamDecoder::~StreamDecoder()
 {
     avcodec_free_context(&m_decoder_ctx);
 
-    for (auto& item : m_temp_frames) {
-        av_frame_free(&item);
-    }
+    std::cout << "Size temp frames: " << m_temp_frames.size() << std::endl;
+//    for (auto& item : m_temp_frames) {
+//        av_frame_free(&item);
+//    }
     std::cout << "end" << std::endl;
 }
 
@@ -72,9 +73,9 @@ void StreamDecoder::print_info() const
 {
     std::cout << "--- Info for stream type: " << av_get_media_type_string(m_decoder_ctx->codec_type) << std::endl;
     std::cout << "--- Frames info: " << std::endl;
-    for (const auto& elem : m_temp_frames) {
-        StreamDecoder::print_frame_info(elem);
-    }
+//    for (const auto& elem : m_temp_frames) {
+//        StreamDecoder::print_frame_info(elem);
+//    }
 
 }
 
@@ -127,19 +128,19 @@ void StreamDecoder::receive_frames()
 
 void StreamDecoder::handle_frame(const AVFrame* frame)
 {
-    AVFrame* tmp_frame = av_frame_clone(frame);
-    if (!tmp_frame) {
-        std::cerr << "Fail clone frame" << std::endl;
-        throw 1;
-    }
+//    AVFrame* tmp_frame = av_frame_clone(frame);
+//    if (!tmp_frame) {
+//        std::cerr << "Fail clone frame" << std::endl;
+//        throw 1;
+//    }
 
-    m_temp_frames.push_back(tmp_frame);
+    m_temp_frames.push_back(1);
 }
 
 
 void PacketExplorer::print_packet_info(const AVPacket* packet)
 {
-    std::cout << "Explore packet info: " << std::endl;
+//    std::cout << "Explore packet info: " << packet->pts << ", ";
 //    std::cout << ".Print side data:" << std::endl;
 //    std::cout << "side data elems: " << packet->side_data_elems << std::endl;
 //    for (int i = 0; i < packet->side_data_elems; ++i) {

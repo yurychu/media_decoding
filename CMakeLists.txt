@@ -25,7 +25,7 @@ find_package(Qt5
 )
 
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC ON)  # User Interface Compiler (uic), read ui and create .h file.
 set(CMAKE_AUTORCC ON)
 
 
@@ -80,7 +80,8 @@ add_executable(
         transcode_audio/include/transcode_audio/run_example.hpp
         transcode_audio/src/run_example.cpp
 
-
+        data_flow/include/data_flow/Flow.hpp
+        data_flow/src/Flow.cpp
 
 )
 
@@ -94,6 +95,7 @@ target_include_directories(
         PUBLIC
         common/include
         transcode_audio/include
+        data_flow/include
 )
 
 target_link_libraries(

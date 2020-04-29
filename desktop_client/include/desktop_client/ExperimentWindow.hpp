@@ -20,7 +20,7 @@ namespace md_ui
         void counterReached();
 
     private slots:
-        void slotButtonCliked(bool checked);
+        void slotButtonClicked(bool checked);
 
 
     };

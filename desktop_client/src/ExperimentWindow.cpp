@@ -16,7 +16,7 @@ md_ui::ExperimentWindow::ExperimentWindow(QWidget *parent)
 
     QObject::connect(
             m_button, SIGNAL( clicked(bool) ),
-            this, SLOT( slotButtonCliked(bool) )
+            this, SLOT(slotButtonClicked(bool) )
     );
 
 
@@ -28,7 +28,7 @@ md_ui::ExperimentWindow::ExperimentWindow(QWidget *parent)
 }
 
 
-void md_ui::ExperimentWindow::slotButtonCliked(bool checked)
+void md_ui::ExperimentWindow::slotButtonClicked(bool checked)
 {
     if (checked){
         m_button->setText("Checked!");

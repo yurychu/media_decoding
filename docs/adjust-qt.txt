@@ -24,3 +24,7 @@ Next time you click a .ui file for opening, set the Open in associated applicati
 Another option is to copy the contents of plugins\platforms to cmake-build-debug(release)/platforms (make sure to create the platforms directory).
  for example:
 QT_QPA_PLATFORM_PLUGIN_PATH=G:\Qt\5.14.1\msvc2017_64\plugins\platforms;
+
+
+Run options:
+-style Fusion, -style windowsvista, -style Windows

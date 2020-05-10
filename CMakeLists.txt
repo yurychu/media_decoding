@@ -123,8 +123,11 @@ set_target_properties(
 # desktop-client
 add_executable(
         dsk_client
+
 #        WIN32  # to hide console appear
-        desktop_client/src/main.cpp
+
+#        desktop_client/src/main.cpp
+        desktop_client/src/main2.cpp
 
         desktop_client/src/ClientInterface.ui
 
@@ -133,6 +136,9 @@ add_executable(
 
         desktop_client/include/desktop_client/ClientWindow.hpp
         desktop_client/src/ClientWindow.cpp
+
+        desktop_client/include/desktop_client/FindDialog.hpp
+        desktop_client/src/FindDialog.cpp
 
 )
 

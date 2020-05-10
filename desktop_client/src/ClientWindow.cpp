@@ -18,6 +18,7 @@ md_ui::ClientWindow::ClientWindow(QWidget *parent)
             ui->actionOpen, &QAction::triggered,
             this, &ClientWindow::open
     );
+
 }
 
 md_ui::ClientWindow::~ClientWindow()

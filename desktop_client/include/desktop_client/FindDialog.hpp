@@ -22,7 +22,7 @@ namespace md_ui
 
     private slots:
         void on_find_clicked();
-        void enbable_find_button(const QString& text);
+        void enable_find_button(const QString& text);
 
     private:
         QLabel* m_label;

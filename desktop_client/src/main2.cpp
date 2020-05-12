@@ -4,12 +4,23 @@
 #include <QSlider>
 #include <QSpinBox>
 
+#include <desktop_client/FindDialog.hpp>
 
 
 int main(int argc, char*argv[]) {
 
     QApplication dsk_client_app {argc, argv};
 
+    auto dialog = new md_ui::FindDialog {};
+
+    dialog->show();
+
+    return dsk_client_app.exec();
+}
+
+#if 0
+void some_code_1()
+{
     auto window = new QWidget {};
     window->setWindowTitle("Enter Your Age");
 
@@ -35,6 +46,5 @@ int main(int argc, char*argv[]) {
     window->setLayout(layout);
 
     window->show();
-
-    return dsk_client_app.exec();
 }
+#endif

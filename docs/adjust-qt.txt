@@ -28,3 +28,9 @@ QT_QPA_PLATFORM_PLUGIN_PATH=G:\Qt\5.14.1\msvc2017_64\plugins\platforms;
 
 Run options:
 -style Fusion, -style windowsvista, -style Windows
+
+
+Environment variables:
+set QT_DEBUG_PLUGINS=1  - print actions
+
+

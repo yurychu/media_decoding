@@ -3,6 +3,7 @@
 
 
 #include <iostream>
+#include <sstream>
 
 static void print_av_err_str(int errnum)
 {
@@ -13,7 +14,8 @@ static void print_av_err_str(int errnum)
 
 void StreamDecoder::print_frame_info(const AVFrame* a_v_frame)
 {
-//    std::cout << "frame pts: " << a_v_frame->pts << ", ";
+    std::cout << "frame     pts: " << a_v_frame->pts << std::endl;
+    std::cout << "frame pkt_dts: " << a_v_frame->pkt_dts << std::endl;
 
 //    for (int i = 0; i < a_v_frame->nb_side_data; ++i) {
 //        std::cout << "have side data: " << av_frame_side_data_name(a_v_frame->side_data[i]->type) << std::endl;
@@ -63,9 +65,9 @@ StreamDecoder::~StreamDecoder()
     avcodec_free_context(&m_decoder_ctx);
 
     std::cout << "Size temp frames: " << m_temp_frames.size() << std::endl;
-//    for (auto& item : m_temp_frames) {
-//        av_frame_free(&item);
-//    }
+    for (auto& item : m_temp_frames) {
+        av_frame_free(&item);
+    }
     std::cout << "end" << std::endl;
 }
 
@@ -73,9 +75,9 @@ void StreamDecoder::print_info() const
 {
     std::cout << "--- Info for stream type: " << av_get_media_type_string(m_decoder_ctx->codec_type) << std::endl;
     std::cout << "--- Frames info: " << std::endl;
-//    for (const auto& elem : m_temp_frames) {
-//        StreamDecoder::print_frame_info(elem);
-//    }
+    for (const auto& elem : m_temp_frames) {
+        StreamDecoder::print_frame_info(elem);
+    }
 
 }
 
@@ -128,30 +130,55 @@ void StreamDecoder::receive_frames()
 
 void StreamDecoder::handle_frame(const AVFrame* frame)
 {
-//    AVFrame* tmp_frame = av_frame_clone(frame);
-//    if (!tmp_frame) {
-//        std::cerr << "Fail clone frame" << std::endl;
-//        throw 1;
-//    }
+    AVFrame* tmp_frame = av_frame_clone(frame);
+    if (!tmp_frame) {
+        std::cerr << "Fail clone frame" << std::endl;
+        throw 1;
+    }
 
-    m_temp_frames.push_back(1);
+    m_temp_frames.push_back(tmp_frame);
 }
 
 
 void PacketExplorer::print_packet_info(const AVPacket* packet)
 {
-//    std::cout << "Explore packet info: " << packet->pts << ", ";
-//    std::cout << ".Print side data:" << std::endl;
-//    std::cout << "side data elems: " << packet->side_data_elems << std::endl;
-//    for (int i = 0; i < packet->side_data_elems; ++i) {
-//        std::cout << av_packet_side_data_name(packet->side_data[i].type) << std::endl;
-//    }
+    std::stringstream ss;
+    ss << "==============" << std::endl;
+    ss << "Explore packet info: " << std::endl;
+    ss << "Stream idx: " << packet->stream_index << std::endl;
+    ss << "Pts: " << packet->pts << std::endl;
+    ss << "Dts: " << packet->dts << std::endl;
+    ss << "Duration: " << packet->duration << std::endl;
+    ss << "Pos: " << packet->pos << std::endl;
+    ss << "Side data:" << std::endl;
+    ss << "side data elems: " << packet->side_data_elems << std::endl;
+    for (int i = 0; i < packet->side_data_elems; ++i) {
+        ss << av_packet_side_data_name(packet->side_data[i].type) << std::endl;
+    }
+    ss << "==============" << std::endl;
+
+    m_packets_infos[packet->stream_index].push_back(ss.str());
+
+    auto it = m_packets_counter.find(packet->stream_index);
+    if (it != m_packets_counter.end()){
+        ++m_packets_counter[packet->stream_index];
+    }
+    else {
+        m_packets_counter[packet->stream_index] = 1;
+    }
 }
 
 PacketExplorer::PacketExplorer(const AVFormatContext* fmt_ctx)
 {
     for (int i = 0; i < fmt_ctx->nb_streams; ++i) {
         AVStream* stream = fmt_ctx->streams[i];
+
+        std::cout << "Stream: index = " << stream->index << std::endl;
+        std::cout << "first_dts =  " << stream->first_dts << std::endl;
+        std::cout << "skip_samples = " << stream->skip_samples << std::endl;
+        std::cout << "start_skip_samples = " << stream->start_skip_samples << std::endl;
+        std::cout << "first_discard_sample = " << stream->first_discard_sample << std::endl;
+
         m_stream_decoders[i] = new StreamDecoder { stream->codecpar };
     }
 }
@@ -165,6 +192,19 @@ PacketExplorer::~PacketExplorer()
 
 void PacketExplorer::print_state() const
 {
+    std::cout << "--- Print individually streams packets: " << std::endl;
+    for (const auto & item: m_packets_infos){
+        std::cout << "Stream: " << item.first << std::endl;
+        for (const auto & elem : item.second){
+            std::cout << elem;
+        }
+        std::cout << "end stream: " << item.first << std::endl;
+    }
+
+    for (const auto & elem : m_packets_counter){
+        std::cout << "Stream " << elem.first << " packets: " << elem.second << std::endl;
+    }
+
     std::cout << "--- Print decoders bunch:" << std::endl;
     for (const auto& item : m_stream_decoders) {
         item.second->print_info();
@@ -184,7 +224,7 @@ void PacketExplorer::print_info_video_frames() const
 
 void PacketExplorer::explore(const AVPacket* packet)
 {
-    PacketExplorer::print_packet_info(packet);
+    print_packet_info(packet);
 
     auto decoder = m_stream_decoders[packet->stream_index];
     if (decoder) {
@@ -224,6 +264,7 @@ MediaObject::~MediaObject()
 void MediaObject::print_info()
 {
     av_dump_format(m_fmt_ctx, 1, m_file_name.c_str(), 0);
+    std::cout << "Fmt ctx: start_time = " << m_fmt_ctx->start_time << std::endl;
 }
 
 void MediaObject::start_read_packets()
@@ -245,8 +286,9 @@ void MediaObject::start_read_packets()
             print_av_err_str(ret);
             running = false;
         }
-
-        explorer.explore(packet);
+        else {
+            explorer.explore(packet);
+        }
 
         av_packet_unref(packet);
     }

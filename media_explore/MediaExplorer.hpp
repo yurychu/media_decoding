@@ -18,7 +18,7 @@ class StreamDecoder
 private:
     AVCodecContext* m_decoder_ctx;
 
-    std::vector<int> m_temp_frames;
+    std::vector<AVFrame*> m_temp_frames;
 
 public:
     static void print_frame_info(const AVFrame* a_v_frame);
@@ -40,9 +40,11 @@ class PacketExplorer
 {
 private:
     std::map<int, StreamDecoder*> m_stream_decoders;
+    std::map<int, std::vector<std::string>> m_packets_infos;
+    std::map<int, size_t> m_packets_counter;
 
 public:
-    static void print_packet_info(const AVPacket* packet);
+    void print_packet_info(const AVPacket* packet);
 
 public:
     PacketExplorer(const AVFormatContext* fmt_ctx);

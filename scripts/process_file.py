@@ -64,6 +64,22 @@ def merge_all(video_container_name, audio_container_name, result_merge_name):
     run_subproc(cmd)
 
 
+def merge_all_from_audio_zero_ts(video_container_name, audio_container_name, result_merge_name):
+    print("Processing merge all to:", result_merge_name)
+    cmd = [
+        ffmpeg_exe,
+        "-i", video_container_name,
+        "-ss", "0",
+        "-i", audio_container_name,
+        "-map", "0:v",
+        "-map", "1:a",
+        "-c:v", "copy",
+        "-c:a", "aac",
+        result_merge_name
+    ]
+    run_subproc(cmd)
+
+
 if __name__ == "__main__":
     input_file = sys.argv[1]
 
@@ -80,4 +96,5 @@ if __name__ == "__main__":
 
     to_wav(audio_stream_name, raw_audio_name)
     encode_back(raw_audio_name, encoded_audio_name)
-    merge_all(video_stream_name, encoded_audio_name, result_file_name)
+
+    merge_all_from_audio_zero_ts(video_stream_name, encoded_audio_name, result_file_name)

@@ -28,6 +28,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)  # User Interface Compiler (uic), read ui and create .h file.
 set(CMAKE_AUTORCC ON)
 
+#find_package(
+#        OpenCV
+#        4.2 EXACT
+#        REQUIRED
+#)
+#${OpenCV_LIBS}
 
 add_executable(
         media_decoding
@@ -83,6 +89,32 @@ add_executable(
         data_flow/include/data_flow/Flow.hpp
         data_flow/src/Flow.cpp
 
+        mxf_exploring/include/mxf_exploring/BERLength.hpp
+        mxf_exploring/include/mxf_exploring/ContinuityResult.hpp
+        mxf_exploring/include/mxf_exploring/FileStream.hpp
+        mxf_exploring/include/mxf_exploring/Hasher.hpp
+        mxf_exploring/include/mxf_exploring/IndexTableSegment.hpp
+        mxf_exploring/include/mxf_exploring/KLV.hpp
+        mxf_exploring/include/mxf_exploring/ObjectsParser.hpp
+        mxf_exploring/include/mxf_exploring/ParserBCD.hpp
+        mxf_exploring/include/mxf_exploring/PartOfStream.hpp
+        mxf_exploring/include/mxf_exploring/Stream.hpp
+        mxf_exploring/include/mxf_exploring/SystemItem.hpp
+        mxf_exploring/include/mxf_exploring/TimeCodeStamp.hpp
+
+        mxf_exploring/BERLength.cpp
+        mxf_exploring/ContinuityResult.cpp
+        mxf_exploring/FileStream.cpp
+        mxf_exploring/Hasher.cpp
+        mxf_exploring/IndexTableSegment.cpp
+        mxf_exploring/KLV.cpp
+        mxf_exploring/ObjectsParser.cpp
+        mxf_exploring/ParserBCD.cpp
+        mxf_exploring/PartOfStream.cpp
+        mxf_exploring/Stream.cpp
+        mxf_exploring/SystemItem.cpp
+        mxf_exploring/TimeCodeStamp.cpp
+
 )
 
 
@@ -96,6 +128,7 @@ target_include_directories(
         common/include
         transcode_audio/include
         data_flow/include
+        mxf_exploring/include
 )
 
 target_link_libraries(

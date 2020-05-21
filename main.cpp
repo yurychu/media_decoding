@@ -7,6 +7,9 @@
 
 #include <transcode_audio/run_example.hpp>
 
+#include <mxf_exploring/ObjectsParser.hpp>
+#include <mxf_exploring/FileStream.hpp>
+
 #if 01
 int main(int argc, char*argv[]) {
 
@@ -24,19 +27,30 @@ int main(int argc, char*argv[]) {
 //    const std::string file_name = "I:\\TestVideoFiles\\Remuxing\\la\\1-исходник_gain.mp4";
 //    const std::string file_name = "I:\\TestVideoFiles\\Remuxing\\la\\result_mc_1_file.mp4";
 //    const std::string file_name = "I:\\TestVideoFiles\\Remuxing\\la\\result_merge.mp4";
-    const std::string file_name = "I:\\TestVideoFiles\\Remuxing\\la\\back_res_2.mp4";
+//    const std::string file_name = "I:\\TestVideoFiles\\Remuxing\\la\\back_res_2.mp4";
 //    const std::string file_name = "I:\\Videos\\videos_canon\\raw_video\\2020_04_24\\MVI_2660.MP4";
+    const std::string file_name = "I:\\TestVideoFiles\\MXFTimeCodesCheck\\KO_F011371201001602_02080094_10_03_35_18.mxf";
 
 
     std::thread decode_thr = std::thread (
             [file_name](){
-                MediaObject media_object { file_name };
-                media_object.print_info();
-
-                media_object.start_read_packets();
-                std::cout << "End decode thread" << std::endl;
+                chu::FileStream stream{file_name};
+                chu::ObjectsParser parser{stream};
+                parser.parseObjects();
+                auto time_codes = parser.extractTimeCodes();
+                auto result = chu::TimeCodeStamp::testContinuity(time_codes);
             }
     );
+
+//    std::thread decode_thr = std::thread (
+//            [file_name](){
+//                MediaObject media_object { file_name };
+//                media_object.print_info();
+//
+//                media_object.start_read_packets();
+//                std::cout << "End decode thread" << std::endl;
+//            }
+//    );
 //
 //    std::thread read_thr1 = std::thread (
 //            [file_name1](){

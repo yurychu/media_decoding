@@ -28,12 +28,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)  # User Interface Compiler (uic), read ui and create .h file.
 set(CMAKE_AUTORCC ON)
 
-#find_package(
-#        OpenCV
-#        4.2 EXACT
-#        REQUIRED
-#)
-#${OpenCV_LIBS}
+find_package(
+        OpenCV
+        4.2 EXACT
+        REQUIRED
+)
 
 add_executable(
         media_decoding
@@ -142,6 +141,8 @@ target_link_libraries(
         FFmpeg::libswresample
         FFmpeg::libswscale
 
+        ${OpenCV_LIBS}
+
 )
 
 
@@ -159,8 +160,8 @@ add_executable(
 
 #        WIN32  # to hide console appear
 
-#        desktop_client/src/main.cpp
-        desktop_client/src/main2.cpp
+        desktop_client/src/main.cpp
+#        desktop_client/src/main2.cpp
 
         desktop_client/src/ClientInterface.ui
 

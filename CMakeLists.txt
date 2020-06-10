@@ -34,6 +34,10 @@ find_package(
         REQUIRED
 )
 
+#set(Boost_DEBUG ON)
+find_package(Boost 1.71.0 COMPONENTS program_options REQUIRED)
+
+
 add_executable(
         media_decoding
         main.cpp
@@ -189,4 +193,39 @@ target_link_libraries(
         Qt5::Multimedia
         Qt5::MultimediaWidgets
 
+)
+
+
+add_executable(
+        master_server
+        master_server/main.cpp
+        master_server/include/master_server/MasterServer.hpp
+        master_server/src/MasterServer.cpp
+)
+
+target_compile_definitions(
+        master_server
+        PRIVATE
+#        BOOST_LOG_ENABLE_WARNINGS
+#        BOOST_THREAD_DYN_LINK
+#        BOOST_LOG_DYN_LINK
+        BOOST_ALL_DYN_LINK
+)
+
+target_include_directories(
+        master_server
+        PRIVATE
+        master_server/include
+)
+
+target_link_directories(
+        master_server
+        PRIVATE
+        ${Boost_LIBRARY_DIRS}
+)
+
+target_link_libraries(
+        master_server
+        PRIVATE
+        Boost::program_options
 )

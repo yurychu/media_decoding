@@ -47,3 +47,14 @@ FFMPEG_HOME=F:\Libraries\FromPacks\ffmpeg-4.2.2-win64-dev
 GENERAL Prop
 Runtime env variables
 QT_QPA_PLATFORM_PLUGIN_PATH=G:\Qt\5.14.1\msvc2017_64\plugins\platforms;Path=F:\Libraries\FromPacks\ffmpeg-4.2.2-win64-shared\bin\;G:\Qt\5.14.1\msvc2017_64\bin\;F:\Libraries\Installed\ocv_420_with_contrib\bin_some\Debug\;F:\Libraries\Installed\ocv_420_with_contrib\bin\;
+
+
+BOOST settings
+Env cmake:
+BOOST_ROOT=F:\Libraries\Installed\boost_1_71_0
+
+Run env: (clion Run->edit configuration->Environment Variables)
+F:\Libraries\Installed\boost_1_71_0\lib64-msvc-14.1\
+NOTE: add back slash "\" to the end of path before semicolon ";" delimiter
+Example:
+Path=F:\Libraries\Installed\boost_1_71_0\lib64-msvc-14.1\;abc\;

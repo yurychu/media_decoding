@@ -17,24 +17,24 @@
 #if 01
 int main(int argc, char*argv[])
 {
-    cv::VideoCapture cap("file_name");
-    if(!cap.isOpened()){
-        return -1;
-    }
+//    cv::VideoCapture cap("file_name");
+//    if(!cap.isOpened()){
+//        return -1;
+//    }
+//
+//    cv::namedWindow("mat", 1);
+//    cv::Mat frame;
+//    for(;;)
+//    {
+//        cap >> frame;
+//        imshow("mat", frame);
+//        auto ch = cv::waitKey(1);
+//        if (ch==27){
+//            ch = cv::waitKey(0);
+//        }
+//    }
 
-    cv::namedWindow("mat", 1);
-    cv::Mat frame;
-    for(;;)
-    {
-        cap >> frame;
-        imshow("mat", frame);
-        auto ch = cv::waitKey(1);
-        if (ch==27){
-            ch = cv::waitKey(0);
-        }
-    }
-
-    return 0;
+//    return 0;
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 

@@ -10,9 +10,9 @@ class GoToCellDialog : public QDialog, public Ui::GoToCellDialog
     Q_OBJECT
 
 public:
-    GoToCellDialog(QWidget* parent = nullptr);
+    explicit GoToCellDialog(QWidget* parent = nullptr);
 
 private slots:
-    void on_lineEdit_textChanged();
+    void on_lineEdit_textChanged();  // setupUi автоматически подключает этот слот к сигналу lineEdit->textChanged()
 
 };

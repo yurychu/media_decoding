@@ -24,8 +24,9 @@ add_executable(
 
 #        WIN32  # to hide console appear
 
-        src/main.cpp
+#        src/main.cpp
 #        src/main2.cpp
+        src/simple_main.cpp
 
         src/ClientInterface.ui
 
@@ -37,6 +38,9 @@ add_executable(
 
         include/desktop_client/FindDialog.hpp
         src/FindDialog.cpp
+
+        include/desktop_client/SimpleCode.hpp
+        src/SimpleCode.cpp
 
 )
 

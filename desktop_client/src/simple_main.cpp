@@ -4,5 +4,5 @@
 
 int main(int argc, char * argv [])
 {
-    return run_simple_code_2(argc, argv);
+    return run_simple_code_3(argc, argv);
 }

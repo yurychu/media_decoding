@@ -13,17 +13,23 @@
 
 5) debugger
 Windows MSVC
-CLion’s debugger for the MSVC toolchain can employ native visualizers if you have them in your project. Make sure to set the Enable NatVis renderers for LLDB option in Settings | Build, Execution, Deployment | Debugger | Data Views | C/C++.
+CLion’s debugger for the MSVC toolchain can employ native visualizers if you have them in your project.
+Make sure to set the Enable NatVis renderers for LLDB option in
+Settings | Build, Execution, Deployment | Debugger | Data Views | C/C++.
 For example, try copying qt5.natvis under your project root - CLion will detect and use it automatically.
 
 6) UI designer
-Go to Settings / Preferences | Editor | File Types, select Qt UI Designer Form from the Recognized File Types list, and delete the associated file extension.
-Next time you click a .ui file for opening, set the Open in associated application checkbox, and the files of this type will always open in Qt Designer.
+Go to Settings / Preferences | Editor | File Types,
+select Qt UI Designer Form from the Recognized File Types list, and delete the associated file extension.
+Next time you click a .ui file for opening, set the Open in associated application checkbox,
+and the files of this type will always open in Qt Designer.
 
-7) In the settings of the configuration you use for running, set the QT_QPA_PLATFORM_PLUGIN_PATH environment variable to plugins\platforms under
+7) In the settings of the configuration you use for running,
+- set the QT_QPA_PLATFORM_PLUGIN_PATH environment variable to plugins\platforms under
 Another option is to copy the contents of plugins\platforms to cmake-build-debug(release)/platforms (make sure to create the platforms directory).
  for example:
 QT_QPA_PLATFORM_PLUGIN_PATH=G:\Qt\5.14.1\msvc2017_64\plugins\platforms;
+- Add to Path variable in windows: D:\Qt\5.15.0\msvc2019_64\bin\ (backslash in end no deal bug)
 
 
 Run options:

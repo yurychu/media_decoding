@@ -3,7 +3,6 @@
 #include <iostream>
 #include <thread>
 
-#include <ui_ClientInterface.h>
 #include <QFileDialog>
 
 

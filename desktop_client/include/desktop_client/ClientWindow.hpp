@@ -4,10 +4,7 @@
 
 #include <QMainWindow>
 
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class ClientInterface; }
-QT_END_NAMESPACE
+#include <u_interfaces/ui_ClientInterface.h>
 
 namespace md_ui
 {

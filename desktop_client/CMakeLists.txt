@@ -29,7 +29,7 @@ add_executable(
 #        src/simple_main.cpp
         src/cell_check_main.cpp
 
-        src/ClientInterface.ui
+        include/desktop_client/u_interfaces/ClientInterface.ui
 
         include/desktop_client/ExperimentWindow.hpp
         src/ExperimentWindow.cpp
@@ -42,6 +42,10 @@ add_executable(
 
         include/desktop_client/SimpleCode.hpp
         src/SimpleCode.cpp
+
+        include/desktop_client/GoToCellDialog.hpp
+        src/GoToCellDialog.cpp
+        include/desktop_client/u_interfaces/GoToCellDialog.ui
 
 )
 

@@ -29,6 +29,8 @@ add_executable(
 #        src/simple_main.cpp
         src/run_forms_main.cpp
 
+        spreadsheet.qrc
+
         include/desktop_client/u_interfaces/ClientInterface.ui
 
         include/desktop_client/ExperimentWindow.hpp
@@ -50,6 +52,9 @@ add_executable(
         include/desktop_client/SortDialog.hpp
         src/SortDialog.cpp
         include/desktop_client/u_interfaces/SortDialog.ui
+
+        include/desktop_client/MainWindowSpreadSheet.hpp
+        src/MainWindowSpreadSheet.cpp
 
 
 )

@@ -10,7 +10,8 @@ SortDialog::SortDialog(QWidget *parent)
     secondaryGroupBox->hide();
     tertiaryGroupBox->hide();
 
-    layout()->setSizeConstraint(QLayout::SetFixedSize);
+    layout()->setSizeConstraint(QLayout::SetFixedSize);  // не позволяет менять размеры окна,
+                                                        // сам подстраивает размер при расширении формы от кнопки More
     SetColumnRange('A', 'Z');
 }
 
@@ -23,7 +24,7 @@ void SortDialog::SetColumnRange(QChar first, QChar last)
     secondaryColumnCombo->addItem(tr("None"));
     tertiaryColumnCombo->addItem(tr("None"));
 
-    primaryColumnCombo->setMinimumSize(secondaryColumnCombo->sizeHint());
+    primaryColumnCombo->setMinimumSize(secondaryColumnCombo->sizeHint()); // поля с None шире, чем с буквой. Это их выравнивает.
 
     QChar ch = first;
     while (ch <= last){

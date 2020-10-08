@@ -4,7 +4,7 @@
 #include <QVBoxLayout>
 
 
-md_ui::FindDialog::FindDialog(QWidget *parent)
+FindDialog::FindDialog(QWidget *parent)
     : QDialog(parent)
 {
     // line edit
@@ -63,7 +63,7 @@ md_ui::FindDialog::FindDialog(QWidget *parent)
 }
 
 
-void md_ui::FindDialog::on_find_clicked()
+void FindDialog::on_find_clicked()
 {
     QString text = m_line_edit->text();
     Qt::CaseSensitivity cs =
@@ -78,7 +78,7 @@ void md_ui::FindDialog::on_find_clicked()
 }
 
 
-void md_ui::FindDialog::enable_find_button(const QString &text)
+void FindDialog::enable_find_button(const QString &text)
 {
     m_find_button->setEnabled(!text.isEmpty());
 }

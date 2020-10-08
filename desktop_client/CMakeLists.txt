@@ -47,6 +47,11 @@ add_executable(
         src/GoToCellDialog.cpp
         include/desktop_client/u_interfaces/GoToCellDialog.ui
 
+        include/desktop_client/SortDialog.hpp
+        src/SortDialog.cpp
+        include/desktop_client/u_interfaces/SortDialog.ui
+
+
 )
 
 target_include_directories(

@@ -15,15 +15,28 @@
 //    return app.exec();
 //}
 
+//
+//#include <desktop_client/GoToCellDialog.hpp>
+//
+//int main(int argc, char * argv[])
+//{
+//    QApplication app{argc, argv};
+//
+//    GoToCellDialog *goToCellDialog = new GoToCellDialog{};
+//    goToCellDialog->show();
+//
+//    return app.exec();
+//}
 
-#include <desktop_client/GoToCellDialog.hpp>
+#include <desktop_client/SortDialog.hpp>
 
 int main(int argc, char * argv[])
 {
     QApplication app{argc, argv};
 
-    GoToCellDialog *goToCellDialog = new GoToCellDialog{};
-    goToCellDialog->show();
+    SortDialog *sortDialog = new SortDialog{};
+    sortDialog->SetColumnRange('C', 'F');
+    sortDialog->show();
 
     return app.exec();
 }

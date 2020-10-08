@@ -27,7 +27,7 @@ add_executable(
 #        src/main.cpp
 #        src/main2.cpp
 #        src/simple_main.cpp
-        src/cell_check_main.cpp
+        src/run_forms_main.cpp
 
         include/desktop_client/u_interfaces/ClientInterface.ui
 

@@ -12,10 +12,10 @@ SortDialog::SortDialog(QWidget *parent)
 
     layout()->setSizeConstraint(QLayout::SetFixedSize);  // не позволяет менять размеры окна,
                                                         // сам подстраивает размер при расширении формы от кнопки More
-    SetColumnRange('A', 'Z');
+    setColumnRange('A', 'Z');
 }
 
-void SortDialog::SetColumnRange(QChar first, QChar last)
+void SortDialog::setColumnRange(QChar first, QChar last)
 {
     primaryColumnCombo->clear();
     secondaryColumnCombo->clear();

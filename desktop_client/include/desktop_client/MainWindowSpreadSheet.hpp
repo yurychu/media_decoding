@@ -46,7 +46,6 @@ private:
     bool saveFile(const QString &fileName);
     void setCurrentFile(const QString &fileName);
     void updateRecentFileActions();
-    QString strippedName(const QString &fullFileName);
 
     Spreadsheet *spreadsheet;
     FindDialog *findDialog;

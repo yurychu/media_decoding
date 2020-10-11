@@ -340,7 +340,7 @@ bool MainWindowSpreadSheet::saveAs()
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save Spreadsheet"), ".",
                                                     tr("Spreadsheet files (*.sp)"));
-    // можно предотвратить перезапись файла, если существует, передав: QFileDialog::DontConfirmOverwrite
+    // что бы не справшивать о перезапись файла, если существует, можно передать: QFileDialog::DontConfirmOverwrite
 
     if (fileName.isEmpty())
         return false;
@@ -368,5 +368,92 @@ void MainWindowSpreadSheet::closeEvent(QCloseEvent *event)
     }
     else {
         event->ignore();
+    }
+}
+
+namespace {
+    QString strippedName(const QString &fullFileName) {
+        return QFileInfo(fullFileName).fileName();
+    }
+}
+
+void MainWindowSpreadSheet::setCurrentFile(const QString &fileName)
+{
+    curFile = fileName;
+    setWindowModified(false);  // каждый QWidget имеет его, помечает звездочкой несохраненные
+
+    QString shownName = tr("Untitled");
+    if (!curFile.isEmpty()) {
+        shownName = strippedName(curFile);
+        recentFiles.removeAll(curFile);   // удаляем все вхождения строки
+        recentFiles.prepend(curFile);  // поднимаем наверх в списке
+        updateRecentFileActions();
+    }
+
+    setWindowTitle(tr("%1[*] - %2").arg(shownName)
+                           .arg(tr("Spreadsheet")));
+}
+
+
+void MainWindowSpreadSheet::updateRecentFileActions()
+{
+    QMutableStringListIterator it(recentFiles);
+    while (it.hasNext()) {
+        if (!QFile::exists(it.next())){
+            it.remove();
+        }
+    }
+
+    for (int j = 0; j < MaxRecentFiles; ++j) {
+        if (j < recentFiles.count()) {
+            QString text = tr("&%1 %2")
+                    .arg(j + 1)
+                    .arg(strippedName(recentFiles[j]));
+            recentFileActions[j]->setText(text);
+            recentFileActions[j]->setData(recentFiles[j]);  // variant, full file path
+            recentFileActions[j]->setVisible(true);
+        }
+        else {
+            recentFileActions[j]->setVisible(false);
+        }
+    }
+    separatorAction->setVisible(!recentFiles.isEmpty());
+}
+
+
+void MainWindowSpreadSheet::openRecentFile()
+{
+    if (okToContinue()) {
+        QAction *action = qobject_cast<QAction *>(sender());
+        if (action){
+            loadFile(action->data().toString());
+        }
+    }
+}
+
+
+void MainWindowSpreadSheet::find()
+{
+    if (!findDialog) {
+        findDialog = new FindDialog(this);
+
+        connect(findDialog, SIGNAL(findNext(const QString &, Qt::CaseSensitivity)),
+                spreadsheet, SLOT(findNext(const QString &, Qt::CaseSensitivity)));
+        connect(findDialog, SIGNAL(findPrevious(const QString &, Qt::CaseSensitivity)),
+                spreadsheet, SLOT(findPrevious(const QString &, Qt::CaseSensitivity)));
+    }
+
+    findDialog->show();  // делает видимым, не модальное, если через show().
+    findDialog->raise();  // поверх других окон
+    findDialog->activateWindow();  // делается активным
+}
+
+void MainWindowSpreadSheet::goToCell()
+{
+    GoToCellDialog dialog(this);
+    if (dialog.exec()) {  // вызов через exec() делаает окно модальным.
+        QString str = dialog.lineEdit->text().toUpper();
+        spreadsheet->setCurrentCell(str.mid(1).toInt() - 1,
+                                    str[0].unicode() - 'A');
     }
 }

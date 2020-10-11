@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QCloseEvent>
+#include <QSettings>
 
 #include <desktop_client/GoToCellDialog.hpp>
 #include <desktop_client/SortDialog.hpp>
@@ -461,6 +462,10 @@ void MainWindowSpreadSheet::goToCell()
 
 void MainWindowSpreadSheet::sort()
 {
+    // функция зависит от реализации диалогового окна
+    // лучше сделать диалоговое окно, которое возвращает объект,
+    // выполняющий стравнение для таблиц.
+    // spreadsheet->preformSort(dialog.comparisonObject());
     SortDialog dialog { this };
     QTableWidgetSelectionRange range = spreadsheet->selectedRange();
     dialog.setColumnRange('A' + range.leftColumn(),
@@ -471,9 +476,9 @@ void MainWindowSpreadSheet::sort()
         compare.keys[0] =
                 dialog.primaryColumnCombo->currentIndex();
         compare.keys[1] =
-                dialog.secondaryColumnCombo->currentIndex() - 1;
+                dialog.secondaryColumnCombo->currentIndex() - 1;  // вычитаем, что бы учесть пункт None
         compare.keys[2] =
-                dialog.tertiaryColumnCombo->currentIndex() - 1;
+                dialog.tertiaryColumnCombo->currentIndex() - 1;  // вычитаем что бы учесть пункт None
         compare.ascending[0] =
                 (dialog.primaryOrderCombo->currentIndex() == 0);
         compare.ascending[1] =
@@ -482,4 +487,43 @@ void MainWindowSpreadSheet::sort()
                 (dialog.tertiaryOrderCombo->currentIndex() == 0);
         spreadsheet->sort(compare);
     }
+}
+
+void MainWindowSpreadSheet::about()
+{
+    QMessageBox::about(this, tr("About Spreadsheet"),
+                       tr("<h2>Spreadsheet 1.1</h2>"
+                          "<p>Copyright &copy; 2008 Software Inc."
+                          "<p>Spreadsheet is a small application that "
+                          "demonstrates QAction, QMainWindow, QMenuBar, "
+                          "QStatusBar, QTableWidget, QToolBar, and many other "
+                          "Qt classes."));
+}
+
+void MainWindowSpreadSheet::writeSettings()
+{
+    QSettings settings("Software Inc.", "Spreadsheet");
+
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("recentFiles", recentFiles);
+    settings.setValue("showGrid", showGridAction->isChecked());
+    settings.setValue("autoRecalc", autoRecalcAction->isChecked());
+
+    // можно еще группами через слеш 1/2 или .beginGroup() а затем .endGroup().
+}
+
+void MainWindowSpreadSheet::readSettings()
+{
+    QSettings settings("Software Inc.", "Spreadsheet");
+
+    restoreGeometry(settings.value("geometry").toByteArray());
+
+    recentFiles = settings.value("recentFiles").toStringList();
+    updateRecentFileActions();
+
+    bool showGrid = settings.value("showGrid", true).toBool();
+    showGridAction->setChecked(showGrid);
+
+    bool autoRecalc = settings.value("autoRecalc", true).toBool();
+    autoRecalcAction->setChecked(autoRecalc);
 }

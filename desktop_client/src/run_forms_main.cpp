@@ -27,16 +27,28 @@
 //
 //    return app.exec();
 //}
+//
+//#include <desktop_client/SortDialog.hpp>
+//
+//int main(int argc, char * argv[])
+//{
+//    QApplication app{argc, argv};
+//
+//    SortDialog *sortDialog = new SortDialog{};
+//    sortDialog->setColumnRange('C', 'F');
+//    sortDialog->show();
+//
+//    return app.exec();
+//}
 
-#include <desktop_client/SortDialog.hpp>
+
+#include <desktop_client/MainWindowSpreadSheet.hpp>
 
 int main(int argc, char * argv[])
 {
-    QApplication app{argc, argv};
-
-    SortDialog *sortDialog = new SortDialog{};
-    sortDialog->setColumnRange('C', 'F');
-    sortDialog->show();
+    QApplication app {argc, argv };
+    MainWindowSpreadSheet main_window {};
+    main_window.show();
 
     return app.exec();
 }

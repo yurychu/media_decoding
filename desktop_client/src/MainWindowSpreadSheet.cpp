@@ -425,7 +425,7 @@ void MainWindowSpreadSheet::updateRecentFileActions()
 void MainWindowSpreadSheet::openRecentFile()
 {
     if (okToContinue()) {
-        QAction *action = qobject_cast<QAction *>(sender());
+        auto action = qobject_cast<QAction *>(sender());
         if (action){
             loadFile(action->data().toString());
         }
@@ -448,6 +448,7 @@ void MainWindowSpreadSheet::find()
     findDialog->raise();  // поверх других окон
     findDialog->activateWindow();  // делается активным
 }
+
 
 void MainWindowSpreadSheet::goToCell()
 {
@@ -472,7 +473,7 @@ void MainWindowSpreadSheet::sort()
                           'A' + range.rightColumn());
 
     if (dialog.exec()) {
-        SpreadsheetCompare compare;
+        SpreadSheetCompare compare{};
         compare.keys[0] =
                 dialog.primaryColumnCombo->currentIndex();
         compare.keys[1] =

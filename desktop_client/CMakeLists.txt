@@ -56,6 +56,11 @@ add_executable(
         include/desktop_client/MainWindowSpreadSheet.hpp
         src/MainWindowSpreadSheet.cpp
 
+        include/desktop_client/SpreadSheet.hpp
+        src/SpreadSheet.cpp
+
+        include/desktop_client/Cell.hpp
+        src/Cell.cpp
 
 )
 

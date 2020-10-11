@@ -6,10 +6,9 @@
 #include <QToolBar>
 
 #include <desktop_client/FindDialog.hpp>
-//#include <desktop_client/SpreadSheet.hpp>  // todo
+#include <desktop_client/SpreadSheet.hpp>
 #include <QTableWidget>
 
-class Spreadsheet : public QTableWidget{};
 
 class MainWindowSpreadSheet : public QMainWindow
 {
@@ -47,7 +46,7 @@ private:
     void setCurrentFile(const QString &fileName);
     void updateRecentFileActions();
 
-    Spreadsheet *spreadsheet;
+    SpreadSheet *spreadsheet;
     FindDialog *findDialog;
     QLabel *locationLabel;
     QLabel *formulaLabel;

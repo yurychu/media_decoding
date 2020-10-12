@@ -5,7 +5,16 @@
 #include <desktop_client/Cell.hpp>
 
 
-class SpreadSheetCompare;
+class SpreadSheetCompare
+{
+public:
+    bool operator()(const QStringList &row1,
+                    const QStringList &row2) const;
+
+    enum { KeyCount = 3 };
+    int keys[KeyCount];
+    bool ascending[KeyCount];
+};
 
 
 class SpreadSheet : public QTableWidget
@@ -52,14 +61,3 @@ private:
     bool autoRecalc;
 };
 
-
-class SpreadSheetCompare
-{
-public:
-    bool operator()(const QStringList &row1,
-                    const QStringList &row2) const;
-
-    enum { KeyCount = 3 };
-    int keys[KeyCount];
-    bool ascending[KeyCount];
-};

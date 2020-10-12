@@ -2,6 +2,10 @@
 
 #include <desktop_client/SpreadSheet.hpp>
 
+#include <QMessageBox>
+#include <QFile>
+#include <QApplication>
+
 
 SpreadSheet::SpreadSheet(QWidget *parent)
         : QTableWidget(parent)
@@ -23,7 +27,7 @@ QString SpreadSheet::currentLocation() const
            + QString::number(currentRow() + 1);
 }
 
-QString Spreadsheet::currentFormula() const
+QString SpreadSheet::currentFormula() const
 {
     return formula(currentRow(), currentColumn());
 }
@@ -36,7 +40,7 @@ QTableWidgetSelectionRange Spreadsheet::selectedRange() const
     return ranges.first();
 }
 
-void Spreadsheet::clear()
+void SpreadSheet::clear()
 {
     setRowCount(0);
     setColumnCount(0);
@@ -89,7 +93,7 @@ bool Spreadsheet::readFile(const QString &fileName)
     return true;
 }
 
-bool Spreadsheet::writeFile(const QString &fileName)
+bool SpreadSheet::writeFile(const QString &fileName)
 {
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
@@ -276,19 +280,20 @@ void Spreadsheet::findPrevious(const QString &str,
     QApplication::beep();
 }
 
-void Spreadsheet::somethingChanged()
+void SpreadSheet::somethingChanged()
 {
-    if (autoRecalc)
+    if (autoRecalc){
         recalculate();
+    }
     emit modified();
 }
 
-Cell *Spreadsheet::cell(int row, int column) const
+Cell * SpreadSheet::cell(int row, int column) const
 {
-    return static_cast<Cell *>(item(row, column));
+    return dynamic_cast<Cell *>(item(row, column));
 }
 
-void Spreadsheet::setFormula(int row, int column,
+void SpreadSheet::setFormula(int row, int column,
                              const QString &formula)
 {
     Cell *c = cell(row, column);
@@ -299,7 +304,7 @@ void Spreadsheet::setFormula(int row, int column,
     c->setFormula(formula);
 }
 
-QString Spreadsheet::formula(int row, int column) const
+QString SpreadSheet::formula(int row, int column) const
 {
     Cell *c = cell(row, column);
     if (c) {
@@ -309,7 +314,7 @@ QString Spreadsheet::formula(int row, int column) const
     }
 }
 
-QString Spreadsheet::text(int row, int column) const
+QString SpreadSheet::text(int row, int column) const
 {
     Cell *c = cell(row, column);
     if (c) {

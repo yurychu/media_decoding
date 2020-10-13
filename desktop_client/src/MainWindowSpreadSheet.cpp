@@ -14,7 +14,7 @@
 
 MainWindowSpreadSheet::MainWindowSpreadSheet()
 {
-    spreadsheet = new Spreadsheet{};
+    spreadsheet = new SpreadSheet{};
     setCentralWidget(spreadsheet);  // ставим центральным виджетом главного окна
 
     createActions();

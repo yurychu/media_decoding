@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QApplication>
+#include <QClipboard>
 
 
 SpreadSheet::SpreadSheet(QWidget *parent)
@@ -32,11 +33,12 @@ QString SpreadSheet::currentFormula() const
     return formula(currentRow(), currentColumn());
 }
 
-QTableWidgetSelectionRange Spreadsheet::selectedRange() const
+QTableWidgetSelectionRange SpreadSheet::selectedRange() const
 {
-    QList<QTableWidgetSelectionRange> ranges = selectedRanges();
-    if (ranges.isEmpty())
-        return QTableWidgetSelectionRange();
+    QList<QTableWidgetSelectionRange> ranges = selectedRanges();  // от наследуемого класса таблицы, вернет список диапазонов
+    if (ranges.isEmpty()){
+        return QTableWidgetSelectionRange{};
+    }
     return ranges.first();
 }
 
@@ -56,7 +58,11 @@ void SpreadSheet::clear()
     setCurrentCell(0, 0);
 }
 
-bool Spreadsheet::readFile(const QString &fileName)
+namespace {
+    const auto DATASTREAM_VER = QDataStream::Qt_5_15;
+}
+
+bool SpreadSheet::readFile(const QString &fileName)
 {
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {
@@ -68,7 +74,7 @@ bool Spreadsheet::readFile(const QString &fileName)
     }
 
     QDataStream in(&file);
-    in.setVersion(QDataStream::Qt_4_3);
+    in.setVersion(DATASTREAM_VER);
 
     quint32 magic;
     in >> magic;
@@ -105,7 +111,7 @@ bool SpreadSheet::writeFile(const QString &fileName)
     }
 
     QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_4_3);
+    out.setVersion(DATASTREAM_VER);
 
     out << quint32(MagicNumber);
 
@@ -121,56 +127,61 @@ bool SpreadSheet::writeFile(const QString &fileName)
     return true;
 }
 
-void Spreadsheet::sort(const SpreadsheetCompare &compare)
+void SpreadSheet::sort(const SpreadSheetCompare &compare)
 {
     QList<QStringList> rows;
     QTableWidgetSelectionRange range = selectedRange();
-    int i;
-
+    int i = 0;
     for (i = 0; i < range.rowCount(); ++i) {
         QStringList row;
-        for (int j = 0; j < range.columnCount(); ++j)
+        for (int j = 0; j < range.columnCount(); ++j) {
             row.append(formula(range.topRow() + i,
                                range.leftColumn() + j));
+        }
         rows.append(row);
     }
 
-    qStableSort(rows.begin(), rows.end(), compare);
+    std::stable_sort(rows.begin(), rows.end(), compare);
+//    qStableSort(rows.begin(), rows.end(), compare);  // deprecated, use std::stable_sort
 
     for (i = 0; i < range.rowCount(); ++i) {
-        for (int j = 0; j < range.columnCount(); ++j)
+        for (int j = 0; j < range.columnCount(); ++j){
             setFormula(range.topRow() + i, range.leftColumn() + j,
-                       rows[i][j]);
+                       rows[i][j]
+            );
+        }
     }
 
     clearSelection();
     somethingChanged();
 }
 
-void Spreadsheet::cut()
+void SpreadSheet::cut()
 {
     copy();
     del();
 }
 
-void Spreadsheet::copy()
+void SpreadSheet::copy()
 {
     QTableWidgetSelectionRange range = selectedRange();
     QString str;
 
     for (int i = 0; i < range.rowCount(); ++i) {
-        if (i > 0)
+        if (i > 0){
             str += "\n";
+        }
         for (int j = 0; j < range.columnCount(); ++j) {
-            if (j > 0)
+            if (j > 0){
                 str += "\t";
+            }
             str += formula(range.topRow() + i, range.leftColumn() + j);
         }
     }
-    QApplication::clipboard()->setText(str);
+    QApplication::clipboard()->setText(str);  // буфер обмена
 }
 
-void Spreadsheet::paste()
+void SpreadSheet::paste()
 {
     QTableWidgetSelectionRange range = selectedRange();
     QString str = QApplication::clipboard()->text();
@@ -199,45 +210,48 @@ void Spreadsheet::paste()
     somethingChanged();
 }
 
-void Spreadsheet::del()
+void SpreadSheet::del()
 {
     QList<QTableWidgetItem *> items = selectedItems();
     if (!items.isEmpty()) {
-                foreach (QTableWidgetItem *item, items)
-                delete item;
+        foreach (QTableWidgetItem *item, items){
+            delete item;
+        }
         somethingChanged();
     }
 }
 
-void Spreadsheet::selectCurrentRow()
+void SpreadSheet::selectCurrentRow()
 {
     selectRow(currentRow());
 }
 
-void Spreadsheet::selectCurrentColumn()
+void SpreadSheet::selectCurrentColumn()
 {
     selectColumn(currentColumn());
 }
 
-void Spreadsheet::recalculate()
+void SpreadSheet::recalculate()
 {
     for (int row = 0; row < RowCount; ++row) {
         for (int column = 0; column < ColumnCount; ++column) {
-            if (cell(row, column))
+            if (cell(row, column)){
                 cell(row, column)->setDirty();
+            }
         }
     }
     viewport()->update();
 }
 
-void Spreadsheet::setAutoRecalculate(bool recalc)
+void SpreadSheet::setAutoRecalculate(bool recalc)
 {
     autoRecalc = recalc;
-    if (autoRecalc)
+    if (autoRecalc){
         recalculate();
+    }
 }
 
-void Spreadsheet::findNext(const QString &str, Qt::CaseSensitivity cs)
+void SpreadSheet::findNext(const QString &str, Qt::CaseSensitivity cs)
 {
     int row = currentRow();
     int column = currentColumn() + 1;
@@ -258,7 +272,7 @@ void Spreadsheet::findNext(const QString &str, Qt::CaseSensitivity cs)
     QApplication::beep();
 }
 
-void Spreadsheet::findPrevious(const QString &str,
+void SpreadSheet::findPrevious(const QString &str,
                                Qt::CaseSensitivity cs)
 {
     int row = currentRow();
@@ -324,7 +338,7 @@ QString SpreadSheet::text(int row, int column) const
     }
 }
 
-bool SpreadsheetCompare::operator()(const QStringList &row1,
+bool SpreadSheetCompare::operator()(const QStringList &row1,
                                     const QStringList &row2) const
 {
     for (int i = 0; i < KeyCount; ++i) {
@@ -333,7 +347,8 @@ bool SpreadsheetCompare::operator()(const QStringList &row1,
             if (row1[column] != row2[column]) {
                 if (ascending[i]) {
                     return row1[column] < row2[column];
-                } else {
+                }
+                else {
                     return row1[column] > row2[column];
                 }
             }

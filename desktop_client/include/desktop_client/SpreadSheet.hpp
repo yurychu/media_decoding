@@ -30,7 +30,7 @@ public:
     void clear();
     bool readFile(const QString &fileName);
     bool writeFile(const QString &fileName);
-    void sort(const SpreadsheetCompare &compare);
+    void sort(const SpreadSheetCompare &compare);
 
 public slots:
     void cut();

@@ -42,13 +42,37 @@
 //}
 
 
-#include <desktop_client/MainWindowSpreadSheet.hpp>
+//#include <desktop_client/MainWindowSpreadSheet.hpp>
+//
+//int main(int argc, char * argv[])
+//{
+//    QApplication app {argc, argv };
+//    MainWindowSpreadSheet main_window {};
+//    main_window.show();
+//
+//    return app.exec();
+//}
 
-int main(int argc, char * argv[])
+
+//#include <desktop_client/HexSpinBox.hpp>
+//
+//int main(int argc, char *argv[])
+//{
+//    QApplication app(argc, argv);
+//    HexSpinBox spinBox;
+//    spinBox.setWindowTitle(QObject::tr("Hex Spin Box"));
+//    spinBox.show();
+//    return app.exec();
+//}
+
+#include <desktop_client/IconEditor.hpp>
+
+int main(int argc, char *argv[])
 {
-    QApplication app {argc, argv };
-    MainWindowSpreadSheet main_window {};
-    main_window.show();
-
+    QApplication app(argc, argv);
+    IconEditor iconEditor;
+    iconEditor.setWindowTitle(QObject::tr("Icon Editor"));
+    iconEditor.setIconImage(QImage(":/images/mouse.png"));
+    iconEditor.show();
     return app.exec();
 }

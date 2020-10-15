@@ -9,5 +9,6 @@
     <file>images/paste.png</file>
     <file>images/find.png</file>
     <file>images/gotocell.png</file>
+    <file>images/mouse.png</file>
 </qresource>
 </RCC>

@@ -62,6 +62,12 @@ add_executable(
         include/desktop_client/Cell.hpp
         src/Cell.cpp
 
+        include/desktop_client/HexSpinBox.hpp
+        src/HexSpinBox.cpp
+
+        include/desktop_client/IconEditor.hpp
+        src/IconEditor.cpp
+
 )
 
 target_include_directories(

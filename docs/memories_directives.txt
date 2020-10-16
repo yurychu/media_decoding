@@ -1,0 +1,6 @@
+dumpbin /all mxf_c.lib > out_names_mxf_c_lib2.txt
+
+set_target_properties(mxf_c PROPERTIES DEBUG_POSTFIX "d")
+
+#if defined(_WIN32) || defined(WIN32)
+

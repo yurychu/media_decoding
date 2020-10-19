@@ -84,3 +84,41 @@ target_link_libraries(
         Qt5::MultimediaWidgets
 
 )
+
+
+# mxf parameters
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/desktop_client/cmake/Modules/")
+
+find_package(uriparser 0.9.4 CONFIG REQUIRED char wchar_t)
+find_package(MXF_C REQUIRED)
+find_package(MXF_CPP REQUIRED)
+find_package(expat 2.2.6 CONFIG REQUIRED)
+find_package(BMX REQUIRED)
+find_package(MxfSpecificParametersLib REQUIRED)
+
+
+add_executable(
+        mxf_parameters
+        src/mxf_main.cpp
+        include/desktop_client/MxfSpecificParameters.hpp
+        src/MxfSpecificParameters.cpp
+
+)
+
+target_include_directories(
+        mxf_parameters
+        PRIVATE
+        include
+)
+
+target_link_libraries(
+        mxf_parameters
+        PUBLIC
+        Qt5::Widgets
+        MXF::mxf_c
+        MXF::mxf_cpp
+        MXF::bmx
+        uriparser::uriparser
+        expat::libexpat
+        MXF::mxf_spec
+)

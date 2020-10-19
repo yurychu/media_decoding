@@ -8,7 +8,7 @@ class SortDialog : public QDialog, public Ui::SortDialog
 {
     Q_OBJECT
 public:
-    SortDialog(QWidget * parent = nullptr);
+    explicit SortDialog(QWidget * parent = nullptr);
 
     void setColumnRange(QChar first, QChar last);
 

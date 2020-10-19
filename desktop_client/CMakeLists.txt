@@ -94,7 +94,7 @@ find_package(MXF_C REQUIRED)
 find_package(MXF_CPP REQUIRED)
 find_package(expat 2.2.6 CONFIG REQUIRED)
 find_package(BMX REQUIRED)
-find_package(MxfSpecificParametersLib REQUIRED)
+find_package(MXF_SPEC REQUIRED)
 
 
 add_executable(
@@ -102,6 +102,9 @@ add_executable(
         src/mxf_main.cpp
         include/desktop_client/MxfSpecificParameters.hpp
         src/MxfSpecificParameters.cpp
+
+        include/desktop_client/CompareRulesWidget.hpp
+        src/CompareRulesWidget.cpp
 
 )
 

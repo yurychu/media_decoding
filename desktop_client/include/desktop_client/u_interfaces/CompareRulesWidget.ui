@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CompareRulesForm</class>
- <widget class="QWidget" name="CompareRulesForm">
+ <class>CompareRulesWidget</class>
+ <widget class="QWidget" name="CompareRulesWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

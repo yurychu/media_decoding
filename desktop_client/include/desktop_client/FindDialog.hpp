@@ -7,7 +7,6 @@
 #include <QPushButton>
 
 
-
 class FindDialog : public QDialog
 {
     Q_OBJECT

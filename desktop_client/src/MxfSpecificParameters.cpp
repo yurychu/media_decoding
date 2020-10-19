@@ -1,12 +1,14 @@
 
 #include <desktop_client/MxfSpecificParameters.hpp>
 
+#include <iostream>
+#include <sstream>
+
 #include <QFileDialog>
 
 #include <mxf_specific_parameters_lib/MxfInfo.hpp>
 
-#include <iostream>
-#include <sstream>
+#include <desktop_client/CompareRulesWidget.hpp>
 
 
 MxfSpecificParameters::MxfSpecificParameters()
@@ -36,6 +38,7 @@ MxfSpecificParameters::MxfSpecificParameters()
 
     QObject::connect(startPushButton, SIGNAL(clicked()), this, SLOT(checkMxfFile()));
 
+    auto compareRulesWidget = new CompareRulesWidget { checkSettingsGroupBox };
 
 
 }
@@ -45,6 +48,7 @@ void MxfSpecificParameters::open()
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Open mxf file"), ".",
                                                     tr("Mxf files (*.mxf)"));
+
     selectedFileLineEdit->setText(fileName);
 
 }

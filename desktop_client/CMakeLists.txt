@@ -68,6 +68,9 @@ add_executable(
         include/desktop_client/IconEditor.hpp
         src/IconEditor.cpp
 
+        include/desktop_client/SelectFilesWidget.hpp
+        src/SelectFilesWidget.cpp
+
 )
 
 target_include_directories(
@@ -105,6 +108,9 @@ add_executable(
 
         include/desktop_client/CompareRulesWidget.hpp
         src/CompareRulesWidget.cpp
+
+        include/desktop_client/SelectFilesWidget.hpp
+        src/SelectFilesWidget.cpp
 
 )
 

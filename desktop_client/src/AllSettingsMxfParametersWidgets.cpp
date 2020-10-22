@@ -27,19 +27,29 @@ bool EnableCheckBox::isChecked() const
 
 
 /*
+ * SaveableJSONWidget
+ *
+ */
+SaveableJSONWidget::SaveableJSONWidget(StructureSettingsSaver* saver, QWidget* parent)
+    : QWidget{parent}
+{
+    // to saver obj
+    QObject::connect(this, SIGNAL(settingsDone(const QString &, const QJsonObject&)),
+                     saver, SLOT(onSettingsChanged(const QString &, const QJsonObject&)));
+
+}
+
+
+/*
  * FormatVersionSettings
  */
 FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWidget* parent)
-    : QWidget{parent},
+    : SaveableJSONWidget{saver, parent},
     enableCheckBox{nullptr}
 {
     setObjectName(getKeyName());
 
     enableCheckBox = new EnableCheckBox{this};
-
-    // to saver obj
-    QObject::connect(this, SIGNAL(settingsDone(const QString &, const QJsonObject&)),
-                     saver, SLOT(onSettingsChanged(const QString &, const QJsonObject&)));
 
     // checked
     QObject::connect(enableCheckBox->m_checkBox, SIGNAL(stateChanged(int)),
@@ -64,3 +74,4 @@ void FormatVersionSettings::updateToObj()
     QJsonObject obj{};
     emit settingsDone(getKeyName(), obj);
 }
+

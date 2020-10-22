@@ -20,10 +20,23 @@ public:
 };
 
 
+class SaveableJSONWidget : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit SaveableJSONWidget(StructureSettingsSaver* saver, QWidget* parent=nullptr);
+    ~SaveableJSONWidget() override = default;
+
+signals:
+    void settingsDone(const QString &keyStr, const QJsonObject& obj);
+
+};
+
+
 /*
  * FormatVersionSettings
  */
-class FormatVersionSettings : public QWidget
+class FormatVersionSettings : public SaveableJSONWidget
 {
     Q_OBJECT
 public:
@@ -35,8 +48,6 @@ public:
 private slots:
     void updateToObj();
 
-signals:
-    void settingsDone(const QString &keyStr, const QJsonObject& obj);
 
 private:
     EnableCheckBox* enableCheckBox;

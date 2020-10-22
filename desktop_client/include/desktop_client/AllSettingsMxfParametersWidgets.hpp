@@ -15,7 +15,7 @@ public:
 
     bool isChecked() const;
 
-private:
+public:
     QCheckBox * m_checkBox;
 };
 
@@ -30,8 +30,15 @@ public:
     explicit FormatVersionSettings(StructureSettingsSaver* saver, QWidget* parent=nullptr);
     ~FormatVersionSettings() override = default;
 
+    static const QString& getKeyName();
+
+private slots:
+    void updateToObj();
+
+signals:
+    void settingsDone(const QString &keyStr, const QJsonObject& obj);
+
 private:
-
-
+    EnableCheckBox* enableCheckBox;
 
 };

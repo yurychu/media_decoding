@@ -8,9 +8,11 @@
 
 
 SettingsBlockWidget::SettingsBlockWidget(QWidget * parent)
-    : QWidget{parent}
+    : QWidget{parent},
+    saver{nullptr}
 {
     setLayout(new QHBoxLayout{});
+    saver = new StructureSettingsSaver {this};
 }
 
 void SettingsBlockWidget::addSettingsTile(QWidget *widget, QString boxName)
@@ -25,6 +27,8 @@ std::vector<QWidget *> SettingsBlockWidget::getAllSettingsTiles()
 {
     std::vector<QWidget *> result;
 
+    auto elem = new FormatVersionSettings {saver};
+    result.emplace_back(elem);
 
     return result;
 }

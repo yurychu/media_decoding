@@ -7,7 +7,7 @@
 class StructureSettingsSaver : public QObject
 {
     Q_OBJECT
-private:
+public:
     explicit StructureSettingsSaver(QObject* parent = nullptr);
     ~StructureSettingsSaver() override = default;
 

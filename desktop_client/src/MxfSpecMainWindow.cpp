@@ -58,7 +58,7 @@ void MxfSpecMainWindow::createCentralWidget()
 void MxfSpecMainWindow::createSettingsBlock()
 {
     const auto settingsBlockW = getSettingsBlockWidget();
-    const auto all_settings_tiles = SettingsBlockWidget::getAllSettingsTiles();
+    const auto all_settings_tiles = settingsBlockW->getAllSettingsTiles();
 
     for (const auto item : all_settings_tiles){
         settingsBlockW->addSettingsTile(item, item->objectName());

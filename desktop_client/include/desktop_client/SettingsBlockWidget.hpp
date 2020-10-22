@@ -4,6 +4,8 @@
 
 #include <vector>
 
+#include <desktop_client/StructureSettingsSaver.hpp>
+
 
 class SettingsBlockWidget : public QWidget
 {
@@ -14,10 +16,9 @@ public:
 
     void addSettingsTile(QWidget * widget, QString boxName);
 
-    static std::vector<QWidget*> getAllSettingsTiles();
+    std::vector<QWidget*> getAllSettingsTiles();
 
-private:
-
-
+public:
+    StructureSettingsSaver *saver;
 
 };

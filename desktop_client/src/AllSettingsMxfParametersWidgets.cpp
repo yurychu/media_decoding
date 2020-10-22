@@ -3,6 +3,8 @@
 
 #include <QLayout>
 
+#include <iostream>
+
 
 EnableCheckBox::EnableCheckBox(QWidget *parent)
     : QWidget(parent),
@@ -27,7 +29,33 @@ bool EnableCheckBox::isChecked() const
  * FormatVersionSettings
  */
 FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWidget* parent)
-    : QWidget{parent}
+    : QWidget{parent},
+    enableCheckBox{nullptr}
 {
+    enableCheckBox = new EnableCheckBox{this};
 
+    // to saver obj
+    QObject::connect(this, SIGNAL(settingsDone(const QString &, const QJsonObject&)),
+                     saver, SLOT(onSettingsChanged(const QString &, const QJsonObject&)));
+
+    // checked
+    QObject::connect(enableCheckBox->m_checkBox, SIGNAL(stateChanged(int)),
+                     this, SLOT(updateToObj()));
+
+    QJsonObject obj{};
+    emit settingsDone(getKeyName(), obj);
+
+}
+
+const QString &FormatVersionSettings::getKeyName()
+{
+    const static QString keyName {"FormatVersion"};
+    return keyName;
+}
+
+void FormatVersionSettings::updateToObj()
+{
+    std::cout << "Update to obj call." << std::endl;
+    QJsonObject obj{};
+    emit settingsDone(getKeyName(), obj);
 }

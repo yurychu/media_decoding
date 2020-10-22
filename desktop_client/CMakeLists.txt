@@ -83,6 +83,9 @@ add_executable(
         include/desktop_client/StructureSettingsSaver.hpp
         src/StructureSettingsSaver.cpp
 
+        include/desktop_client/SaveableJSONWidget.hpp
+        src/SaveableJSONWidget.cpp
+
 )
 
 target_include_directories(

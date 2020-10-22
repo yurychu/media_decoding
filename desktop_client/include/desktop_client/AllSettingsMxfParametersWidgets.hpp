@@ -4,7 +4,7 @@
 #include <QLabel>
 #include <QCheckBox>
 
-#include <desktop_client/StructureSettingsSaver.hpp>
+#include <desktop_client/SaveableJSONWidget.hpp>
 
 
 class EnableCheckBox : public QWidget
@@ -17,22 +17,6 @@ public:
 
 public:
     QCheckBox * m_checkBox;
-};
-
-
-class SaveableJSONWidget : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit SaveableJSONWidget(StructureSettingsSaver* saver, QWidget* parent=nullptr);
-    ~SaveableJSONWidget() override = default;
-
-protected:
-    void stateToSaver(const QString &keyStr, const QJsonObject& obj);
-
-signals:
-    void jsonObjectDone(const QString &keyStr, const QJsonObject& obj);
-
 };
 
 
@@ -50,7 +34,6 @@ public:
 
 private slots:
     void updateToObj();
-
 
 private:
     EnableCheckBox* enableCheckBox;

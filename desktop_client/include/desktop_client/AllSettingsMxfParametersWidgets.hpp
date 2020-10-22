@@ -5,19 +5,7 @@
 #include <QCheckBox>
 
 #include <desktop_client/SaveableJSONWidget.hpp>
-
-
-class EnableCheckBox : public QWidget
-{
-public:
-    explicit EnableCheckBox(QWidget* parent);
-    ~EnableCheckBox() override = default;
-
-    bool isChecked() const;
-
-public:
-    QCheckBox * m_checkBox;
-};
+#include <desktop_client/EnableCheckBox.hpp>
 
 
 /*

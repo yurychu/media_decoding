@@ -86,6 +86,9 @@ add_executable(
         include/desktop_client/SaveableJSONWidget.hpp
         src/SaveableJSONWidget.cpp
 
+        include/desktop_client/EnableCheckBox.hpp
+        src/EnableCheckBox.cpp
+
 )
 
 target_include_directories(

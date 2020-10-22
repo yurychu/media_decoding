@@ -9,9 +9,13 @@
 
 #include <iostream>
 
+#include <desktop_client/SettingsBlockWidget.hpp>
+
 
 MxfSpecMainWindow::MxfSpecMainWindow()
-    : QMainWindow{}
+    : QMainWindow{},
+    settingsBlockWidget{nullptr},
+    selectFilesWidget{nullptr}
 {
     createMenus();
     createStatusBar();
@@ -29,26 +33,59 @@ void MxfSpecMainWindow::createMenus()
 
 void MxfSpecMainWindow::createStatusBar()
 {
-    statusBar()->addWidget(new QLabel{"Stat"});
+    statusBar()->addWidget(new QLabel{"Status bar"});
 }
 
 
 void MxfSpecMainWindow::createCentralWidget()
 {
     const auto mainSplitter = new QSplitter {Qt::Horizontal};
-
-    selectFilesWidget = new SelectFilesWidget{};
-
     const auto rightSplitter = new QSplitter { Qt::Vertical };
 
-//    const auto settingsBlockWidget = new SettingsBlockWidget{};
+    createSettingsBlock();
 
-//    rightSplitter->addWidget(settingsBlockWidget); // settings block
-    rightSplitter->addWidget(new QTextBrowser{});
+    rightSplitter->addWidget(getSettingsBlockWidget()); // settings block
     rightSplitter->addWidget(new QTextBrowser{});  // results
 
-    mainSplitter->addWidget(selectFilesWidget);
+    mainSplitter->addWidget(getSelectFilesWidget());
     mainSplitter->addWidget(rightSplitter);
+    mainSplitter->setStretchFactor(1, 1);
 
     setCentralWidget(mainSplitter);
+}
+
+
+void MxfSpecMainWindow::createSettingsBlock()
+{
+    const auto settingsBlockW = getSettingsBlockWidget();
+
+    const auto some1_widget = new QWidget {};
+
+    settingsBlockW->addSettingsTile(some1_widget, "Some 1");
+    settingsBlockW->addSettingsTile(new QWidget{}, "Some 2");
+
+}
+
+
+SelectFilesWidget *MxfSpecMainWindow::getSelectFilesWidget()
+{
+    if (selectFilesWidget){
+        return selectFilesWidget;
+    }
+    else {
+        selectFilesWidget = new SelectFilesWidget {};
+        return selectFilesWidget;
+    }
+}
+
+
+SettingsBlockWidget *MxfSpecMainWindow::getSettingsBlockWidget()
+{
+    if (settingsBlockWidget){
+        return settingsBlockWidget;
+    }
+    else {
+        settingsBlockWidget = new SettingsBlockWidget {};
+        return settingsBlockWidget;
+    }
 }

@@ -74,6 +74,9 @@ add_executable(
         include/desktop_client/MxfSpecMainWindow.hpp
         src/MxfSpecMainWindow.cpp
 
+        include/desktop_client/SettingsBlockWidget.hpp
+        src/SettingsBlockWidget.cpp
+
 )
 
 target_include_directories(

@@ -3,7 +3,7 @@
 #include <QMainWindow>
 
 #include <desktop_client/SelectFilesWidget.hpp>
-
+#include <desktop_client/SettingsBlockWidget.hpp>
 
 class MxfSpecMainWindow : public QMainWindow
 {
@@ -16,8 +16,13 @@ private:
     void createMenus();
     void createStatusBar();
     void createCentralWidget();
+    void createSettingsBlock();
+
+    SelectFilesWidget *getSelectFilesWidget();
+    SettingsBlockWidget *getSettingsBlockWidget();
 
 private:
+    SettingsBlockWidget *settingsBlockWidget;
     SelectFilesWidget *selectFilesWidget;
 
 };

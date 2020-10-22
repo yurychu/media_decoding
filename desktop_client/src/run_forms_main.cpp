@@ -78,12 +78,23 @@
 //}
 
 
-#include <desktop_client/SelectFilesWidget.hpp>
+//#include <desktop_client/SelectFilesWidget.hpp>
+//
+//int main(int argc, char *argv[])
+//{
+//    QApplication app(argc, argv);
+//    SelectFilesWidget selectFilesWidget {};
+//    selectFilesWidget.show();
+//    return app.exec();
+//}
+
+
+#include <desktop_client/MxfSpecMainWindow.hpp>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    SelectFilesWidget selectFilesWidget {};
-    selectFilesWidget.show();
+    MxfSpecMainWindow mainWindow {};
+    mainWindow.show();
     return app.exec();
 }

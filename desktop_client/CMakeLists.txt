@@ -71,6 +71,9 @@ add_executable(
         include/desktop_client/SelectFilesWidget.hpp
         src/SelectFilesWidget.cpp
 
+        include/desktop_client/MxfSpecMainWindow.hpp
+        src/MxfSpecMainWindow.cpp
+
 )
 
 target_include_directories(

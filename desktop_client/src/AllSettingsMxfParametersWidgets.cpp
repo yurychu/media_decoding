@@ -34,9 +34,14 @@ SaveableJSONWidget::SaveableJSONWidget(StructureSettingsSaver* saver, QWidget* p
     : QWidget{parent}
 {
     // to saver obj
-    QObject::connect(this, SIGNAL(settingsDone(const QString &, const QJsonObject&)),
+    QObject::connect(this, SIGNAL(jsonObjectDone(const QString &, const QJsonObject&)),
                      saver, SLOT(onSettingsChanged(const QString &, const QJsonObject&)));
 
+}
+
+void SaveableJSONWidget::stateToSaver(const QString &keyStr, const QJsonObject &obj)
+{
+    emit jsonObjectDone(keyStr, obj);
 }
 
 
@@ -51,13 +56,11 @@ FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWid
 
     enableCheckBox = new EnableCheckBox{this};
 
-    // checked
+    // checked update
     QObject::connect(enableCheckBox->m_checkBox, SIGNAL(stateChanged(int)),
                      this, SLOT(updateToObj()));
 
-    QJsonObject obj{};
-    emit settingsDone(getKeyName(), obj);
-
+    updateToObj();
 }
 
 
@@ -71,7 +74,7 @@ const QString &FormatVersionSettings::getKeyName()
 void FormatVersionSettings::updateToObj()
 {
     std::cout << "Update to obj call." << std::endl;
-    QJsonObject obj{};
-    emit settingsDone(getKeyName(), obj);
+    QJsonObject obj {};
+    stateToSaver(getKeyName(), obj);
 }
 

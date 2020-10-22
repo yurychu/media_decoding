@@ -27,8 +27,11 @@ public:
     explicit SaveableJSONWidget(StructureSettingsSaver* saver, QWidget* parent=nullptr);
     ~SaveableJSONWidget() override = default;
 
+protected:
+    void stateToSaver(const QString &keyStr, const QJsonObject& obj);
+
 signals:
-    void settingsDone(const QString &keyStr, const QJsonObject& obj);
+    void jsonObjectDone(const QString &keyStr, const QJsonObject& obj);
 
 };
 

@@ -77,6 +77,12 @@ add_executable(
         include/desktop_client/SettingsBlockWidget.hpp
         src/SettingsBlockWidget.cpp
 
+        include/desktop_client/AllSettingsMxfParametersWidgets.hpp
+        src/AllSettingsMxfParametersWidgets.cpp
+
+        include/desktop_client/StructureSettingsSaver.hpp
+        src/StructureSettingsSaver.cpp
+
 )
 
 target_include_directories(

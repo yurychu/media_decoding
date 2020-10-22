@@ -2,6 +2,8 @@
 
 #include <QWidget>
 
+#include <vector>
+
 
 class SettingsBlockWidget : public QWidget
 {
@@ -11,6 +13,8 @@ public:
     ~SettingsBlockWidget() override = default;
 
     void addSettingsTile(QWidget * widget, QString boxName);
+
+    static std::vector<QWidget*> getAllSettingsTiles();
 
 private:
 

@@ -58,11 +58,11 @@ void MxfSpecMainWindow::createCentralWidget()
 void MxfSpecMainWindow::createSettingsBlock()
 {
     const auto settingsBlockW = getSettingsBlockWidget();
+    const auto all_settings_tiles = SettingsBlockWidget::getAllSettingsTiles();
 
-    const auto some1_widget = new QWidget {};
-
-    settingsBlockW->addSettingsTile(some1_widget, "Some 1");
-    settingsBlockW->addSettingsTile(new QWidget{}, "Some 2");
+    for (const auto item : all_settings_tiles){
+        settingsBlockW->addSettingsTile(item, item->objectName());
+    }
 
 }
 

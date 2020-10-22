@@ -16,7 +16,7 @@ public:
 
     void addSettingsTile(QWidget * widget, QString boxName);
 
-    std::vector<QWidget*> getAllSettingsTiles();
+    std::vector<QWidget*> getAllSettingsTiles() const;
 
 public:
     StructureSettingsSaver *saver;

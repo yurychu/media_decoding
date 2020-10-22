@@ -3,6 +3,7 @@
 
 #include <QGroupBox>
 #include <QLayout>
+#include <QLineEdit>
 
 #include <desktop_client/AllSettingsMxfParametersWidgets.hpp>
 
@@ -15,15 +16,23 @@ SettingsBlockWidget::SettingsBlockWidget(QWidget * parent)
     saver = new StructureSettingsSaver {this};
 }
 
+
 void SettingsBlockWidget::addSettingsTile(QWidget *widget, QString boxName)
 {
+    auto box_layout = new QVBoxLayout{};
+    box_layout->setSpacing(0);
+    box_layout->setContentsMargins(0, 0, 0, 0);
+
+    box_layout->addWidget(widget);
+
     const auto box = new QGroupBox {boxName, this};
-    widget->setParent(box);
+    box->setLayout(box_layout);
+
     layout()->addWidget(box);
 }
 
 
-std::vector<QWidget *> SettingsBlockWidget::getAllSettingsTiles()
+std::vector<QWidget *> SettingsBlockWidget::getAllSettingsTiles() const
 {
     std::vector<QWidget *> result;
 

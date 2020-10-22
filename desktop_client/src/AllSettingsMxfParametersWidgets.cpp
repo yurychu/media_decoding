@@ -19,6 +19,7 @@ EnableCheckBox::EnableCheckBox(QWidget *parent)
     setLayout(layout);
 }
 
+
 bool EnableCheckBox::isChecked() const
 {
     return m_checkBox->isChecked();
@@ -32,6 +33,8 @@ FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWid
     : QWidget{parent},
     enableCheckBox{nullptr}
 {
+    setObjectName(getKeyName());
+
     enableCheckBox = new EnableCheckBox{this};
 
     // to saver obj
@@ -47,11 +50,13 @@ FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWid
 
 }
 
+
 const QString &FormatVersionSettings::getKeyName()
 {
     const static QString keyName {"FormatVersion"};
     return keyName;
 }
+
 
 void FormatVersionSettings::updateToObj()
 {

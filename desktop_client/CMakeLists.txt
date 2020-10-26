@@ -94,6 +94,9 @@ add_executable(
         include/desktop_client/settings_widgets/FormatVersionSettings.hpp
         src/settings_widgets/FormatVersionSettings.cpp
 
+        include/desktop_client/settings_widgets/RIPPresenceSettings.hpp
+        src/settings_widgets/RIPPresenceSettings.cpp
+
 )
 
 target_include_directories(

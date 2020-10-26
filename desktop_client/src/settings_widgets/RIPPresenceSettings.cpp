@@ -1,5 +1,7 @@
 
-#include <desktop_client/settings_widgets/FormatVersionSettings.hpp>
+#include <desktop_client/settings_widgets/RIPPresenceSettings.hpp>
+
+
 
 
 #include <QLayout>
@@ -7,7 +9,7 @@
 #include <QLabel>
 
 
-FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWidget* parent)
+RIPPresenceSettings::RIPPresenceSettings(StructureSettingsSaver* saver, QWidget* parent)
         : SaveableJSONWidget{saver, parent},
           enableCheckBox{nullptr}
 {
@@ -18,10 +20,9 @@ FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWid
     enableCheckBox = new LabeledCheckBox{};
     labeledComboBox = new LabeledComboBox{};
 
-    labeledComboBox->m_label->setText("&Format Version: ");
-    labeledComboBox->m_comboBox->addItem("1.1");
-    labeledComboBox->m_comboBox->addItem("1.2");
-    labeledComboBox->m_comboBox->addItem("1.3");
+    labeledComboBox->m_label->setText("&RIP Presence: ");
+    labeledComboBox->m_comboBox->addItem("True");
+    labeledComboBox->m_comboBox->addItem("False");
 
     layout->addLayout(enableCheckBox);
     layout->addLayout(labeledComboBox);
@@ -39,20 +40,20 @@ FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWid
 }
 
 
-const QString &FormatVersionSettings::getKeyName()
+const QString &RIPPresenceSettings::getKeyName()
 {
-    const static QString keyName {"FormatVersion"};
+    const static QString keyName {"RIPPresence"};
     return keyName;
 }
 
 
-void FormatVersionSettings::updateToObj()
+void RIPPresenceSettings::updateToObj()
 {
     QJsonObject obj {};
 
     if (enableCheckBox->isChecked()){
-        const auto elem = labeledComboBox->m_comboBox->currentText();
-        obj["ExpectedValue"] = elem;
+        const auto idx = labeledComboBox->m_comboBox->currentIndex();
+        obj["ExpectedValue"] = (idx == 0);
     }
 
     stateToSaver(getKeyName(), obj);

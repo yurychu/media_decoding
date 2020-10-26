@@ -78,7 +78,6 @@ add_executable(
         src/SettingsBlockWidget.cpp
 
         include/desktop_client/AllSettingsMxfParametersWidgets.hpp
-        src/AllSettingsMxfParametersWidgets.cpp
 
         include/desktop_client/StructureSettingsSaver.hpp
         src/StructureSettingsSaver.cpp
@@ -86,8 +85,8 @@ add_executable(
         include/desktop_client/SaveableJSONWidget.hpp
         src/SaveableJSONWidget.cpp
 
-        include/desktop_client/EnableCheckBox.hpp
-        src/EnableCheckBox.cpp
+        include/desktop_client/LabeledCheckBox.hpp
+        src/LabeledCheckBox.cpp
 
         include/desktop_client/LabeledComboBox.hpp
         src/LabeledComboBox.cpp

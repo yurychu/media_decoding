@@ -25,12 +25,10 @@ void SettingsBlockWidget::addSettingsTile(QWidget *widget, QString boxName)
     auto box_layout = new QVBoxLayout{};
     box_layout->setSpacing(0);
     box_layout->setContentsMargins(0, 0, 0, 0);
-
     box_layout->addWidget(widget);
 
-    const auto box = new QGroupBox {boxName, this};
+    const auto box = new QGroupBox {boxName};
     box->setLayout(box_layout);
-
     layout()->addWidget(box);
 }
 

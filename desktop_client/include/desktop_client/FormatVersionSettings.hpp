@@ -1,8 +1,8 @@
 #pragma once
 
 #include <desktop_client/SaveableJSONWidget.hpp>
-#include <desktop_client/EnableCheckBox.hpp>
-
+#include <desktop_client/LabeledCheckBox.hpp>
+#include <desktop_client/LabeledComboBox.hpp>
 
 /*
  * FormatVersionSettings
@@ -20,6 +20,7 @@ private slots:
     void updateToObj();
 
 private:
-    EnableCheckBox* enableCheckBox;
+    LabeledCheckBox* enableCheckBox;
+    LabeledComboBox* labeledComboBox;
 
 };

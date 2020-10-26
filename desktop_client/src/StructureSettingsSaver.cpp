@@ -16,8 +16,13 @@ StructureSettingsSaver::StructureSettingsSaver(QObject* parent)
 
 void StructureSettingsSaver::onSettingsChanged(const QString &keyStr, const QJsonObject &obj)
 {
-    std::cout << "On settings changed: key: " << keyStr.toStdString() << std::endl;
-    m_json_obj[keyStr] = obj;
+    if (obj.isEmpty()){
+        m_json_obj.remove(keyStr);
+    }
+    else {
+        m_json_obj[keyStr] = obj;
+    }
+
     QJsonDocument doc {m_json_obj};
     const QString json_str { doc.toJson() };
 

@@ -1,5 +1,5 @@
 
-#include <desktop_client/LabeledCheckBox.hpp>
+#include <desktop_client/blocks_for_settings/LabeledCheckBox.hpp>
 
 #include <QLayout>
 

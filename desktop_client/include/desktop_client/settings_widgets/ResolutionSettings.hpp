@@ -5,12 +5,12 @@
 #include <desktop_client/blocks_for_settings/LabeledComboBox.hpp>
 
 
-class FormatVersionSettings : public SaveableJSONWidget
+class ResolutionSettings : public SaveableJSONWidget
 {
 Q_OBJECT
 public:
-    explicit FormatVersionSettings(StructureSettingsSaver* saver, QWidget* parent=nullptr);
-    ~FormatVersionSettings() override = default;
+    explicit ResolutionSettings(StructureSettingsSaver* saver, QWidget* parent=nullptr);
+    ~ResolutionSettings() override = default;
 
     static const QString& getKeyName();
 

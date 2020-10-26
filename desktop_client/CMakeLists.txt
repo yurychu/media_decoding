@@ -85,17 +85,20 @@ add_executable(
         include/desktop_client/SaveableJSONWidget.hpp
         src/SaveableJSONWidget.cpp
 
-        include/desktop_client/LabeledCheckBox.hpp
-        src/LabeledCheckBox.cpp
+        include/desktop_client/blocks_for_settings/LabeledCheckBox.hpp
+        src/blocks_for_settings/LabeledCheckBox.cpp
 
-        include/desktop_client/LabeledComboBox.hpp
-        src/LabeledComboBox.cpp
+        include/desktop_client/blocks_for_settings/LabeledComboBox.hpp
+        src/blocks_for_settings/LabeledComboBox.cpp
 
         include/desktop_client/settings_widgets/FormatVersionSettings.hpp
         src/settings_widgets/FormatVersionSettings.cpp
 
         include/desktop_client/settings_widgets/RIPPresenceSettings.hpp
         src/settings_widgets/RIPPresenceSettings.cpp
+
+        include/desktop_client/settings_widgets/ResolutionSettings.hpp
+        src/settings_widgets/ResolutionSettings.cpp
 
 )
 

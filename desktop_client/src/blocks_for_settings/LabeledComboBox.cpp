@@ -1,5 +1,5 @@
 
-#include <desktop_client/LabeledComboBox.hpp>
+#include <desktop_client/blocks_for_settings/LabeledComboBox.hpp>
 
 
 LabeledComboBox::LabeledComboBox(QWidget *parent)

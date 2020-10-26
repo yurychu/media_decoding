@@ -39,6 +39,7 @@ std::vector<QWidget *> SettingsBlockWidget::getAllSettingsTiles() const
 
     result.emplace_back( new FormatVersionSettings {saver} );
     result.emplace_back( new RIPPresenceSettings {saver} );
+    result.emplace_back( new ResolutionSettings {saver} );
 
     return result;
 }

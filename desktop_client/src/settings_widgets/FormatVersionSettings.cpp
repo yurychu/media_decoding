@@ -1,15 +1,13 @@
 
 #include <desktop_client/settings_widgets/FormatVersionSettings.hpp>
 
-
 #include <QLayout>
-#include <QComboBox>
-#include <QLabel>
 
 
 FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWidget* parent)
         : SaveableJSONWidget{saver, parent},
-          enableCheckBox{nullptr}
+          enableCheckBox{nullptr},
+          labeledComboBox{nullptr}
 {
     setObjectName(getKeyName());
 

@@ -1,17 +1,13 @@
 
 #include <desktop_client/settings_widgets/RIPPresenceSettings.hpp>
 
-
-
-
 #include <QLayout>
-#include <QComboBox>
-#include <QLabel>
 
 
 RIPPresenceSettings::RIPPresenceSettings(StructureSettingsSaver* saver, QWidget* parent)
         : SaveableJSONWidget{saver, parent},
-          enableCheckBox{nullptr}
+          enableCheckBox{nullptr},
+          labeledComboBox{nullptr}
 {
     setObjectName(getKeyName());
 

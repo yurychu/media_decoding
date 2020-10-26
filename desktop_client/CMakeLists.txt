@@ -91,8 +91,8 @@ add_executable(
         include/desktop_client/LabeledComboBox.hpp
         src/LabeledComboBox.cpp
 
-        include/desktop_client/FormatVersionSettings.hpp
-        src/FormatVersionSettings.cpp
+        include/desktop_client/settings_widgets/FormatVersionSettings.hpp
+        src/settings_widgets/FormatVersionSettings.cpp
 
 )
 

@@ -1,8 +1,6 @@
 
 #include <desktop_client/StructureSettingsSaver.hpp>
 
-#include <iostream>
-
 #include <QJsonDocument>
 
 

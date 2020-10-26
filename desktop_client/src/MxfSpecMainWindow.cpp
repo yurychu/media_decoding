@@ -42,20 +42,23 @@ void MxfSpecMainWindow::createCentralWidget()
     const auto mainSplitter = new QSplitter {Qt::Horizontal};
     const auto rightSplitter = new QSplitter { Qt::Vertical };
 
-    createSettingsBlock();
-
+    const auto textBrowser = new QTextBrowser{};
     rightSplitter->addWidget(getSettingsBlockWidget()); // settings block
-    rightSplitter->addWidget(new QTextBrowser{});  // results
+    rightSplitter->addWidget(textBrowser);  // results
 
     mainSplitter->addWidget(getSelectFilesWidget());
     mainSplitter->addWidget(rightSplitter);
     mainSplitter->setStretchFactor(1, 1);
 
+    QObject::connect(getSettingsBlockWidget(), SIGNAL(settingsUpdated(const QString&)),
+                     textBrowser, SLOT(setPlainText(const QString&)));
+
+    completeSettingsBlock();
     setCentralWidget(mainSplitter);
 }
 
 
-void MxfSpecMainWindow::createSettingsBlock()
+void MxfSpecMainWindow::completeSettingsBlock()
 {
     const auto settingsBlockW = getSettingsBlockWidget();
     const auto all_settings_tiles = settingsBlockW->getAllSettingsTiles();

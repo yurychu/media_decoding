@@ -14,5 +14,10 @@ public:
 public slots:
     void onSettingsChanged(const QString &keyStr,
                            const QJsonObject& obj);
+signals:
+    void jsonObjNewState(const QString & str);
+
+private:
+    QJsonObject m_json_obj;
 
 };

@@ -18,7 +18,10 @@ public:
 
     std::vector<QWidget*> getAllSettingsTiles() const;
 
-public:
+signals:
+    void settingsUpdated(const QString& str);
+
+private:
     StructureSettingsSaver *saver;
 
 };

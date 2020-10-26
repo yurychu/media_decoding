@@ -16,7 +16,7 @@ private:
     void createMenus();
     void createStatusBar();
     void createCentralWidget();
-    void createSettingsBlock();
+    void completeSettingsBlock();
 
     SelectFilesWidget *getSelectFilesWidget();
     SettingsBlockWidget *getSettingsBlockWidget();

@@ -14,6 +14,9 @@ SettingsBlockWidget::SettingsBlockWidget(QWidget * parent)
 {
     setLayout(new QHBoxLayout{});
     saver = new StructureSettingsSaver {this};
+
+    QObject::connect(saver, SIGNAL(jsonObjNewState(const QString&)),
+                     this, SIGNAL(settingsUpdated(const QString&)));
 }
 
 

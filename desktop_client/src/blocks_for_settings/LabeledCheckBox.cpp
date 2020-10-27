@@ -8,7 +8,7 @@ LabeledCheckBox::LabeledCheckBox(QWidget *parent)
         : QHBoxLayout{parent},
           m_checkBox{nullptr}
 {
-    m_checkBox = new QCheckBox {tr("&Enable: ")};
+    m_checkBox = new QCheckBox {tr("&Enable")};
     m_checkBox->setCheckState(Qt::Unchecked);
 
     addWidget(m_checkBox);

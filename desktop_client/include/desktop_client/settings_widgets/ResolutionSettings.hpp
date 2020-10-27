@@ -2,7 +2,7 @@
 
 #include <desktop_client/SaveableJSONWidget.hpp>
 #include <desktop_client/blocks_for_settings/LabeledCheckBox.hpp>
-#include <desktop_client/blocks_for_settings/LabeledComboBox.hpp>
+#include <desktop_client/blocks_for_settings/LabeledWidthHeight.hpp>
 
 
 class ResolutionSettings : public SaveableJSONWidget
@@ -19,6 +19,8 @@ private slots:
 
 private:
     LabeledCheckBox* enableCheckBox;
-    LabeledComboBox* labeledComboBox;
 
+    LabeledWidthHeight* storedResolutionWH;
+    LabeledWidthHeight* displayResolutionWH;
+    LabeledWidthHeight* sampledResolutionWH;
 };

@@ -7,13 +7,19 @@
 ResolutionSettings::ResolutionSettings(StructureSettingsSaver* saver, QWidget* parent)
         : SaveableJSONWidget{saver, parent},
           enableCheckBox{nullptr},
-          labeledComboBox{nullptr}
+          storedResolutionWH{nullptr},
+          displayResolutionWH{nullptr},
+          sampledResolutionWH{nullptr}
 {
     setObjectName(getKeyName());
 
     auto layout = new QVBoxLayout{};
 
     enableCheckBox = new LabeledCheckBox{};
+
+    storedResolutionWH = new LabeledWidthHeight{"Stored Resolution"};
+    displayResolutionWH = new LabeledWidthHeight{"Display Resolution"};
+    sampledResolutionWH = new LabeledWidthHeight{"Sampled Resolution"};
 //    labeledComboBox = new LabeledComboBox{};
 //
 //    labeledComboBox->m_label->setText("&Resolution: ");
@@ -21,7 +27,9 @@ ResolutionSettings::ResolutionSettings(StructureSettingsSaver* saver, QWidget* p
 //    labeledComboBox->m_comboBox->addItem("False");
 
     layout->addLayout(enableCheckBox);
-//    layout->addLayout(labeledComboBox);
+    layout->addLayout(storedResolutionWH);
+    layout->addLayout(displayResolutionWH);
+    layout->addLayout(sampledResolutionWH);
 
     setLayout(layout);
 

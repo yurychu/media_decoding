@@ -1,45 +1,48 @@
 
 #include <desktop_client/settings_widgets/ResolutionSettings.hpp>
 
+#include <vector>
+
 #include <QLayout>
 
 
 ResolutionSettings::ResolutionSettings(StructureSettingsSaver* saver, QWidget* parent)
         : SaveableJSONWidget{saver, parent},
-          enableCheckBox{nullptr},
-          storedResolutionWH{nullptr},
-          displayResolutionWH{nullptr},
-          sampledResolutionWH{nullptr}
+        m_json_obj_state{getKeyName()},
+        enableCheckBox{nullptr}
 {
     setObjectName(getKeyName());
 
     auto layout = new QVBoxLayout{this};
 
     enableCheckBox = makeUncheckedCheckBox(getEnableLiteral());
-
-    storedResolutionWH = new LabeledWidthHeight{"Stored Resolution"};
-    displayResolutionWH = new LabeledWidthHeight{"Display Resolution"};
-    sampledResolutionWH = new LabeledWidthHeight{"Sampled Resolution"};
-//    labeledComboBox = new LabeledComboBox{};
-//
-//    labeledComboBox->m_label->setText("&Resolution: ");
-//    labeledComboBox->m_comboBox->addItem("True");
-//    labeledComboBox->m_comboBox->addItem("False");
-
     layout->addWidget(enableCheckBox);
-    // todo: back refactor
-//    layout->addWidget(storedResolutionWH);
-//    layout->addWidget(displayResolutionWH);
-//    layout->addWidget(sampledResolutionWH);
+
+    std::vector<LabeledWidthHeight*> elems;
+
+    const auto storedResolutionWH = new LabeledWidthHeight{"Stored Resolution"};
+    elems.emplace_back(storedResolutionWH);
+
+    const auto displayResolutionWH = new LabeledWidthHeight{"Display Resolution"};
+    elems.emplace_back(displayResolutionWH);
+
+    const auto sampledResolutionWH = new LabeledWidthHeight{"Sampled Resolution"};
+    elems.emplace_back(sampledResolutionWH);
+
+    for (const auto elem : elems){
+        layout->addWidget(elem);
+        QObject::connect(&elem->m_json_obj_state, SIGNAL(jsonObjUpdated(const QString&, const QJsonObject&)),
+                         &m_json_obj_state, SLOT(updateObjOnKey(const QString&, const QJsonObject&)));
+    }
 
     // checked update
     QObject::connect(enableCheckBox, SIGNAL(stateChanged(int)),
-                     this, SLOT(updateToObj()));
+                     this, SLOT(updateOnEnabled()));
 
-//    QObject::connect(labeledComboBox->m_comboBox, SIGNAL(currentIndexChanged(int)),
-//                     this, SLOT(updateToObj()));
+    QObject::connect(&m_json_obj_state, SIGNAL(jsonObjUpdated(const QString&, const QJsonObject&)),
+                     this, SLOT(updateOnEnabled()));
 
-    updateToObj();
+    updateOnEnabled();
 }
 
 
@@ -50,13 +53,12 @@ const QString & ResolutionSettings::getKeyName()
 }
 
 
-void ResolutionSettings::updateToObj()
+void ResolutionSettings::updateOnEnabled()
 {
     QJsonObject obj {};
 
     if (enableCheckBox->isChecked()){
-//        const auto idx = labeledComboBox->m_comboBox->currentIndex();
-//        obj["ExpectedValue"] = (idx == 0);
+        obj = m_json_obj_state.m_json_obj;
     }
 
     stateToSaver(getKeyName(), obj);

@@ -11,22 +11,20 @@ RIPPresenceSettings::RIPPresenceSettings(StructureSettingsSaver* saver, QWidget*
 {
     setObjectName(getKeyName());
 
-    auto layout = new QVBoxLayout{};
+    auto layout = new QVBoxLayout{this};
 
-    enableCheckBox = new LabeledCheckBox{};
+    enableCheckBox = makeUncheckedCheckBox(getEnableLiteral());
     labeledComboBox = new LabeledComboBox{};
 
     labeledComboBox->m_label->setText("&RIP Presence: ");
     labeledComboBox->m_comboBox->addItem("True");
     labeledComboBox->m_comboBox->addItem("False");
 
-    layout->addLayout(enableCheckBox);
-    layout->addLayout(labeledComboBox);
-
-    setLayout(layout);
+    layout->addWidget(enableCheckBox);
+    layout->addWidget(labeledComboBox);
 
     // checked update
-    QObject::connect(enableCheckBox->m_checkBox, SIGNAL(stateChanged(int)),
+    QObject::connect(enableCheckBox, SIGNAL(stateChanged(int)),
                      this, SLOT(updateToObj()));
 
     QObject::connect(labeledComboBox->m_comboBox, SIGNAL(currentIndexChanged(int)),

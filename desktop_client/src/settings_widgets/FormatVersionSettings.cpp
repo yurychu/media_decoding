@@ -11,9 +11,9 @@ FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWid
 {
     setObjectName(getKeyName());
 
-    auto layout = new QVBoxLayout{};
+    auto layout = new QVBoxLayout{this};
 
-    enableCheckBox = new LabeledCheckBox{};
+    enableCheckBox = makeUncheckedCheckBox(getEnableLiteral());
     labeledComboBox = new LabeledComboBox{};
 
     labeledComboBox->m_label->setText("&Format Version: ");
@@ -21,13 +21,11 @@ FormatVersionSettings::FormatVersionSettings(StructureSettingsSaver* saver, QWid
     labeledComboBox->m_comboBox->addItem("1.2");
     labeledComboBox->m_comboBox->addItem("1.3");
 
-    layout->addLayout(enableCheckBox);
-    layout->addLayout(labeledComboBox);
-
-    setLayout(layout);
+    layout->addWidget(enableCheckBox);
+    layout->addWidget(labeledComboBox);
 
     // checked update
-    QObject::connect(enableCheckBox->m_checkBox, SIGNAL(stateChanged(int)),
+    QObject::connect(enableCheckBox, SIGNAL(stateChanged(int)),
                      this, SLOT(updateToObj()));
 
     QObject::connect(labeledComboBox->m_comboBox, SIGNAL(currentIndexChanged(int)),

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <desktop_client/SaveableJSONWidget.hpp>
-#include <desktop_client/blocks_for_settings/LabeledCheckBox.hpp>
+#include <desktop_client/blocks_for_settings/CheckBox.hpp>
 #include <desktop_client/blocks_for_settings/LabeledWidthHeight.hpp>
 
 
@@ -18,7 +18,7 @@ private slots:
     void updateToObj();
 
 private:
-    LabeledCheckBox* enableCheckBox;
+    QCheckBox* enableCheckBox;
 
     LabeledWidthHeight* storedResolutionWH;
     LabeledWidthHeight* displayResolutionWH;

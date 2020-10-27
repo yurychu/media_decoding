@@ -86,8 +86,8 @@ add_executable(
         src/SaveableJSONWidget.cpp
 
         # blocks for settings
-        include/desktop_client/blocks_for_settings/LabeledCheckBox.hpp
-        src/blocks_for_settings/LabeledCheckBox.cpp
+        include/desktop_client/blocks_for_settings/CheckBox.hpp
+        src/blocks_for_settings/CheckBox.cpp
 
         include/desktop_client/blocks_for_settings/LabeledComboBox.hpp
         src/blocks_for_settings/LabeledComboBox.cpp

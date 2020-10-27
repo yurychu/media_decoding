@@ -13,9 +13,9 @@ ResolutionSettings::ResolutionSettings(StructureSettingsSaver* saver, QWidget* p
 {
     setObjectName(getKeyName());
 
-    auto layout = new QVBoxLayout{};
+    auto layout = new QVBoxLayout{this};
 
-    enableCheckBox = new LabeledCheckBox{};
+    enableCheckBox = makeUncheckedCheckBox(getEnableLiteral());
 
     storedResolutionWH = new LabeledWidthHeight{"Stored Resolution"};
     displayResolutionWH = new LabeledWidthHeight{"Display Resolution"};
@@ -26,15 +26,14 @@ ResolutionSettings::ResolutionSettings(StructureSettingsSaver* saver, QWidget* p
 //    labeledComboBox->m_comboBox->addItem("True");
 //    labeledComboBox->m_comboBox->addItem("False");
 
-    layout->addLayout(enableCheckBox);
-    layout->addLayout(storedResolutionWH);
-    layout->addLayout(displayResolutionWH);
-    layout->addLayout(sampledResolutionWH);
-
-    setLayout(layout);
+    layout->addWidget(enableCheckBox);
+    // todo: back refactor
+//    layout->addWidget(storedResolutionWH);
+//    layout->addWidget(displayResolutionWH);
+//    layout->addWidget(sampledResolutionWH);
 
     // checked update
-    QObject::connect(enableCheckBox->m_checkBox, SIGNAL(stateChanged(int)),
+    QObject::connect(enableCheckBox, SIGNAL(stateChanged(int)),
                      this, SLOT(updateToObj()));
 
 //    QObject::connect(labeledComboBox->m_comboBox, SIGNAL(currentIndexChanged(int)),

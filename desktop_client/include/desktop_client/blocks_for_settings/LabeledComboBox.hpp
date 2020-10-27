@@ -1,11 +1,11 @@
 #pragma once
 
-#include <QLayout>
+#include <QWidget>
 #include <QComboBox>
 #include <QLabel>
 
 
-class LabeledComboBox : public QHBoxLayout
+class LabeledComboBox : public QWidget
 {
 public:
     explicit LabeledComboBox(QWidget* parent=nullptr);

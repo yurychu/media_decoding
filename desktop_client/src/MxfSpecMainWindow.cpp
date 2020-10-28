@@ -2,7 +2,6 @@
 #include <desktop_client/MxfSpecMainWindow.hpp>
 
 #include <QSplitter>
-#include <QTextBrowser>
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QLabel>
@@ -15,7 +14,9 @@
 MxfSpecMainWindow::MxfSpecMainWindow()
     : QMainWindow{},
     settingsBlockWidget{nullptr},
-    selectFilesWidget{nullptr}
+    selectFilesWidget{nullptr},
+    jsonTextBrowser{nullptr},
+    resultTextBrowser{nullptr}
 {
     createMenus();
     createStatusBar();
@@ -42,16 +43,24 @@ void MxfSpecMainWindow::createCentralWidget()
     const auto mainSplitter = new QSplitter {Qt::Horizontal};
     const auto rightSplitter = new QSplitter { Qt::Vertical };
 
-    const auto textBrowser = new QTextBrowser{};
     rightSplitter->addWidget(getSettingsBlockWidget()); // settings block
-    rightSplitter->addWidget(textBrowser);  // results
+
+    const auto browseSplitter = new QSplitter{ Qt::Horizontal };
+
+    jsonTextBrowser = new QTextBrowser{};
+    browseSplitter->addWidget(jsonTextBrowser);  // compiled json from settings block
+
+    resultTextBrowser = new QTextBrowser{};
+    browseSplitter->addWidget(resultTextBrowser);  // result testing browser
+
+    rightSplitter->addWidget(browseSplitter);
 
     mainSplitter->addWidget(getSelectFilesWidget());
     mainSplitter->addWidget(rightSplitter);
     mainSplitter->setStretchFactor(1, 1);
 
     QObject::connect(getSettingsBlockWidget(), SIGNAL(settingsUpdated(const QString&)),
-                     textBrowser, SLOT(setPlainText(const QString&)));
+                     jsonTextBrowser, SLOT(setPlainText(const QString&)));
 
     completeSettingsBlock();
     setCentralWidget(mainSplitter);

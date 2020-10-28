@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QTextBrowser>
 
 #include <desktop_client/SelectFilesWidget.hpp>
 #include <desktop_client/SettingsBlockWidget.hpp>
@@ -22,7 +23,10 @@ private:
     SettingsBlockWidget *getSettingsBlockWidget();
 
 private:
-    SettingsBlockWidget *settingsBlockWidget;
-    SelectFilesWidget *selectFilesWidget;
+    SettingsBlockWidget* settingsBlockWidget;
+    SelectFilesWidget* selectFilesWidget;
+
+    QTextBrowser* jsonTextBrowser;
+    QTextBrowser* resultTextBrowser;
 
 };

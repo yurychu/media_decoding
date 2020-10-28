@@ -5,8 +5,10 @@
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QLabel>
+#include <QString>
 
 #include <iostream>
+#include <sstream>
 
 #include <desktop_client/SettingsBlockWidget.hpp>
 
@@ -65,6 +67,9 @@ void MxfSpecMainWindow::createCentralWidget()
     QObject::connect(getSettingsBlockWidget(), SIGNAL(settingsUpdated(const QString&)),
                      jsonTextBrowser, SLOT(setPlainText(const QString&)));
 
+    QObject::connect(startButton, SIGNAL(clicked()),
+                     this, SLOT(makeCheckFiles()));
+
     completeSettingsBlock();
     setCentralWidget(mainSplitter);
 }
@@ -103,4 +108,16 @@ SettingsBlockWidget *MxfSpecMainWindow::getSettingsBlockWidget()
         settingsBlockWidget = new SettingsBlockWidget {};
         return settingsBlockWidget;
     }
+}
+
+void MxfSpecMainWindow::makeCheckFiles()
+{
+    QStringList files = getSelectFilesWidget()->getAllPaths();
+    if (files.empty()){
+        resultTextBrowser->setText(tr("No selected files for check"));
+    }
+    else {
+        resultTextBrowser->clear();
+    }
+
 }

@@ -23,6 +23,9 @@ private:
     SelectFilesWidget *getSelectFilesWidget();
     SettingsBlockWidget *getSettingsBlockWidget();
 
+private slots:
+    void makeCheckFiles();
+
 private:
     SettingsBlockWidget* settingsBlockWidget;
     SelectFilesWidget* selectFilesWidget;

@@ -17,6 +17,7 @@ SettingsBlockWidget::SettingsBlockWidget(QWidget * parent)
 
     QObject::connect(saver, SIGNAL(jsonObjNewState(const QString&)),
                      this, SIGNAL(settingsUpdated(const QString&)));
+
 }
 
 
@@ -41,6 +42,7 @@ std::vector<QWidget *> SettingsBlockWidget::getAllSettingsTiles() const
     result.emplace_back( new RIPPresenceSettings {saver} );
     result.emplace_back( new ResolutionSettings {saver} );
     result.emplace_back( new VideoLineMapSettings {saver} );
+    result.emplace_back( new IndexTableValuesSettings { saver } );
 
     return result;
 }

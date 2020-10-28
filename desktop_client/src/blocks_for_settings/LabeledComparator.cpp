@@ -33,7 +33,7 @@ LabeledComparator::LabeledComparator(const QString &labelName, QWidget *parent)
                      this, SIGNAL(somethingChanged()));
 
     QObject::connect(m_comboBox, SIGNAL(currentIndexChanged(int)),
-                     this, SLOT(somethingChanged()));
+                     this, SIGNAL(somethingChanged()));
 
     QObject::connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
                      this, SIGNAL(somethingChanged()));
@@ -82,5 +82,8 @@ QString LabeledComparator::keyName() const
 
 void LabeledComparator::injectToObj(QJsonObject &obj) const
 {
-    obj[keyName()] = stateToJson();
+    const auto state_json = stateToJson();
+    if (!state_json.empty()){
+        obj[keyName()] = state_json;
+    }
 }

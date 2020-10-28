@@ -98,7 +98,7 @@ add_executable(
         include/desktop_client/blocks_for_settings/LabeledIntEditLine.hpp
         src/blocks_for_settings/LabeledIntEditLine.cpp
 
-        include/desktop_client/blocks_for_settings/LabeledComboBox.hpp
+        include/desktop_client/blocks_for_settings/LabeledComparator.hpp
         src/blocks_for_settings/LabeledComparator.cpp
 
         # settings widgets
@@ -113,6 +113,9 @@ add_executable(
 
         include/desktop_client/settings_widgets/VideoLineMapSettings.hpp
         src/settings_widgets/VideoLineMapSettings.cpp
+
+        include/desktop_client/settings_widgets/IndexTableValuesSettings.hpp
+        src/settings_widgets/IndexTableValuesSettings.cpp
 
 )
 

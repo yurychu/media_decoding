@@ -49,6 +49,7 @@ QString LabeledWidthHeight::keyName() const {
     return m_checkBox->text();
 }
 
+
 void LabeledWidthHeight::injectToObj(QJsonObject &obj) const
 {
     const auto state_json = stateToJson();

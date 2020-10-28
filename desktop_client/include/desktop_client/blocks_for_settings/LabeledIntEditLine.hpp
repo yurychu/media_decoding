@@ -6,8 +6,6 @@
 #include <QString>
 #include <QJsonObject>
 
-#include <desktop_client/blocks_for_settings/JSONObjState.hpp>
-
 
 class LabeledIntEditLine : public QWidget
 {

@@ -55,6 +55,9 @@ void MxfSpecMainWindow::createCentralWidget()
 
     rightSplitter->addWidget(browseSplitter);
 
+    startButton = new QPushButton("Start!");
+    rightSplitter->addWidget(startButton);
+
     mainSplitter->addWidget(getSelectFilesWidget());
     mainSplitter->addWidget(rightSplitter);
     mainSplitter->setStretchFactor(1, 1);

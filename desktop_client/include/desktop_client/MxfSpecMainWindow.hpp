@@ -2,6 +2,7 @@
 
 #include <QMainWindow>
 #include <QTextBrowser>
+#include <QPushButton>
 
 #include <desktop_client/SelectFilesWidget.hpp>
 #include <desktop_client/SettingsBlockWidget.hpp>
@@ -28,5 +29,7 @@ private:
 
     QTextBrowser* jsonTextBrowser;
     QTextBrowser* resultTextBrowser;
+
+    QPushButton* startButton;
 
 };

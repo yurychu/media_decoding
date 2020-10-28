@@ -40,6 +40,7 @@ std::vector<QWidget *> SettingsBlockWidget::getAllSettingsTiles() const
     result.emplace_back( new FormatVersionSettings {saver} );
     result.emplace_back( new RIPPresenceSettings {saver} );
     result.emplace_back( new ResolutionSettings {saver} );
+    result.emplace_back( new VideoLineMapSettings {saver} );
 
     return result;
 }

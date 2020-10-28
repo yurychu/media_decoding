@@ -61,6 +61,7 @@ QJsonObject ResolutionSettings::stateToJson() const
     return obj;
 }
 
+
 void ResolutionSettings::updateStateToSaver()
 {
     const auto json_obj = stateToJson();

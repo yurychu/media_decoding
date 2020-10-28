@@ -108,6 +108,9 @@ add_executable(
         include/desktop_client/settings_widgets/ResolutionSettings.hpp
         src/settings_widgets/ResolutionSettings.cpp
 
+        include/desktop_client/settings_widgets/VideoLineMapSettings.hpp
+        src/settings_widgets/VideoLineMapSettings.cpp
+
 )
 
 target_include_directories(

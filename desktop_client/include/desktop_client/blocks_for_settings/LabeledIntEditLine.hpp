@@ -34,7 +34,6 @@ public:
 signals:
     void somethingChanged();
 
-
 public:
     QLabel * m_label;
     QLineEdit * m_lineEdit;

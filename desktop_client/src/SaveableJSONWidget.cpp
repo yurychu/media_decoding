@@ -7,15 +7,13 @@
  *
  */
 SaveableJSONWidget::SaveableJSONWidget(StructureSettingsSaver* saver, QWidget* parent)
-        : QWidget{parent}
+        : QWidget{parent},
+        m_saver{saver}
 {
-    // to saver obj
-    QObject::connect(this, SIGNAL(jsonObjectDone(const QString &, const QJsonObject&)),
-                     saver, SLOT(onSettingsChanged(const QString &, const QJsonObject&)));
 
 }
 
 void SaveableJSONWidget::stateToSaver(const QString &keyStr, const QJsonObject &obj)
 {
-    emit jsonObjectDone(keyStr, obj);
+    m_saver->onSettingsChanged(keyStr, obj);
 }

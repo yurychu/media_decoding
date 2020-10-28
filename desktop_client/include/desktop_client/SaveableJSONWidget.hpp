@@ -15,7 +15,7 @@ public:
 protected:
     void stateToSaver(const QString &keyStr, const QJsonObject& obj);
 
-signals:
-    void jsonObjectDone(const QString &keyStr, const QJsonObject& obj);
+private:
+    StructureSettingsSaver* m_saver;
 
 };

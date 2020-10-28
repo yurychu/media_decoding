@@ -8,8 +8,10 @@
 
 ResolutionSettings::ResolutionSettings(StructureSettingsSaver* saver, QWidget* parent)
         : SaveableJSONWidget{saver, parent},
-        m_json_obj_state{getKeyName()},
-        enableCheckBox{nullptr}
+        enableCheckBox{nullptr},
+        storedResolutionWH{nullptr},
+        displayResolutionWH{nullptr},
+        sampledResolutionWH{nullptr}
 {
     setObjectName(getKeyName());
 
@@ -20,29 +22,24 @@ ResolutionSettings::ResolutionSettings(StructureSettingsSaver* saver, QWidget* p
 
     std::vector<LabeledWidthHeight*> elems;
 
-    const auto storedResolutionWH = new LabeledWidthHeight{"Stored Resolution"};
+    storedResolutionWH = new LabeledWidthHeight{"Stored Resolution"};
     elems.emplace_back(storedResolutionWH);
 
-    const auto displayResolutionWH = new LabeledWidthHeight{"Display Resolution"};
+    displayResolutionWH = new LabeledWidthHeight{"Display Resolution"};
     elems.emplace_back(displayResolutionWH);
 
-    const auto sampledResolutionWH = new LabeledWidthHeight{"Sampled Resolution"};
+    sampledResolutionWH = new LabeledWidthHeight{"Sampled Resolution"};
     elems.emplace_back(sampledResolutionWH);
 
     for (const auto elem : elems){
         layout->addWidget(elem);
-        QObject::connect(&elem->m_json_obj_state, SIGNAL(jsonObjUpdated(const QString&, const QJsonObject&)),
-                         &m_json_obj_state, SLOT(updateObjOnKey(const QString&, const QJsonObject&)));
+        QObject::connect(elem, SIGNAL(somethingChanged()),
+                         this, SLOT(updateStateToSaver()));
     }
-
-    // checked update
     QObject::connect(enableCheckBox, SIGNAL(stateChanged(int)),
-                     this, SLOT(updateOnEnabled()));
+                     this, SLOT(updateStateToSaver()));
 
-    QObject::connect(&m_json_obj_state, SIGNAL(jsonObjUpdated(const QString&, const QJsonObject&)),
-                     this, SLOT(updateOnEnabled()));
-
-    updateOnEnabled();
+    updateStateToSaver();
 }
 
 
@@ -53,13 +50,19 @@ const QString & ResolutionSettings::getKeyName()
 }
 
 
-void ResolutionSettings::updateOnEnabled()
+QJsonObject ResolutionSettings::stateToJson() const
 {
     QJsonObject obj {};
-
     if (enableCheckBox->isChecked()){
-        obj = m_json_obj_state.m_json_obj;
+        storedResolutionWH->injectToObj(obj);
+        displayResolutionWH->injectToObj(obj);
+        sampledResolutionWH->injectToObj(obj);
     }
+    return obj;
+}
 
-    stateToSaver(getKeyName(), obj);
+void ResolutionSettings::updateStateToSaver()
+{
+    const auto json_obj = stateToJson();
+    stateToSaver(getKeyName(), json_obj);
 }

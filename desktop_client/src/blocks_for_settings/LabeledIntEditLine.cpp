@@ -10,7 +10,6 @@
 LabeledIntEditLine::LabeledIntEditLine(const QString& labelText,
                                        QWidget *parent)
     : QWidget{parent},
-    m_json_obj_state{labelText},
     m_label{nullptr},
     m_lineEdit{nullptr}
 {
@@ -23,16 +22,18 @@ LabeledIntEditLine::LabeledIntEditLine(const QString& labelText,
     auto regExpValidator = new QRegExpValidator{regExp, this};
     m_lineEdit = new QLineEdit{};
     m_lineEdit->setValidator(regExpValidator);
+    m_lineEdit->setText("0");
     layout->addWidget(m_lineEdit);
 
-    QObject::connect(m_lineEdit, SIGNAL(textChanged(const QString&)),
-                     this, SLOT(updateToObj()));
+    QObject::connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
+                     this, SIGNAL(somethingChanged()));
 
-    updateToObj();
 }
 
-
-void LabeledIntEditLine::updateToObj()
+/*
+ * only { "ExpectedValue": 0 }
+ */
+QJsonObject LabeledIntEditLine::stateToJson() const
 {
     QJsonObject obj {};
     int res = 0;
@@ -41,5 +42,18 @@ void LabeledIntEditLine::updateToObj()
         res = text_line.toInt();
     }
     obj["ExpectedValue"] = res;
-    m_json_obj_state.updateObjState(obj);
+    return obj;
+}
+
+/*
+ * key name of json object
+ */
+QString LabeledIntEditLine::keyName() const
+{
+    return m_label->text();
+}
+
+void LabeledIntEditLine::injectToObj(QJsonObject &obj) const
+{
+    obj[keyName()] = stateToJson();
 }

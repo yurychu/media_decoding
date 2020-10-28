@@ -8,7 +8,6 @@
 
 LabeledWidthHeight::LabeledWidthHeight(const QString& labelName, QWidget *parent)
     : QWidget{parent},
-    m_json_obj_state{labelName},
     m_checkBox{nullptr},
     m_width{nullptr},
     m_height{nullptr}
@@ -23,25 +22,38 @@ LabeledWidthHeight::LabeledWidthHeight(const QString& labelName, QWidget *parent
     layout->addWidget(m_width);
     layout->addWidget(m_height);
 
-    QObject::connect(&m_width->m_json_obj_state, SIGNAL(jsonObjUpdated(const QString &, const QJsonObject &)),
-                     &m_json_obj_state, SLOT(updateObjOnKey(const QString&, const QJsonObject&)));
-
-    QObject::connect(&m_height->m_json_obj_state, SIGNAL(jsonObjUpdated(const QString &, const QJsonObject &)),
-                     &m_json_obj_state, SLOT(updateObjOnKey(const QString&, const QJsonObject&)));
-
-    m_width->updateToObj();
-    m_height->updateToObj();
-
     QObject::connect(m_checkBox, SIGNAL(stateChanged(int)),
-                     this, SLOT(checkEnabled()));
+                     this, SIGNAL(somethingChanged()));
 
-    checkEnabled();
+    QObject::connect(m_width, SIGNAL(somethingChanged()),
+                     this, SIGNAL(somethingChanged()));
+
+    QObject::connect(m_height, SIGNAL(somethingChanged()),
+                     this, SIGNAL(somethingChanged()));
+
 }
 
 
-void LabeledWidthHeight::checkEnabled()
+QJsonObject LabeledWidthHeight::stateToJson() const
 {
-    if (!m_checkBox->isChecked()){
-        m_json_obj_state.callUpdatedForward({});
+    QJsonObject obj {};
+    if (m_checkBox->isChecked()){
+        m_width->injectToObj(obj);
+        m_height->injectToObj(obj);
+    }
+    return obj;
+}
+
+
+QString LabeledWidthHeight::keyName() const {
+    return m_checkBox->text();
+}
+
+void LabeledWidthHeight::injectToObj(QJsonObject &obj) const
+{
+    const auto state_json = stateToJson();
+    if (!state_json.empty()){
+        obj[keyName()] = state_json;
     }
 }
+

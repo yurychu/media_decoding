@@ -1,9 +1,10 @@
 #pragma once
 
+#include <QJsonObject>
+
 #include <desktop_client/SaveableJSONWidget.hpp>
 #include <desktop_client/blocks_for_settings/CheckBox.hpp>
 #include <desktop_client/blocks_for_settings/LabeledWidthHeight.hpp>
-#include <desktop_client/blocks_for_settings/JSONObjState.hpp>
 
 
 class ResolutionSettings : public SaveableJSONWidget
@@ -15,11 +16,17 @@ public:
 
     static const QString& getKeyName();
 
+public:
+    QJsonObject stateToJson() const;
+
 private slots:
-    void updateOnEnabled();
+    void updateStateToSaver();
 
 private:
     QCheckBox* enableCheckBox;
 
-    JSONObjState m_json_obj_state;
+    LabeledWidthHeight* storedResolutionWH;
+    LabeledWidthHeight* displayResolutionWH;
+    LabeledWidthHeight* sampledResolutionWH;
+
 };

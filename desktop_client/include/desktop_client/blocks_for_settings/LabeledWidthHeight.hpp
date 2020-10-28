@@ -2,9 +2,9 @@
 
 #include <QCheckBox>
 #include <QString>
+#include <QJsonObject>
 
 #include <desktop_client/blocks_for_settings/LabeledIntEditLine.hpp>
-#include <desktop_client/blocks_for_settings/JSONObjState.hpp>
 
 
 class LabeledWidthHeight : public QWidget
@@ -14,17 +14,17 @@ public:
     explicit LabeledWidthHeight(const QString &labelName, QWidget* parent=nullptr);
     ~LabeledWidthHeight() override = default;
 
-private slots:
-    void checkEnabled();
+public:
+    QJsonObject stateToJson() const;
+    QString keyName() const;
+    void injectToObj(QJsonObject &obj) const;
 
 signals:
-    void disabled();
+    void somethingChanged();
 
 public:
     QCheckBox* m_checkBox;
     LabeledIntEditLine *m_width;
     LabeledIntEditLine *m_height;
-
-    JSONObjState m_json_obj_state;
 
 };

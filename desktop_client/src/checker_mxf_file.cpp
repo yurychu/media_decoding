@@ -300,9 +300,89 @@ void check_rip_resence(mxf_info::MxfInfo &mxf_info, std::stringstream &ss, const
 
 }
 
-
+/*
+"Resolution": {
+        "Stored Resolution": {
+            "H": {
+                "ExpectedValue": 0
+            },
+            "W": {
+                "ExpectedValue": 0
+            }
+        }
+    }
+ */
 void check_resolution(mxf_info::MxfInfo &mxf_info, std::stringstream &ss, const QJsonObject &obj)
 {
+    const auto actual_big_struct = mxf_info.getResolution();
+
+    if (obj.contains("Stored Resolution")){
+        const auto actual_stored_h = actual_big_struct.stored_resolution().m_h;
+        const auto actual_stored_w = actual_big_struct.stored_resolution().m_w;
+        const auto expected_stored_h = obj["Stored Resolution"]["H"]["ExpectedValue"].toInt();
+        const auto expected_stored_w = obj["Stored Resolution"]["W"]["ExpectedValue"].toInt();
+        ss << "Stored Resolution" << std::endl;
+
+        const auto is_equal = (
+                actual_stored_h == expected_stored_h
+                &&
+                actual_stored_w == expected_stored_w);
+        if (is_equal){
+            ss << "SUCCESS" << std::endl;
+            ss << "Actual: W:" << actual_stored_w << " H: " << actual_stored_h <<
+            " equal Expected: W:" << expected_stored_w << " H: " << expected_stored_h << std::endl;
+        }
+        else {
+            ss << "FAILED" << std::endl;
+            ss << "Actual: W:" << actual_stored_w << " H: " << actual_stored_h <<
+               " not equal Expected: W:" << expected_stored_w << " H: " << expected_stored_h << std::endl;
+        }
+
+    }
+    if (obj.contains("Display Resolution")){
+        const auto actual_display_h = actual_big_struct.display_resolution().m_h;
+        const auto actual_display_w = actual_big_struct.display_resolution().m_w;
+        const auto expected_display_h = obj["Display Resolution"]["H"]["ExpectedValue"].toInt();
+        const auto expected_display_w = obj["Display Resolution"]["W"]["ExpectedValue"].toInt();
+        ss << "Display Resolution" << std::endl;
+
+        const auto is_equal = (
+                actual_display_h == expected_display_h
+                &&
+                actual_display_w == expected_display_w);
+        if (is_equal){
+            ss << "SUCCESS" << std::endl;
+            ss << "Actual: W:" << actual_display_w << " H: " << actual_display_h <<
+               " equal Expected: W:" << expected_display_w << " H: " << expected_display_h << std::endl;
+        }
+        else {
+            ss << "FAILED" << std::endl;
+            ss << "Actual: W:" << actual_display_w << " H: " << actual_display_h <<
+               " not equal Expected: W:" << expected_display_w << " H: " << expected_display_h << std::endl;
+        }
+    }
+    if (obj.contains("Sampled Resolution")){
+        const auto actual_sampled_h = actual_big_struct.sampled_resolution().m_h;
+        const auto actual_sampled_w = actual_big_struct.sampled_resolution().m_w;
+        const auto expected_sampled_h = obj["Sampled Resolution"]["H"]["ExpectedValue"].toInt();
+        const auto expected_sampled_w = obj["Sampled Resolution"]["W"]["ExpectedValue"].toInt();
+        ss << "Sampled Resolution" << std::endl;
+
+        const auto is_equal = (
+                actual_sampled_h == expected_sampled_h
+                &&
+                actual_sampled_w == expected_sampled_w);
+        if (is_equal){
+            ss << "SUCCESS" << std::endl;
+            ss << "Actual: W:" << actual_sampled_w << " H: " << actual_sampled_h <<
+               " equal Expected: W:" << expected_sampled_w << " H: " << expected_sampled_h << std::endl;
+        }
+        else {
+            ss << "FAILED" << std::endl;
+            ss << "Actual: W:" << actual_sampled_w << " H: " << actual_sampled_h <<
+               " not equal Expected: W:" << expected_sampled_w << " H: " << expected_sampled_h << std::endl;
+        }
+    }
 
 }
 

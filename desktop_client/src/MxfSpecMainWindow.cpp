@@ -11,6 +11,7 @@
 #include <sstream>
 
 #include <desktop_client/SettingsBlockWidget.hpp>
+#include <desktop_client/checker_mxf_file.hpp>
 
 
 MxfSpecMainWindow::MxfSpecMainWindow()
@@ -118,6 +119,14 @@ void MxfSpecMainWindow::makeCheckFiles()
     }
     else {
         resultTextBrowser->clear();
+        for (const auto &file_name : files){
+            std::stringstream ss {};
+            ss << "Checking: " << file_name.toStdString() << std::endl;
+            const auto json_obj_settings = settingsBlockWidget->getJsonObjectStateSettings();
+            check_file_with_out(ss, file_name, json_obj_settings);
+            ss << std::endl;
+            resultTextBrowser->insertPlainText(QString::fromStdString(ss.str()));
+        }
     }
 
 }

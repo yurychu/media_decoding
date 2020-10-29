@@ -11,6 +11,8 @@ public:
     explicit StructureSettingsSaver(QObject* parent = nullptr);
     ~StructureSettingsSaver() override = default;
 
+    const QJsonObject& getJsonObj() const;
+
 public slots:
     void onSettingsChanged(const QString &keyStr,
                            const QJsonObject& obj);

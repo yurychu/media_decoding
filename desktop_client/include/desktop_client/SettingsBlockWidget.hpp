@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QWidget>
+#include <QJsonObject>
 
 #include <vector>
 
@@ -17,6 +18,8 @@ public:
     void addSettingsTile(QWidget * widget, QString boxName);
 
     std::vector<QWidget*> getAllSettingsTiles() const;
+
+    QJsonObject getJsonObjectStateSettings() const;
 
 signals:
     void settingsUpdated(const QString& str);

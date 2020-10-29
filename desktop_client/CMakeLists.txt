@@ -149,14 +149,59 @@ find_package(MXF_SPEC REQUIRED)
 add_executable(
         mxf_parameters
         src/mxf_main.cpp
-        include/desktop_client/MxfSpecificParameters.hpp
-        src/MxfSpecificParameters.cpp
-
-        include/desktop_client/CompareRulesWidget.hpp
-        src/CompareRulesWidget.cpp
 
         include/desktop_client/SelectFilesWidget.hpp
         src/SelectFilesWidget.cpp
+
+        include/desktop_client/MxfSpecMainWindow.hpp
+        src/MxfSpecMainWindow.cpp
+
+        include/desktop_client/SettingsBlockWidget.hpp
+        src/SettingsBlockWidget.cpp
+
+        include/desktop_client/AllSettingsMxfParametersWidgets.hpp
+
+        include/desktop_client/StructureSettingsSaver.hpp
+        src/StructureSettingsSaver.cpp
+
+        include/desktop_client/SaveableJSONWidget.hpp
+        src/SaveableJSONWidget.cpp
+
+        # blocks for settings
+        include/desktop_client/blocks_for_settings/CheckBox.hpp
+        src/blocks_for_settings/CheckBox.cpp
+
+        include/desktop_client/blocks_for_settings/LabeledComboBox.hpp
+        src/blocks_for_settings/LabeledComboBox.cpp
+
+        include/desktop_client/blocks_for_settings/LabeledWidthHeight.hpp
+        src/blocks_for_settings/LabeledWidthHeight.cpp
+
+        include/desktop_client/blocks_for_settings/LabeledIntEditLine.hpp
+        src/blocks_for_settings/LabeledIntEditLine.cpp
+
+        include/desktop_client/blocks_for_settings/LabeledComparator.hpp
+        src/blocks_for_settings/LabeledComparator.cpp
+
+        # settings widgets
+        include/desktop_client/settings_widgets/FormatVersionSettings.hpp
+        src/settings_widgets/FormatVersionSettings.cpp
+
+        include/desktop_client/settings_widgets/RIPPresenceSettings.hpp
+        src/settings_widgets/RIPPresenceSettings.cpp
+
+        include/desktop_client/settings_widgets/ResolutionSettings.hpp
+        src/settings_widgets/ResolutionSettings.cpp
+
+        include/desktop_client/settings_widgets/VideoLineMapSettings.hpp
+        src/settings_widgets/VideoLineMapSettings.cpp
+
+        include/desktop_client/settings_widgets/IndexTableValuesSettings.hpp
+        src/settings_widgets/IndexTableValuesSettings.cpp
+
+        # checker
+        include/desktop_client/checker_mxf_file.hpp
+        src/checker_mxf_file.cpp
 
 )
 

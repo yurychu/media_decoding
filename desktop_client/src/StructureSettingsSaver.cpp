@@ -26,3 +26,8 @@ void StructureSettingsSaver::onSettingsChanged(const QString &keyStr, const QJso
 
     emit jsonObjNewState(json_str);
 }
+
+const QJsonObject &StructureSettingsSaver::getJsonObj() const
+{
+    return m_json_obj;
+}

@@ -1,15 +1,11 @@
 #include <QApplication>
 
-#include <desktop_client/MxfSpecificParameters.hpp>
+#include <desktop_client/MxfSpecMainWindow.hpp>
 
-
-int main(int argc, char * argv[])
+int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-
-    MxfSpecificParameters parameters;
-    parameters.show();
-
+    MxfSpecMainWindow mainWindow {};
+    mainWindow.show();
     return app.exec();
-
 }

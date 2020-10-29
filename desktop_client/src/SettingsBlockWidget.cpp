@@ -46,3 +46,9 @@ std::vector<QWidget *> SettingsBlockWidget::getAllSettingsTiles() const
 
     return result;
 }
+
+
+QJsonObject SettingsBlockWidget::getJsonObjectStateSettings() const
+{
+    return saver->getJsonObj();
+}

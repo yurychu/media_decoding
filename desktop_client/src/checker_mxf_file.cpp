@@ -386,10 +386,40 @@ void check_resolution(mxf_info::MxfInfo &mxf_info, std::stringstream &ss, const 
 
 }
 
-
+/*
+    "VideoLineMap": {
+        "Field1": {
+            "ExpectedValue": 0
+        },
+        "Field2": {
+            "ExpectedValue": 0
+        }
+    }
+ */
 void check_video_line_map(mxf_info::MxfInfo &mxf_info, std::stringstream &ss, const QJsonObject &obj)
 {
+    const auto actual_big_struct = mxf_info.getVideoLineMap();
+    const auto actual_field1 = actual_big_struct.field1();
+    const auto actual_field2 = actual_big_struct.field2();
 
+    const auto expected_field1 = obj["Field1"]["ExpectedValue"].toInt();
+    const auto expected_field2 = obj["Field2"]["ExpectedValue"].toInt();
+
+    const auto is_equal = (
+            actual_field1 == expected_field1
+            &&
+            actual_field2 == expected_field2
+            );
+    if (is_equal){
+        ss << "SUCCESS" << std::endl;
+        ss << "Actual: Field_1: " << actual_field1 << ", Field_2: " << actual_field2 <<
+           " equal Expected Field_1: " << expected_field1 << ", Field_2: " << expected_field2 << std::endl;
+    }
+    else {
+        ss << "FAILED" << std::endl;
+        ss << "Actual: Field_1: " << actual_field1 << ", Field_2: " << actual_field2 <<
+           " not equal Expected Field_1: " << expected_field1 << ", Field_2: " << expected_field2 << std::endl;
+    }
 }
 
 

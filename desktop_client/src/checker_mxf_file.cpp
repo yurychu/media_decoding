@@ -124,6 +124,33 @@ public:
 
     bool empty() const { return m_opCompare == OpsCompare::None; }
 
+    bool compare(int64_t left, int64_t right) const
+    {
+        switch (m_opCompare) {
+            case (OpsCompare::Equal):{
+                return left == right;
+            }
+            case (OpsCompare::NotEqual):{
+                return left != right;
+            }
+            case (OpsCompare::Greater):{
+                return left > right;
+            }
+            case (OpsCompare::Less):{
+                return left < right;
+            }
+            case (OpsCompare::GreaterOrEqual):{
+                return left >= right;
+            }
+            case (OpsCompare::LessOrEqual):{
+                return left <= right;
+            }
+            default:{
+                return false;
+            }
+        }
+    }
+
     std::string str() const {
         thread_local static std::map<OpsCompare, std::string> dict {
                 {OpsCompare::None, "None"},
@@ -180,19 +207,77 @@ void check_index_table_values(mxf_info::MxfInfo &mxf_info, std::stringstream &ss
     const auto actual_big_struct = mxf_info.getIndexTableValues();
     if (obj.contains("Duration")){
         const auto op_comp = obj["Duration"]["CompareRules"]["ComparatorMain"]["Operator"].toString().toStdString();
+        const auto expected_dur = obj["Duration"]["CompareRules"]["ComparatorMain"]["Value"].toInt();
         const auto comparator = Comparator::from_string(op_comp);
-        ss << "Comparator: " << comparator.str() << std::endl;
+        ss << "Duration" << std::endl;
+        const auto actual_dur = actual_big_struct.m_duration;
+        const auto is_equal = comparator.compare(actual_dur, expected_dur);
+        if (is_equal){
+            ss << "SUCCESS" << std::endl;
+            ss << "Actual: " << actual_dur << " ["
+               << comparator.str() << "] Expected: " << expected_dur << std::endl;
+        }
+        else {
+            ss << "FAILED" << std::endl;
+            ss << "Actual: " << actual_dur << " not rule: ["
+               << comparator.str() << "] Expected: " << expected_dur << std::endl;
+        }
+
     }
     if (obj.contains("Edit Unit Byte Count")){
-
+        const auto op_comp = obj["Edit Unit Byte Count"]["CompareRules"]["ComparatorMain"]["Operator"].toString().toStdString();
+        const auto expected_edit_unit_byte = obj["Edit Unit Byte Count"]["CompareRules"]["ComparatorMain"]["Value"].toInt();
+        const auto comparator = Comparator::from_string(op_comp);
+        ss << "Edit Unit Byte Count" << std::endl;
+        const auto actual_edit_unit_byte = actual_big_struct.m_edit_unit_byte_count;
+        const auto is_equal = comparator.compare(actual_edit_unit_byte, expected_edit_unit_byte);
+        if (is_equal){
+            ss << "SUCCESS" << std::endl;
+            ss << "Actual: " << actual_edit_unit_byte << " ["
+               << comparator.str() << "] Expected: " << expected_edit_unit_byte << std::endl;
+        }
+        else {
+            ss << "FAILED" << std::endl;
+            ss << "Actual: " << actual_edit_unit_byte << " not rule: ["
+               << comparator.str() << "] Expected: " << expected_edit_unit_byte << std::endl;
+        }
     }
     if (obj.contains("Position Table Count")){
-
+        const auto op_comp = obj["Position Table Count"]["CompareRules"]["ComparatorMain"]["Operator"].toString().toStdString();
+        const auto expected_position_table_count = obj["Position Table Count"]["CompareRules"]["ComparatorMain"]["Value"].toInt();
+        const auto comparator = Comparator::from_string(op_comp);
+        ss << "Position Table Count" << std::endl;
+        const auto actual_position_table_count = actual_big_struct.m_position_table_count;
+        const auto is_equal = comparator.compare(actual_position_table_count, expected_position_table_count);
+        if (is_equal){
+            ss << "SUCCESS" << std::endl;
+            ss << "Actual: " << actual_position_table_count << " ["
+               << comparator.str() << "] Expected: " << expected_position_table_count << std::endl;
+        }
+        else {
+            ss << "FAILED" << std::endl;
+            ss << "Actual: " << actual_position_table_count << " not rule: ["
+               << comparator.str() << "] Expected: " << expected_position_table_count << std::endl;
+        }
     }
     if (obj.contains("Slice count")){
-
+        const auto op_comp = obj["Slice count"]["CompareRules"]["ComparatorMain"]["Operator"].toString().toStdString();
+        const auto expected_slice_count = obj["Slice count"]["CompareRules"]["ComparatorMain"]["Value"].toInt();
+        const auto comparator = Comparator::from_string(op_comp);
+        ss << "Slice count" << std::endl;
+        const auto actual_slice_count = actual_big_struct.m_slice_count;
+        const auto is_equal = comparator.compare(actual_slice_count, expected_slice_count);
+        if (is_equal){
+            ss << "SUCCESS" << std::endl;
+            ss << "Actual: " << actual_slice_count << " ["
+               << comparator.str() << "] Expected: " << expected_slice_count << std::endl;
+        }
+        else {
+            ss << "FAILED" << std::endl;
+            ss << "Actual: " << actual_slice_count << " not rule: ["
+               << comparator.str() << "] Expected: " << expected_slice_count << std::endl;
+        }
     }
-
 
 }
 

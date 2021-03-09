@@ -137,6 +137,7 @@ target_link_libraries(
 
 # mxf parameters
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/desktop_client/cmake/Modules/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 find_package(uriparser 0.9.4 CONFIG REQUIRED char wchar_t)
 find_package(MXF_C REQUIRED)

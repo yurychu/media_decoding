@@ -3,10 +3,13 @@ project(media_decoding_proj)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_subdirectory(master_server)
-add_subdirectory(desktop_client)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+#add_subdirectory(master_server)
+#add_subdirectory(desktop_client)
+add_subdirectory(media_explore)
+
+
 
 #message(STATUS "Bin dir: ${CMAKE_CURRENT_BINARY_DIR}")
 #set(CMAKE_LIBRARY_ARCHITECTURE ON)

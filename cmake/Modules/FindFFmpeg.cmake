@@ -1,251 +1,155 @@
-find_package(PkgConfig)
+
+# vim: ts=2 sw=2
+# - Try to find the required ffmpeg components(default: AVFORMAT, AVUTIL, AVCODEC)
+#
+# Once done this will define
+#  FFMPEG_FOUND         - System has the all required components.
+#  FFMPEG_INCLUDE_DIRS  - Include directory necessary for using the required components headers.
+#  FFMPEG_LIBRARIES     - Link these to use the required ffmpeg components.
+#  FFMPEG_DEFINITIONS   - Compiler switches required for using the required ffmpeg components.
+#
+# For each of the components it will additionally set.
+#   - AVCODEC
+#   - AVDEVICE
+#   - AVFORMAT
+#   - AVFILTER
+#   - AVUTIL
+#   - POSTPROC
+#   - SWSCALE
+# the following variables will be defined
+#  <component>_FOUND        - System has <component>
+#  <component>_INCLUDE_DIRS - Include directory necessary for using the <component> headers
+#  <component>_LIBRARIES    - Link these to use <component>
+#  <component>_DEFINITIONS  - Compiler switches required for using <component>
+#  <component>_VERSION      - The components version
+#
+# Copyright (c) 2006, Matthias Kretz, <kretz@kde.org>
+# Copyright (c) 2008, Alexander Neundorf, <neundorf@kde.org>
+# Copyright (c) 2011, Michael Jansen, <kde@michael-jansen.biz>
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+
 include(FindPackageHandleStandardArgs)
 
-set(FFMPEG_HOME $ENV{FFMPEG_HOME})
+# The default components were taken from a survey over other FindFFMPEG.cmake files
+if (NOT FFmpeg_FIND_COMPONENTS)
+    set(FFmpeg_FIND_COMPONENTS AVCODEC AVFORMAT AVUTIL)
+endif ()
 
-# libavcodec
-pkg_check_modules(PC_libavcodec QUIET libavcodec)
+#
+### Macro: set_component_found
+#
+# Marks the given component as found if both *_LIBRARIES AND *_INCLUDE_DIRS is present.
+#
+macro(set_component_found _component )
+    if (${_component}_LIBRARIES AND ${_component}_INCLUDE_DIRS)
+        # message(STATUS "  - ${_component} found.")
+        set(${_component}_FOUND TRUE)
+    else ()
+        # message(STATUS "  - ${_component} not found.")
+    endif ()
+endmacro()
 
-find_path(libavcodec_INCLUDE_DIR
-        NAMES libavcodec/avcodec.h
-        PATHS ${PC_libavcodec_INCLUDE_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES include
-)
+#
+### Macro: find_component
+#
+# Checks for the given component by invoking pkgconfig and then looking up the libraries and
+# include directories.
+#
+macro(find_component _component _pkgconfig _library _header)
 
-find_library(libavcodec_LIBRARY
-        NAMES avcodec
-        PATHS ${PC_libavcodec_LIBRARY_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES lib
-)
+    if (NOT WIN32)
+        # use pkg-config to get the directories and then use these values
+        # in the FIND_PATH() and FIND_LIBRARY() calls
+        find_package(PkgConfig)
+        if (PKG_CONFIG_FOUND)
+            pkg_check_modules(PC_${_component} ${_pkgconfig})
+        endif ()
+    endif (NOT WIN32)
 
-find_package_handle_standard_args(libavcodec
-        FOUND_VAR libavcodec_FOUND
-        REQUIRED_VARS
-        libavcodec_LIBRARY
-        libavcodec_INCLUDE_DIR
-        VERSION_VAR libavcodec_VERSION
-)
-
-if (libavcodec_FOUND AND NOT TARGET FFmpeg::libavcodec)
-    add_library(FFmpeg::libavcodec UNKNOWN IMPORTED)
-    set_target_properties(FFmpeg::libavcodec PROPERTIES
-            IMPORTED_LOCATION "${libavcodec_LIBRARY}"
-            INTERFACE_COMPILE_OPTIONS "${PC_libavcodec_CFLAGS_OTHER}"
-            INTERFACE_INCLUDE_DIRECTORIES "${libavcodec_INCLUDE_DIR}"
-    )
-endif()
-
-mark_as_advanced(
-        libavcodec_INCLUDE_DIR
-        libavcodec_LIBRARY
-)
-
-set(libavcodec_VERSION_STRING ${libavcodec_VERSION})
-
-
-# libavdevice
-pkg_check_modules(PC_libavdevice QUIET libavdevice)
-
-
-
-# libavfilter
-pkg_check_modules(PC_libavfilter QUIET libavfilter)
-
-find_path(libavfilter_INCLUDE_DIR
-        NAMES libavfilter/avfilter.h
-        PATHS ${PC_libavfilter_INCLUDE_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES include
-        )
-
-find_library(libavfilter_LIBRARY
-        NAMES avfilter
-        PATHS ${PC_libavfilter_LIBRARY_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES lib
-        )
-
-find_package_handle_standard_args(libavfilter
-        FOUND_VAR libavfilter_FOUND
-        REQUIRED_VARS
-        libavfilter_LIBRARY
-        libavfilter_INCLUDE_DIR
-        VERSION_VAR libavfilter_VERSION
-        )
-
-if (libavfilter_FOUND AND NOT TARGET FFmpeg::libavfilter)
-    add_library(FFmpeg::libavfilter UNKNOWN IMPORTED)
-    set_target_properties(FFmpeg::libavfilter PROPERTIES
-            IMPORTED_LOCATION "${libavfilter_LIBRARY}"
-            INTERFACE_COMPILE_OPTIONS "${PC_libavfilter_CFLAGS_OTHER}"
-            INTERFACE_INCLUDE_DIRECTORIES "${libavfilter_INCLUDE_DIR}"
+    find_path(${_component}_INCLUDE_DIRS ${_header}
+            HINTS
+            ${PC_LIB${_component}_INCLUDEDIR}
+            ${PC_LIB${_component}_INCLUDE_DIRS}
+            PATH_SUFFIXES
+            ffmpeg
             )
-endif()
 
-mark_as_advanced(
-        libavfilter_INCLUDE_DIR
-        libavfilter_LIBRARY
-)
-set(libavfilter_VERSION_STRING ${libavfilter_VERSION})
-
-
-# libavformat
-pkg_check_modules(PC_libavformat QUIET libavformat)
-
-find_path(libavformat_INCLUDE_DIR
-        NAMES libavformat/avformat.h
-        PATHS ${PC_libavformat_INCLUDE_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES include
-        )
-
-find_library(libavformat_LIBRARY
-        NAMES avformat
-        PATHS ${PC_libavformat_LIBRARY_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES lib
-        )
-
-find_package_handle_standard_args(libavformat
-        FOUND_VAR libavformat_FOUND
-        REQUIRED_VARS
-        libavformat_LIBRARY
-        libavformat_INCLUDE_DIR
-        VERSION_VAR libavformat_VERSION
-        )
-
-if (libavformat_FOUND AND NOT TARGET FFmpeg::libavformat)
-    add_library(FFmpeg::libavformat UNKNOWN IMPORTED)
-    set_target_properties(FFmpeg::libavformat PROPERTIES
-            IMPORTED_LOCATION "${libavformat_LIBRARY}"
-            INTERFACE_COMPILE_OPTIONS "${PC_libavformat_CFLAGS_OTHER}"
-            INTERFACE_INCLUDE_DIRECTORIES "${libavformat_INCLUDE_DIR}"
+    find_library(${_component}_LIBRARIES NAMES ${_library}
+            HINTS
+            ${PC_LIB${_component}_LIBDIR}
+            ${PC_LIB${_component}_LIBRARY_DIRS}
             )
-endif()
 
-mark_as_advanced(
-        libavformat_INCLUDE_DIR
-        libavformat_LIBRARY
-)
-set(libavformat_VERSION_STRING ${libavformat_VERSION})
+    set(${_component}_DEFINITIONS  ${PC_${_component}_CFLAGS_OTHER} CACHE STRING "The ${_component} CFLAGS.")
+    set(${_component}_VERSION      ${PC_${_component}_VERSION}      CACHE STRING "The ${_component} version number.")
 
+    set_component_found(${_component})
 
-# libavutil
-pkg_check_modules(PC_libavutil QUIET libavutil)
+    mark_as_advanced(
+            ${_component}_INCLUDE_DIRS
+            ${_component}_LIBRARIES
+            ${_component}_DEFINITIONS
+            ${_component}_VERSION)
 
-find_path(libavutil_INCLUDE_DIR
-        NAMES libavutil/avutil.h
-        PATHS ${PC_libavutil_INCLUDE_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES include
-)
-
-find_library(libavutil_LIBRARY
-        NAMES avutil
-        PATHS ${PC_libavutil_LIBRARY_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES lib
-)
-
-find_package_handle_standard_args(libavutil
-        FOUND_VAR libavutil_FOUND
-        REQUIRED_VARS
-        libavutil_LIBRARY
-        libavutil_INCLUDE_DIR
-        VERSION_VAR libavutil_VERSION
-)
-
-if (libavutil_FOUND AND NOT TARGET FFmpeg::libavutil)
-    add_library(FFmpeg::libavutil UNKNOWN IMPORTED)
-    set_target_properties(FFmpeg::libavutil PROPERTIES
-            IMPORTED_LOCATION "${libavutil_LIBRARY}"
-            INTERFACE_COMPILE_OPTIONS "${PC_libavutil_CFLAGS_OTHER}"
-            INTERFACE_INCLUDE_DIRECTORIES "${libavutil_INCLUDE_DIR}"
-    )
-endif()
-
-mark_as_advanced(
-        libavutil_INCLUDE_DIR
-        libavutil_LIBRARY
-)
-
-set(libavutil_VERSION_STRING ${libavutil_VERSION})
+endmacro()
 
 
-# libpostproc
-pkg_check_modules(PC_libpostproc QUIET libpostproc)
+# Check for cached results. If there are skip the costly part.
+if (NOT FFMPEG_LIBRARIES)
+
+    # Check for all possible component.
+    find_component(AVCODEC    libavcodec    avcodec  libavcodec/avcodec.h)
+    find_component(AVFORMAT   libavformat   avformat libavformat/avformat.h)
+    find_component(AVDEVICE   libavdevice   avdevice libavdevice/avdevice.h)
+    find_component(AVUTIL     libavutil     avutil   libavutil/avutil.h)
+    find_component(AVFILTER   libavfilter   avfilter libavfilter/avfilter.h)
+    find_component(SWSCALE    libswscale    swscale  libswscale/swscale.h)
+    find_component(POSTPROC   libpostproc   postproc libpostproc/postprocess.h)
+    find_component(SWRESAMPLE libswresample swresample libswresample/swresample.h)
+
+    # Check if the required components were found and add their stuff to the FFMPEG_* vars.
+    foreach (_component ${FFmpeg_FIND_COMPONENTS})
+        if (${_component}_FOUND)
+            # message(STATUS "Required component ${_component} present.")
+            set(FFMPEG_LIBRARIES   ${FFMPEG_LIBRARIES}   ${${_component}_LIBRARIES})
+            set(FFMPEG_DEFINITIONS ${FFMPEG_DEFINITIONS} ${${_component}_DEFINITIONS})
+            list(APPEND FFMPEG_INCLUDE_DIRS ${${_component}_INCLUDE_DIRS})
+        else ()
+            # message(STATUS "Required component ${_component} missing.")
+        endif ()
+    endforeach ()
+
+    # Build the include path with duplicates removed.
+    if (FFMPEG_INCLUDE_DIRS)
+        list(REMOVE_DUPLICATES FFMPEG_INCLUDE_DIRS)
+    endif ()
+
+    # cache the vars.
+    set(FFMPEG_INCLUDE_DIRS ${FFMPEG_INCLUDE_DIRS} CACHE STRING "The FFmpeg include directories." FORCE)
+    set(FFMPEG_LIBRARIES    ${FFMPEG_LIBRARIES}    CACHE STRING "The FFmpeg libraries." FORCE)
+    set(FFMPEG_DEFINITIONS  ${FFMPEG_DEFINITIONS}  CACHE STRING "The FFmpeg cflags." FORCE)
+
+    mark_as_advanced(FFMPEG_INCLUDE_DIRS
+            FFMPEG_LIBRARIES
+            FFMPEG_DEFINITIONS)
+
+endif ()
+
+# Now set the noncached _FOUND vars for the components.
+foreach (_component AVCODEC AVDEVICE AVFORMAT AVUTIL POSTPROCESS SWSCALE)
+    set_component_found(${_component})
+endforeach ()
+
+# Compile the list of required vars
+set(_FFmpeg_REQUIRED_VARS FFMPEG_LIBRARIES FFMPEG_INCLUDE_DIRS)
+foreach (_component ${FFmpeg_FIND_COMPONENTS})
+    list(APPEND _FFmpeg_REQUIRED_VARS ${_component}_LIBRARIES ${_component}_INCLUDE_DIRS)
+endforeach ()
+
+# Give a nice error message if some of the required vars are missing.
+find_package_handle_standard_args(FFmpeg DEFAULT_MSG ${_FFmpeg_REQUIRED_VARS})
 
 
 
-# libswresample
-pkg_check_modules(PC_libswresample QUIET libswresample)
-
-find_path(libswresample_INCLUDE_DIR
-        NAMES libswresample/swresample.h
-        PATHS ${PC_libswresample_INCLUDE_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES include
-        )
-
-find_library(libswresample_LIBRARY
-        NAMES swresample
-        PATHS ${PC_libswresample_LIBRARY_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES lib
-        )
-
-find_package_handle_standard_args(libswresample
-        FOUND_VAR libswresample_FOUND
-        REQUIRED_VARS
-        libswresample_LIBRARY
-        libswresample_INCLUDE_DIR
-        VERSION_VAR libswresample_VERSION
-        )
-
-if (libswresample_FOUND AND NOT TARGET FFmpeg::libswresample)
-    add_library(FFmpeg::libswresample UNKNOWN IMPORTED)
-    set_target_properties(FFmpeg::libswresample PROPERTIES
-            IMPORTED_LOCATION "${libswresample_LIBRARY}"
-            INTERFACE_COMPILE_OPTIONS "${PC_libswresample_CFLAGS_OTHER}"
-            INTERFACE_INCLUDE_DIRECTORIES "${libswresample_INCLUDE_DIR}"
-            )
-endif()
-
-mark_as_advanced(
-        libswresample_INCLUDE_DIR
-        libswresample_LIBRARY
-)
-
-set(libswresample_VERSION_STRING ${libswresample_VERSION})
-
-
-# libswscale
-pkg_check_modules(PC_libswscale QUIET libswscale)
-
-find_path(libswscale_INCLUDE_DIR
-        NAMES libswscale/swscale.h
-        PATHS ${PC_libswscale_INCLUDE_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES include
-        )
-
-find_library(libswscale_LIBRARY
-        NAMES swscale
-        PATHS ${PC_libswscale_LIBRARY_DIRS} ${FFMPEG_HOME}
-        PATH_SUFFIXES lib
-        )
-
-find_package_handle_standard_args(libswscale
-        FOUND_VAR libswscale_FOUND
-        REQUIRED_VARS
-        libswscale_LIBRARY
-        libswscale_INCLUDE_DIR
-        VERSION_VAR libswscale_VERSION
-        )
-
-if (libswscale_FOUND AND NOT TARGET FFmpeg::libswscale)
-    add_library(FFmpeg::libswscale UNKNOWN IMPORTED)
-    set_target_properties(FFmpeg::libswscale PROPERTIES
-            IMPORTED_LOCATION "${libswscale_LIBRARY}"
-            INTERFACE_COMPILE_OPTIONS "${PC_libswscale_CFLAGS_OTHER}"
-            INTERFACE_INCLUDE_DIRECTORIES "${libswscale_INCLUDE_DIR}"
-            )
-endif()
-
-mark_as_advanced(
-        libswscale_INCLUDE_DIR
-        libswscale_LIBRARY
-)
-
-set(libswscale_VERSION_STRING ${libswscale_VERSION})

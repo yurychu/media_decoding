@@ -237,18 +237,7 @@ void PacketExplorer::explore(const AVPacket* packet)
 }
 
 
-MediaObject::MediaObject(std::string file_name)
 
-{
-
-
-
-}
-
-MediaObject::~MediaObject()
-{
-    std::cout << "dtor media obj" << std::endl;
-}
 
 void MediaObject::print_info()
 {

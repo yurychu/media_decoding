@@ -20,6 +20,7 @@ namespace media_expl
         ~MediaSource();
 
         void find_info();
+        void print_info_to_stdout();
 
     };
 

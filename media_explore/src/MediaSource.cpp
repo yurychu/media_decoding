@@ -49,3 +49,8 @@ void media_expl::MediaSource::find_info()
         throw std::runtime_error {ss.str()};
     }
 }
+
+void media_expl::MediaSource::print_info_to_stdout()
+{
+    av_dump_format(m_fmt_ctx, 1, m_url.c_str(), 0);
+}

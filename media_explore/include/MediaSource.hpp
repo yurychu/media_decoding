@@ -19,6 +19,8 @@ namespace media_expl
         explicit MediaSource(std::string file_name);
         ~MediaSource();
 
+        void find_info();
+
     };
 
 }

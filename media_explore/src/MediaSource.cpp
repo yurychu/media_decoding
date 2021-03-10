@@ -19,7 +19,7 @@ media_expl::MediaSource::MediaSource(std::string url)
         std::stringstream ss;
         ss << "Fail avformat_open_input: " << m_url << std::endl;
         ss << media_expl::to_string_av_err(ret);
-        std::cerr << ss.str();
+        std::cerr << ss.str() << std::endl;
         throw std::runtime_error {ss.str()};
     }
 }
@@ -28,4 +28,24 @@ media_expl::MediaSource::MediaSource(std::string url)
 media_expl::MediaSource::~MediaSource()
 {
     avformat_close_input(&m_fmt_ctx);
+}
+
+/*
+ * Add info about:
+ * start_time,
+ * duration,
+ * bit_rate,
+ * duration_estimation_method
+ * for some input formats
+ */
+void media_expl::MediaSource::find_info()
+{
+    int ret = avformat_find_stream_info(m_fmt_ctx, nullptr);
+    if (ret < 0) {
+        std::stringstream ss;
+        ss << "Fail find_info: " << m_url << std::endl;
+        ss << media_expl::to_string_av_err(ret);
+        std::cerr << ss.str() << std::endl;
+        throw std::runtime_error {ss.str()};
+    }
 }

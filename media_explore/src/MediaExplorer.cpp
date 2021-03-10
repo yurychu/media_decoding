@@ -242,12 +242,7 @@ MediaObject::MediaObject(std::string file_name)
 {
 
 
-    ret = avformat_find_stream_info(m_fmt_ctx, nullptr);
-    if (ret < 0) {
-        std::cerr << "Fail find media object info: " << m_file_name << std::endl;
-        print_av_err_str(ret);
-        throw ret;
-    }
+
 }
 
 MediaObject::~MediaObject()

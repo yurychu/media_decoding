@@ -1,21 +1,17 @@
 
 #include "MediaExplorer.hpp"
 
-
+#include <fstream>
 #include <iostream>
 #include <sstream>
 
-static void print_av_err_str(int errnum)
-{
-    char err_str[AV_ERROR_MAX_STRING_SIZE];
-    av_make_error_string(err_str, AV_ERROR_MAX_STRING_SIZE, errnum);
-    std::cerr << err_str << std::endl;
-}
+
 
 void StreamDecoder::print_frame_info(const AVFrame* a_v_frame)
 {
     std::cout << "frame     pts: " << a_v_frame->pts << std::endl;
     std::cout << "frame pkt_dts: " << a_v_frame->pkt_dts << std::endl;
+    std::cout << "frame coding: " << av_get_picture_type_char(a_v_frame->pict_type) << std::endl;
 
 //    for (int i = 0; i < a_v_frame->nb_side_data; ++i) {
 //        std::cout << "have side data: " << av_frame_side_data_name(a_v_frame->side_data[i]->type) << std::endl;
@@ -74,10 +70,15 @@ StreamDecoder::~StreamDecoder()
 void StreamDecoder::print_info() const
 {
     std::cout << "--- Info for stream type: " << av_get_media_type_string(m_decoder_ctx->codec_type) << std::endl;
-    std::cout << "--- Frames info: " << std::endl;
-    for (const auto& elem : m_temp_frames) {
-        StreamDecoder::print_frame_info(elem);
+    if (is_video_stream()){
+        std::ofstream info_pict_coding_file {"info_pict_coding.txt"};
+        std::cout << "--- Frames info: " << std::endl;
+        for (const auto& elem : m_temp_frames) {
+            StreamDecoder::print_frame_info(elem);
+            info_pict_coding_file << av_get_picture_type_char(elem->pict_type) << ' ';
+        }
     }
+
 
 }
 
@@ -237,16 +238,9 @@ void PacketExplorer::explore(const AVPacket* packet)
 
 
 MediaObject::MediaObject(std::string file_name)
-        : m_file_name(std::move(file_name)),
-          m_fmt_ctx(nullptr)
+
 {
-    int ret = 0;
-    ret = avformat_open_input(&m_fmt_ctx, m_file_name.c_str(), nullptr, nullptr);
-    if (ret < 0) {
-        std::cerr << "Fail open input: " << m_file_name << std::endl;
-        print_av_err_str(ret);
-        throw ret;
-    }
+
 
     ret = avformat_find_stream_info(m_fmt_ctx, nullptr);
     if (ret < 0) {

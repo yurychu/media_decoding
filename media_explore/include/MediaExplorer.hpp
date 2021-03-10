@@ -61,8 +61,7 @@ public:
 class MediaObject
 {
 private:
-    std::string m_file_name;
-    AVFormatContext* m_fmt_ctx;
+
 
 public:
     MediaObject(std::string file_name);

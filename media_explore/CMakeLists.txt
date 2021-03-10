@@ -8,8 +8,12 @@ add_executable(
         media_explore_run
 
         media_explore_main.cpp
-        include/MediaExplorer.hpp
-        src/MediaExplorer.cpp
+
+        include/MediaSource.hpp
+        src/MediaSource.cpp
+
+        include/printable_errors.hpp
+        src/printable_errors.cpp
 )
 
 target_link_libraries(

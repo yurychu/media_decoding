@@ -50,7 +50,45 @@ void media_expl::MediaSource::find_info()
     }
 }
 
-void media_expl::MediaSource::print_info_to_stdout()
+namespace
 {
+    void inline step_iterate_over_all_dict_entries(
+            const AVDictionary *m,
+            AVDictionaryEntry* &prev)
+    {
+        prev = av_dict_get(m, "", prev, AV_DICT_IGNORE_SUFFIX);
+    }
+}
+
+void media_expl::MediaSource::print_format_info_to_stdout()
+{
+    std::cout << "Custom info." << std::endl;
+
+    AVDictionaryEntry * tag = nullptr;
+    step_iterate_over_all_dict_entries(m_fmt_ctx->metadata, tag);
+    while (tag) {
+        std::cout << "Key: " << tag->key << std::endl;
+        std::cout << "Value: " << tag->value << std::endl;
+
+        step_iterate_over_all_dict_entries(m_fmt_ctx->metadata, tag);
+    }
+
+    const int64_t duration = m_fmt_ctx->duration;
+    int64_t secs = duration / AV_TIME_BASE;
+    int64_t units = duration % AV_TIME_BASE;
+    int64_t mins = secs / 60;
+    secs %= 60;
+    int64_t hours = mins / 60;
+    mins %= 60;
+    std::cout << "Raw duration: " << duration << ". "
+        << "Duration repr: "
+        << "hours: " << hours << ", "
+        << "mins: " << mins << ", "
+        << "secs: " << secs << ", "
+        << "units: " << units << " of " << AV_TIME_BASE << std::endl;
+
+    std::cout << "End custom info." << std::endl;
+
+    // built-in functions
     av_dump_format(m_fmt_ctx, 1, m_url.c_str(), 0);
 }

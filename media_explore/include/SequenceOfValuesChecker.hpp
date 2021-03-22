@@ -6,22 +6,53 @@
 
 #include <DurationRule.hpp>
 #include <CheckReport.hpp>
+#include <ValueCounter.hpp>
 
-#include <vector>
+#include <map>
 
 
+template<typename T>
 class SequenceOfValuesChecker
 {
 private:
-    std::vector<DurationRule> _rules;
+    std::multimap<T, DurationRule> _rules;
+    ValueCounter<T> _currentValueCounter;
 
 public:
     SequenceOfValuesChecker() = default;
     ~SequenceOfValuesChecker() = default;
 
-    void addRule(DurationRule durationRule);
+    void addRule(const T& value, const DurationRule& rule);
+    CheckReport check(const T& value) const;
 
-    CheckReport check() const;
+private:
+    bool accepted(const T& value) const;
 
 };
 
+
+template<typename T>
+void SequenceOfValuesChecker<T>::addRule(const T& value, const DurationRule &rule)
+{
+    _rules.insert(std::pair<T, DurationRule>{ value, rule });
+}
+
+
+template<typename T>
+CheckReport SequenceOfValuesChecker<T>::check(const T& value) const
+{
+    if (!accepted(value)){
+        return CheckReport(ReportType::REJECTED);
+    }
+    else {
+        auto isSame = _currentValueCounter.isSame(value);
+    }
+    return CheckReport();
+}
+
+
+template<typename T>
+bool SequenceOfValuesChecker<T>::accepted(const T& value) const
+{
+    return _rules.count(value) > 0;
+}

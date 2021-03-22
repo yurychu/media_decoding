@@ -19,7 +19,6 @@ add_executable(
         src/DurationRule.cpp
 
         include/SequenceOfValuesChecker.hpp
-        src/SequenceOfValuesChecker.cpp
 
         include/ValueCounter.hpp
 

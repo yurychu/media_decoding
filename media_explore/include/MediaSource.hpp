@@ -19,7 +19,7 @@ namespace media_expl
         explicit MediaSource(std::string file_name);
         ~MediaSource();
 
-        void find_info();
+        void find_format_info();
         void print_format_info_to_stdout();
 
     };

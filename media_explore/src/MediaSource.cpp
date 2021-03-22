@@ -38,17 +38,18 @@ media_expl::MediaSource::~MediaSource()
  * duration_estimation_method
  * for some input formats
  */
-void media_expl::MediaSource::find_info()
+void media_expl::MediaSource::find_format_info()
 {
     int ret = avformat_find_stream_info(m_fmt_ctx, nullptr);
     if (ret < 0) {
         std::stringstream ss;
-        ss << "Fail find_info: " << m_url << std::endl;
+        ss << "Fail find_format_info: " << m_url << std::endl;
         ss << media_expl::to_string_av_err(ret);
         std::cerr << ss.str() << std::endl;
         throw std::runtime_error {ss.str()};
     }
 }
+
 
 namespace
 {
@@ -59,6 +60,7 @@ namespace
         prev = av_dict_get(m, "", prev, AV_DICT_IGNORE_SUFFIX);
     }
 }
+
 
 void media_expl::MediaSource::print_format_info_to_stdout()
 {

@@ -14,6 +14,17 @@ add_executable(
 
         include/printable_errors.hpp
         src/printable_errors.cpp
+
+        include/DurationRule.hpp
+        src/DurationRule.cpp
+
+        include/SequenceOfValuesChecker.hpp
+        src/SequenceOfValuesChecker.cpp
+
+        include/ValueCounter.hpp
+
+        include/CheckReport.hpp
+        src/CheckReport.cpp
 )
 
 target_link_libraries(

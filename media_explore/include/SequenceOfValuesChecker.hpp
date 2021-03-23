@@ -4,11 +4,11 @@
 
 #pragma once
 
+#include <map>
+
 #include <DurationRule.hpp>
 #include <CheckReport.hpp>
 #include <ValueCounter.hpp>
-
-#include <map>
 
 
 template<typename T>
@@ -23,10 +23,11 @@ public:
     ~SequenceOfValuesChecker() = default;
 
     void addRule(const T& value, const DurationRule& rule);
-    CheckReport check(const T& value) const;
+    CheckReport check(const T& value);
 
 private:
     bool accepted(const T& value) const;
+    CheckReport handleRules();
 
 };
 
@@ -39,15 +40,20 @@ void SequenceOfValuesChecker<T>::addRule(const T& value, const DurationRule &rul
 
 
 template<typename T>
-CheckReport SequenceOfValuesChecker<T>::check(const T& value) const
+CheckReport SequenceOfValuesChecker<T>::check(const T& value)
 {
-    if (!accepted(value)){
+    if (!accepted(value)) {
         return CheckReport(ReportType::REJECTED);
     }
-    else {
-        auto isSame = _currentValueCounter.isSame(value);
+
+    if (_currentValueCounter.isSame(value)) {
+        _currentValueCounter.plusOneMoreTime();
     }
-    return CheckReport();
+    else {
+        _currentValueCounter.updateTarget(value);
+    }
+
+    return handleRules();
 }
 
 
@@ -55,4 +61,21 @@ template<typename T>
 bool SequenceOfValuesChecker<T>::accepted(const T& value) const
 {
     return _rules.count(value) > 0;
+}
+
+
+template<typename T>
+CheckReport SequenceOfValuesChecker<T>::handleRules()
+{
+    CheckReport result {ReportType::HANDLED};
+    auto range = _rules.equal_range(_currentValueCounter.getValue());
+    for (auto it = range.first; it != range.second; ++it){
+        const auto ruleReport = it->second.ruleReport(_currentValueCounter.getCount());
+        if (!ruleReport.empty()){
+            result.addRuleReport(ruleReport);  // just one
+            _currentValueCounter.reset();  // set getCount to Zero
+            break;
+        }
+    }
+    return result;
 }

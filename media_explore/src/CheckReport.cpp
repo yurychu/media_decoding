@@ -6,16 +6,36 @@
 
 
 CheckReport::CheckReport()
-    : _reportType{ReportType::EMPTY}
+    : _reportType{ReportType::EMPTY},
+    _ruleReport{nullptr}
 {
 
 }
 
 
 CheckReport::CheckReport(const ReportType &reportType)
-        : _reportType{reportType}
+        : _reportType{reportType},
+        _ruleReport{nullptr}
 {
 
+}
+
+
+CheckReport::CheckReport(const CheckReport &that)
+{
+    _reportType = that._reportType;
+    _ruleReport = std::make_unique<std::string>(*that._ruleReport);
+}
+
+
+CheckReport &CheckReport::operator=(const CheckReport &that)
+{
+    if (this != &that){
+        _reportType = that._reportType;
+        _ruleReport = std::make_unique<std::string>(*that._ruleReport);
+    }
+
+    return *this;
 }
 
 
@@ -27,6 +47,14 @@ bool CheckReport::empty() const
 
 std::string CheckReport::str() const
 {
-    return "report str";
+    if (_ruleReport) {
+        return *_ruleReport;
+    }
+    return "";
 }
 
+
+void CheckReport::addRuleReport(const std::string &report)
+{
+    _ruleReport = std::make_unique<std::string>(report);
+}

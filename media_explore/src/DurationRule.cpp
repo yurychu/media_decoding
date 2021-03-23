@@ -4,3 +4,7 @@
 
 #include <DurationRule.hpp>
 
+std::string DurationRule::ruleReport(size_t durationValue)
+{
+    return std::string("Implement me!");  // todo y.chu implement check
+}
